@@ -26,6 +26,7 @@ import {
   SidebarMenuButton,
 } from "@/components/ui/sidebar"
 import { OnboardingFormComponent } from './onboarding-form'
+import { HealthDataForm } from './health-data-form'
 
 export function DashboardPage() {
   const router = useRouter()
@@ -148,25 +149,13 @@ function HealthScoreView() {
         <CardDescription>Calculate your health score based on various factors</CardDescription>
       </CardHeader>
       <CardContent>
-        <form>
-          <div className="grid w-full items-center gap-4">
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="weight">Weight (kg)</Label>
-              <Input id="weight" placeholder="70" type="number" />
-            </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="height">Height (cm)</Label>
-              <Input id="height" placeholder="170" type="number" />
-            </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="age">Age</Label>
-              <Input id="age" placeholder="30" type="number" />
-            </div>
-          </div>
-        </form>
+        <HealthDataForm />
+
+        
       </CardContent>
       <CardFooter>
         <Button>Calculate Score</Button>
+        
       </CardFooter>
     </Card>
   )
