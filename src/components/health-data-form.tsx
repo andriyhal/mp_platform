@@ -102,7 +102,7 @@ export function HealthDataForm() {
               <FormControl>
                 <Input type="number" {...field} onChange={e => field.onChange(parseFloat(e.target.value))} />
               </FormControl>
-              <FormDescription>Your height in centimeters</FormDescription>
+              
               <FormMessage />
             </FormItem>
           )}
@@ -116,7 +116,7 @@ export function HealthDataForm() {
               <FormControl>
                 <Input type="number" {...field} onChange={e => field.onChange(parseFloat(e.target.value))} />
               </FormControl>
-              <FormDescription>Your weight in kilograms</FormDescription>
+              
               <FormMessage />
             </FormItem>
           )}
@@ -130,7 +130,7 @@ export function HealthDataForm() {
               <FormControl>
                 <Input type="number" {...field} onChange={e => field.onChange(parseFloat(e.target.value))} />
               </FormControl>
-              <FormDescription>Your waist circumference in inches</FormDescription>
+              
               <FormMessage />
             </FormItem>
           )}
@@ -144,7 +144,7 @@ export function HealthDataForm() {
               <FormControl>
                 <Input type="number" {...field} onChange={e => field.onChange(parseFloat(e.target.value))} />
               </FormControl>
-              <FormDescription>Your systolic blood pressure</FormDescription>
+              
               <FormMessage />
             </FormItem>
           )}
@@ -158,7 +158,7 @@ export function HealthDataForm() {
               <FormControl>
                 <Input type="number" {...field} onChange={e => field.onChange(parseFloat(e.target.value))} />
               </FormControl>
-              <FormDescription>Your diastolic blood pressure</FormDescription>
+              
               <FormMessage />
             </FormItem>
           )}
@@ -172,7 +172,7 @@ export function HealthDataForm() {
               <FormControl>
                 <Input type="number" {...field} onChange={e => field.onChange(parseFloat(e.target.value))} />
               </FormControl>
-              <FormDescription>Your fasting blood glucose level</FormDescription>
+              
               <FormMessage />
             </FormItem>
           )}
@@ -186,7 +186,7 @@ export function HealthDataForm() {
               <FormControl>
                 <Input type="number" {...field} onChange={e => field.onChange(parseFloat(e.target.value))} />
               </FormControl>
-              <FormDescription>Your HDL cholesterol level</FormDescription>
+              
               <FormMessage />
             </FormItem>
           )}
@@ -200,7 +200,7 @@ export function HealthDataForm() {
               <FormControl>
                 <Input type="number" {...field} onChange={e => field.onChange(parseFloat(e.target.value))} />
               </FormControl>
-              <FormDescription>Your triglycerides level</FormDescription>
+              
               <FormMessage />
             </FormItem>
           )}
@@ -214,7 +214,7 @@ export function HealthDataForm() {
               <FormControl>
                 <Input type="number" {...field} onChange={e => field.onChange(parseFloat(e.target.value))} />
               </FormControl>
-              <FormDescription>Your 25-Hydroxyvitamin D2 level</FormDescription>
+              
               <FormMessage />
             </FormItem>
           )}
@@ -228,7 +228,7 @@ export function HealthDataForm() {
               <FormControl>
                 <Input type="number" {...field} onChange={e => field.onChange(parseFloat(e.target.value))} />
               </FormControl>
-              <FormDescription>Your 25-Hydroxyvitamin D3 level</FormDescription>
+              
               <FormMessage />
             </FormItem>
           )}

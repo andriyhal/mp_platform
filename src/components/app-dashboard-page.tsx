@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/sidebar"
 import { OnboardingFormComponent } from './onboarding-form'
 import { HealthDataForm } from './health-data-form'
+import { UserProfileEdit } from './UserProfileEdit'
 
 export function DashboardPage() {
   const router = useRouter()
@@ -104,7 +105,7 @@ export function DashboardPage() {
               </SidebarTrigger>
             </div>
           </header>
-          <main className="p-6">
+          <main className="p-12">
             {renderContent()}
           </main>
         </div>
@@ -121,22 +122,9 @@ function ProfileView() {
         <CardDescription>View and edit your personal information</CardDescription>
       </CardHeader>
       <CardContent>
-        <form>
-          <div className="grid w-full items-center gap-4">
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="name">Name</Label>
-              <Input id="name" placeholder="John Doe" />
-            </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="email">Email</Label>
-              <Input id="email" placeholder="john@example.com" type="email" />
-            </div>
-          </div>
-        </form>
+        <UserProfileEdit action="edit" />
       </CardContent>
-      <CardFooter>
-        <Button>Save Changes</Button>
-      </CardFooter>
+      
     </Card>
   )
 }
