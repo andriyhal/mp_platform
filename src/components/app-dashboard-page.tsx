@@ -28,6 +28,8 @@ import {
 import { OnboardingFormComponent } from './onboarding-form'
 import { HealthDataForm } from './health-data-form'
 import { UserProfileEdit } from './UserProfileEdit'
+import { CircularProgressbar } from 'react-circular-progressbar'
+import 'react-circular-progressbar/dist/styles.css'
 
 export function DashboardPage() {
   const router = useRouter()
@@ -105,8 +107,112 @@ export function DashboardPage() {
               </SidebarTrigger>
             </div>
           </header>
-          <main className="p-12">
-            {renderContent()}
+          <main className="p-6">
+            <div className="grid grid-cols-3 gap-6">
+              {/* Sidebar Content */}
+              {renderContent()} 
+              {/* Top Left: Health Score Meter */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Your Health Score</CardTitle>
+                  <CardDescription>Current health assessment</CardDescription>
+                </CardHeader>
+                <CardContent className="flex justify-center p-6">
+                  <div style={{ width: 200, height: 200 }}>
+                  <div>
+                    <CircularProgressbar 
+                      value={75} 
+                      text={`75%`}
+                      styles={{
+                        path: { stroke: '#22c55e' },
+                        text: { fill: '#22c55e', fontSize: '16px' }
+                      }}
+                    />
+                    </div>
+                    
+                    <div style={{ padding: '20px 0px' }}>
+                    <Card>
+                          <CardHeader>
+                            <CardTitle>Welcome to HealthTrack</CardTitle>
+                            <CardDescription>Complete your onboarding to get started</CardDescription>
+                          </CardHeader>
+                          <CardContent>
+                            <form>
+                              <div className="grid w-full items-center gap-4">
+                                <div className="flex flex-col space-y-1.5">
+                                  <Label htmlFor="goals">Health Goals</Label>
+                                  <Input id="goals" placeholder="What are your health goals?" />
+                                </div>
+                                <div className="flex flex-col space-y-1.5">
+                                  <Label htmlFor="conditions">Medical Conditions</Label>
+                                  <Input id="conditions" placeholder="List any medical conditions" />
+                                </div>
+                              </div>
+                            </form>
+                          </CardContent>
+                          <CardFooter>
+                            <Button>Complete Onboarding</Button>
+                          </CardFooter>
+                          
+                        </Card>
+                        </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Top Right: Update Health Data */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Update Health Data</CardTitle>
+                  <CardDescription>Keep your health metrics current</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <HealthDataForm />
+                </CardContent>
+              </Card>
+
+              {/* Bottom Left: Profile Edit */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Profile Information</CardTitle>
+                  <CardDescription>Manage your personal details</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <UserProfileEdit action="edit" />
+                </CardContent>
+              </Card>
+
+              {/* Bottom Right: Recommendations */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Health Recommendations</CardTitle>
+                  <CardDescription>Personalized health insights</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="flex items-start space-x-4">
+                      <div className="bg-green-100 p-2 rounded-full">
+                        <BarChart2 className="h-4 w-4 text-green-600" />
+                      </div>
+                      <div>
+                        <h4 className="font-medium">Increase Physical Activity</h4>
+                        <p className="text-sm text-gray-500">Try to achieve 8,000 steps daily</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start space-x-4">
+                      <div className="bg-blue-100 p-2 rounded-full">
+                        <User className="h-4 w-4 text-blue-600" />
+                      </div>
+                      <div>
+                        <h4 className="font-medium">Sleep Schedule</h4>
+                        <p className="text-sm text-gray-500">Maintain 7-8 hours of sleep</p>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+              
+            </div>
           </main>
         </div>
       </div>
@@ -177,29 +283,8 @@ function FileUploadView() {
 
 function OnboardingView() {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Welcome to HealthTrack</CardTitle>
-        <CardDescription>Complete your onboarding to get started</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form>
-          <div className="grid w-full items-center gap-4">
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="goals">Health Goals</Label>
-              <Input id="goals" placeholder="What are your health goals?" />
-            </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="conditions">Medical Conditions</Label>
-              <Input id="conditions" placeholder="List any medical conditions" />
-            </div>
-          </div>
-        </form>
-      </CardContent>
-      <CardFooter>
-        <Button>Complete Onboarding</Button>
-      </CardFooter>
-      <OnboardingFormComponent />
-    </Card>
+    
+    <OnboardingFormComponent />
+    
   )
 }
