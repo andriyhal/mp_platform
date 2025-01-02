@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/sidebar"
 import { OnboardingFormComponent } from './onboarding-form'
 import { HealthDataForm } from './health-data-form'
+import { HealthDataChart } from './health-data-chart'
 import { UserProfileEdit } from './UserProfileEdit'
 import { CircularProgressbar } from 'react-circular-progressbar'
 import 'react-circular-progressbar/dist/styles.css'
@@ -218,6 +219,16 @@ export function DashboardPage() {
                       </div>
                     </div>
                   </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Health Data History</CardTitle>
+                  <CardDescription>See your health history</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <HealthDataChart />
                 </CardContent>
               </Card>
               
