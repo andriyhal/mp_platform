@@ -46,7 +46,7 @@ export function DashboardPage() {
       case 'onboarding':
         return <OnboardingView />
       default:
-        return <ProfileView />
+        return <FileUploadView />
     }
   }
 
@@ -89,7 +89,14 @@ export function DashboardPage() {
           </SidebarContent>
           <SidebarFooter>
             <div className="p-4">
-              <Button variant="outline" className="w-full" onClick={() => router.push('/')}>
+              <Button 
+                variant="outline" 
+                className="w-full" 
+                onClick={() => {
+                  localStorage.removeItem('email');
+                  router.push('/');
+                }}
+              >
                 Log Out
               </Button>
             </div>
@@ -115,7 +122,9 @@ export function DashboardPage() {
               <Card>
                 <CardHeader>
                   <CardTitle>Your Health Score</CardTitle>
-                  <CardDescription>Current health assessment</CardDescription>
+                  <CardDescription>
+                    Current health assessment for {localStorage.getItem('userEmail') || 'User'}
+                  </CardDescription>
                 </CardHeader>
                 <CardContent className="flex justify-center p-6">
                   <div style={{ width: 200, height: 200 }}>

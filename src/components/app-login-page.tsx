@@ -12,11 +12,13 @@ import { OnboardingFormComponent } from './onboarding-form'
 export default function LoginPage() {
   const router = useRouter()
   const [showOnboarding, setShowOnboarding] = useState(false)
-  const [email, setEmail] = useState('')
+  const [email, setEmail] = useState('test@example.com')
   const [password, setPassword] = useState('')
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault()
+    // Store email in localStorage
+    localStorage.setItem('userEmail', email)
     // Here you would typically validate the credentials
     // For now, we'll just redirect to dashboard
     router.push('/dashboard')

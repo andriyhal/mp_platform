@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -36,12 +36,13 @@ const formSchema = z.object({
 export function HealthDataForm() {
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [lastUpdateDate, setLastUpdateDate] = useState<string | null>(null)
   const { toast } = useToast()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      UserID: 'test',
+      UserID: localStorage.getItem('userEmail') || 'test',
       height: 170,
       weight: 70,
       waistCircumference: 32,
@@ -54,6 +55,46 @@ export function HealthDataForm() {
       vitaminD3: 50,
     },
   })
+
+  useEffect(() => {
+    const fetchLatestHealthData = async () => {
+      try {
+        const userId = localStorage.getItem('userEmail') || 'test'
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROOT}/get-health-data?userId=${userId}`)
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch health data')
+        }
+
+        const data = await response.json()
+        if (data.lastUpdate) {
+          setLastUpdateDate(data.lastUpdate)
+          form.reset({
+            UserID: userId,
+            height: data.height ?? 170,
+            weight: data.weight ?? 70,
+            waistCircumference: data.waistCircumference ?? 32,
+            bloodPressureSystolic: data.bloodPressureSystolic ?? 120,
+            bloodPressureDiastolic: data.bloodPressureDiastolic ?? 80,
+            fastingBloodGlucose: data.fastingBloodGlucose ?? 100,
+            hdlCholesterol: data.hdlCholesterol ?? 50,
+            triglycerides: data.triglycerides ?? 150,
+            vitaminD2: data.vitaminD2 ?? 50,
+            vitaminD3: data.vitaminD3 ?? 50,
+          })
+        }
+      } catch (error) {
+        console.error('Error fetching health data:', error)
+        toast({
+          title: "Error",
+          description: "Failed to fetch latest health data",
+          variant: "destructive",
+        })
+      }
+    }
+
+    fetchLatestHealthData()
+  }, [])
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsSubmitting(true)
@@ -91,7 +132,13 @@ export function HealthDataForm() {
   }
 
   return (
+    
     <Form {...form}>
+      {lastUpdateDate && (
+        <p className="text-sm text-muted-foreground mb-4">
+          Last updated: {lastUpdateDate}
+        </p>
+      )}
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
