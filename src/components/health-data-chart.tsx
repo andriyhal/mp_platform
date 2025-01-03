@@ -10,6 +10,7 @@ import {
   LineElement,
   Title,
   Tooltip,
+  TimeScale,
   Legend
 } from 'chart.js'
 import {
@@ -19,10 +20,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import 'chartjs-adapter-moment';
 
 ChartJS.register(
   CategoryScale,
   LinearScale,
+  TimeScale,
   PointElement,
   LineElement,
   Title,
@@ -65,7 +68,7 @@ export function HealthDataChart() {
         
         // Sort data by date
         const sortedData = data.sort((a: any, b: any) => new Date(a.date).getTime() - new Date(b.date).getTime())
-        console.log(sortedData)
+        //console.log(sortedData)
         setChartData({
           dates: sortedData.map((item: any) => new Date(item.date)),
           values: sortedData.map((item: any) => item[selectedParameter])
@@ -95,6 +98,7 @@ export function HealthDataChart() {
 
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: 'top' as const,
@@ -105,6 +109,20 @@ export function HealthDataChart() {
       }
     },
     scales: {
+      x: {
+        ticks: {
+            maxRotation: 90,
+            minRotation: 90
+        },
+      
+        type: 'time',
+        time: {
+            unit: 'day',
+            displayFormats: {
+              day: 'YYYY-MM-DD HH:mm:ss'
+            },
+          }
+        },
       y: {
         beginAtZero: false
       }
@@ -138,7 +156,7 @@ export function HealthDataChart() {
           No data available
         </div>
       ) : (
-        <div className="h-[400px]">
+        <div className="h-[600px]">
           <Line data={data} options={options} />
         </div>
       )}
