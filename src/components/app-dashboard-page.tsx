@@ -29,12 +29,12 @@ import { OnboardingFormComponent } from './onboarding-form'
 import { HealthDataForm } from './health-data-form'
 import { HealthDataChart } from './health-data-chart'
 import { UserProfileEdit } from './UserProfileEdit'
-import { CircularProgressbar } from 'react-circular-progressbar'
 import 'react-circular-progressbar/dist/styles.css'
+import { HealthScore } from './health-score'
 
 export function DashboardPage() {
   const router = useRouter()
-  const [activeView, setActiveView] = React.useState('profile')
+  const [activeView, setActiveView] = React.useState('uploadFile')
 
   const renderContent = () => {
     switch (activeView) {
@@ -125,22 +125,17 @@ export function DashboardPage() {
                   <CardTitle>Your Health Score</CardTitle>
                   <CardDescription>
                     Current health assessment for {localStorage.getItem('userEmail') || 'User'}
+
+                    
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="flex justify-center p-6">
-                  <div style={{ width: 200, height: 200 }}>
-                  <div>
-                    <CircularProgressbar 
-                      value={75} 
-                      text={`75%`}
-                      styles={{
-                        path: { stroke: '#22c55e' },
-                        text: { fill: '#22c55e', fontSize: '16px' }
-                      }}
-                    />
+                  <div >
+                    <div>
+                      <HealthScore />
                     </div>
                     
-                    <div style={{ padding: '20px 0px' }}>
+                    {/* <div style={{ padding: '20px 0px' }}>
                     <Card>
                           <CardHeader>
                             <CardTitle>Welcome to HealthTrack</CardTitle>
@@ -165,7 +160,7 @@ export function DashboardPage() {
                           </CardFooter>
                           
                         </Card>
-                        </div>
+                        </div> */}
                   </div>
                 </CardContent>
               </Card>
