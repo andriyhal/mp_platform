@@ -165,6 +165,17 @@ export function DashboardPage() {
                 </CardContent>
               </Card>
 
+              {/* Bottom Left: Profile Edit */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Profile Information</CardTitle>
+                  <CardDescription>Manage your personal details</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <UserProfileEdit action="edit" />
+                </CardContent>
+              </Card>
+              
               {/* Top Right: Update Health Data */}
               <Card>
                 <CardHeader>
@@ -176,16 +187,7 @@ export function DashboardPage() {
                 </CardContent>
               </Card>
 
-              {/* Bottom Left: Profile Edit */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>Profile Information</CardTitle>
-                  <CardDescription>Manage your personal details</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <UserProfileEdit action="edit" />
-                </CardContent>
-              </Card>
+              
 
               {/* Bottom Right: Recommendations */}
               <Card>

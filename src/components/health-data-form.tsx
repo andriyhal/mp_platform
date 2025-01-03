@@ -73,16 +73,16 @@ export function HealthDataForm() {
           setLastUpdateDate(data.lastUpdate)
           form.reset({
             UserID: userId,
-            height: data.height ?? 170,
-            weight: data.weight ?? 70,
-            waistCircumference: data.waistCircumference ?? 32,
-            bloodPressureSystolic: data.bloodPressureSystolic ?? 120,
-            bloodPressureDiastolic: data.bloodPressureDiastolic ?? 80,
-            fastingBloodGlucose: data.fastingBloodGlucose ?? 100,
-            hdlCholesterol: data.hdlCholesterol ?? 50,
-            triglycerides: data.triglycerides ?? 150,
-            vitaminD2: data.vitaminD2 ?? 50,
-            vitaminD3: data.vitaminD3 ?? 50,
+            height: Number(data.height) ?? 170,
+            weight: Number(data.weight) ?? 70,
+            waistCircumference: Number(data.waistCircumference) ?? 32,
+            bloodPressureSystolic: Number(data.bloodPressureSystolic) ?? 120,
+            bloodPressureDiastolic: Number(data.bloodPressureDiastolic) ?? 80,
+            fastingBloodGlucose: Number(data.fastingBloodGlucose) ?? 100,
+            hdlCholesterol: Number(data.hdlCholesterol) ?? 50,
+            triglycerides: Number(data.triglycerides) ?? 150,
+            vitaminD2: Number(data.vitaminD2) ?? 50,
+            vitaminD3: Number(data.vitaminD3) ?? 50,
           })
         }
       } catch (error) {
