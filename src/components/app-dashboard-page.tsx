@@ -31,6 +31,7 @@ import { HealthDataChart } from './health-data-chart'
 import { UserProfileEdit } from './UserProfileEdit'
 import 'react-circular-progressbar/dist/styles.css'
 import { HealthScore } from './health-score'
+import Image from 'next/image'
 
 export function DashboardPage() {
   const router = useRouter()
@@ -56,8 +57,14 @@ export function DashboardPage() {
       <div className="flex h-screen bg-gray-100">
         <Sidebar>
           <SidebarHeader>
-            <div className="p-4">
-              <h2 className="text-xl font-bold">HealthTrack</h2>
+            <div className="p-4 flex items-center gap-2">
+              <Image
+                src="/images/logo.svg"
+                alt="Metabolic-Point Logo"
+                width={24}
+                height={24}
+              />
+              <h2 className="text-xl font-bold">Metabolic-Point</h2>
             </div>
           </SidebarHeader>
           <SidebarContent>

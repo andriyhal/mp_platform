@@ -2,13 +2,23 @@
 
 import Link from 'next/link'
 import LoginPage from './app-login-page'
+import Image from 'next/image'
 
 
 export function LandPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-100 to-white">
       <header className="container mx-auto px-4 py-6 flex justify-between items-center">
-        <div className="text-2xl font-bold text-blue-600">HealthTrack</div>
+        <div className="flex items-center">
+          <Image 
+            src="/images/logo.svg"
+            alt="Metabolic-Point Logo"
+            width={32}
+            height={32}
+            className="mr-2"
+          />
+          <div className="text-2xl font-bold text-blue-600">Metabolic-Point</div>
+        </div>
         <nav>
           <ul className="flex space-x-4">
             <li><Link href="#features" className="text-gray-600 hover:text-blue-600">Features</Link></li>
@@ -22,7 +32,7 @@ export function LandPage() {
         <div className="flex flex-col lg:flex-row items-center justify-between">
           <div className="lg:w-1/2 mb-8 lg:mb-0">
             <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-              Track Your Health Journey with HealthTrack
+              Track Your Health Journey with Metabolic-Point
             </h1>
             <p className="text-xl text-gray-600 mb-6">
               Join thousands of users who are taking control of their health. 
@@ -45,7 +55,7 @@ export function LandPage() {
         <div className="container mx-auto px-4 py-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="text-gray-600 mb-4 md:mb-0">
-              © 2023 HealthTrack. All rights reserved.
+              © 2023 Metabolic-Point. All rights reserved.
             </div>
             <div className="flex space-x-4">
               <Link href="/privacy" className="text-gray-600 hover:text-blue-600">Privacy Policy</Link>
