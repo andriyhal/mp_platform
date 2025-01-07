@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { User, BarChart2, FileUp, Menu, Clipboard } from 'lucide-react'
+import { User, BarChart2, FileUp, Menu, Clipboard , Medal} from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -41,6 +41,8 @@ export function DashboardPage() {
     switch (activeView) {
       case 'profile':
         return <ProfileView />
+      case 'healthData':
+        return <HealthDataView />
       case 'healthScore':
         return <HealthScoreView />
       case 'uploadFile':
@@ -76,9 +78,9 @@ export function DashboardPage() {
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton onClick={() => setActiveView('healthScore')} isActive={activeView === 'healthScore'}>
+                <SidebarMenuButton onClick={() => setActiveView('healthData')} isActive={activeView === 'healthData'}>
                   <BarChart2 className="mr-2 h-4 w-4" />
-                  <span>Health Score</span>
+                  <span>Health Data</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
@@ -91,6 +93,12 @@ export function DashboardPage() {
                 <SidebarMenuButton onClick={() => setActiveView('onboarding')} isActive={activeView === 'onboarding'}>
                   <Clipboard className="mr-2 h-4 w-4" />
                   <span>Onboarding</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton onClick={() => setActiveView('healthScore')} isActive={activeView === 'healthScore'}>
+                  <Medal className="mr-2 h-4 w-4" />
+                  <span>Health Score</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
@@ -259,7 +267,7 @@ function ProfileView() {
   )
 }
 
-function HealthScoreView() {
+function HealthDataView() {
   return (
     <Card>
       <CardHeader>
@@ -273,6 +281,30 @@ function HealthScoreView() {
       </CardContent>
       <CardFooter>
         <Button>Calculate Score</Button>
+        
+      </CardFooter>
+    </Card>
+  )
+}
+
+function HealthScoreView() {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Your Health Score</CardTitle>
+        <CardDescription>
+          Current health assessment for {localStorage.getItem('userEmail') || 'User'}
+
+          
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <HealthScore />
+
+        
+      </CardContent>
+      <CardFooter>
+        
         
       </CardFooter>
     </Card>
