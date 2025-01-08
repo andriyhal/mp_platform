@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Slider } from "@/components/ui/slider"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { HealthDataForm } from './health-data-form'
+import { UserProfileEdit } from './UserProfileEdit'
 
 export function OnboardingFormComponent() {
   const [step, setStep] = useState(1)
@@ -22,7 +23,7 @@ export function OnboardingFormComponent() {
     waist: 80, // Added waist circumference with default value
   })
   const [showBMIDialog, setShowBMIDialog] = useState(false)
-  const [bmi, setBMI] = useState<number | null>(null)
+  const [bmi, setBMI] = useState(0)
 
   const updateFormData = (field: string, value: string | number) => {
     setFormData(prev => ({ ...prev, [field]: value }))
@@ -55,63 +56,17 @@ export function OnboardingFormComponent() {
       <Card className="w-full max-w-lg">
         <CardHeader>
           <CardTitle>Metabolic-Point Onboarding</CardTitle>
-          <CardDescription>Step {step} of 4</CardDescription>
+          <CardDescription>Step {step} of 3</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit}>
             {step === 1 && (
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="name">Name</Label>
-                  <Input
-                    id="name"
-                    value={formData.name}
-                    onChange={(e) => updateFormData('name', e.target.value)}
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => updateFormData('email', e.target.value)}
-                    required
-                  />
-                </div>
-              </div>
+              <UserProfileEdit action='add' />
             )}
+
+            
 
             {step === 2 && (
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="dateOfBirth">Date of Birth</Label>
-                  <Input
-                    id="dateOfBirth"
-                    type="date"
-                    value={formData.dateOfBirth}
-                    onChange={(e) => updateFormData('dateOfBirth', e.target.value)}
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="gender">Gender</Label>
-                  <Select onValueChange={(value) => updateFormData('gender', value)}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select gender" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="male">Male</SelectItem>
-                      <SelectItem value="female">Female</SelectItem>
-                      <SelectItem value="other">Other</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-            )}
-
-            {step === 3 && (
               <div className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="weight">Weight (kg)</Label>
@@ -152,7 +107,7 @@ export function OnboardingFormComponent() {
               </div>
             )}
 
-            {step === 4 && (
+            {step === 3 && (
               <div className="space-y-4">
                 <HealthDataForm />
               </div>
@@ -165,7 +120,7 @@ export function OnboardingFormComponent() {
               Previous
             </Button>
           )}
-          {step < 4 ? (
+          {step < 3 ? (
             <Button onClick={handleNext} className="ml-auto">
               Next
             </Button>

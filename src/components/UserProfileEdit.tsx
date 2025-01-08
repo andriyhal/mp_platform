@@ -187,7 +187,7 @@ export function UserProfileEdit(props: { action: "edit" | "add" }) {
           </>
         )}
         <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Saving...' : 'Save Profile'}
+          {isSubmitting ? 'Saving...' : props.action === 'add' ? 'Add Profile' : 'Save Profile'}
         </Button>
       </form>
       <Toaster />

@@ -11,7 +11,7 @@ export function LandPage() {
       <header className="container mx-auto px-4 py-6 flex justify-between items-center">
         <div className="flex items-center">
           <Image 
-            src="/images/logo.svg"
+            src="/images/logo0.svg"
             alt="METABOLIC-POINT Logo"
             width={32}
             height={32}
@@ -29,8 +29,17 @@ export function LandPage() {
       </header>
 
       <main className="container mx-auto px-4 py-12">
-        <div className="flex flex-col lg:flex-row items-center justify-between">
+        
+          <div className="flex flex-col lg:flex-row items-center justify-between">
+        
           <div className="lg:w-1/2 mb-8 lg:mb-0">
+          <Image 
+            src="/images/logo0.svg"
+            alt="METABOLIC-POINT Logo"
+            width={320}
+            height={320}
+            className="mr-2"
+          />
             <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
               Track Your Health Journey with METABOLIC-POINT
             </h1>
