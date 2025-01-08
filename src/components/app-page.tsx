@@ -12,12 +12,12 @@ export function LandPage() {
         <div className="flex items-center">
           <Image 
             src="/images/logo.svg"
-            alt="Metabolic-Point Logo"
+            alt="METABOLIC-POINT Logo"
             width={32}
             height={32}
             className="mr-2"
           />
-          <div className="text-2xl font-bold text-blue-600">Metabolic-Point</div>
+          <div className="text-2xl font-bold text-blue-600">METABOLIC-POINT</div>
         </div>
         <nav>
           <ul className="flex space-x-4">
@@ -32,7 +32,7 @@ export function LandPage() {
         <div className="flex flex-col lg:flex-row items-center justify-between">
           <div className="lg:w-1/2 mb-8 lg:mb-0">
             <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-              Track Your Health Journey with Metabolic-Point
+              Track Your Health Journey with METABOLIC-POINT
             </h1>
             <p className="text-xl text-gray-600 mb-6">
               Join thousands of users who are taking control of their health. 
@@ -55,7 +55,7 @@ export function LandPage() {
         <div className="container mx-auto px-4 py-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="text-gray-600 mb-4 md:mb-0">
-              © 2025 Metabolic-Point. All rights reserved.
+              © 2025 METABOLIC-POINT. All rights reserved.
             </div>
             <div className="flex space-x-4">
               <Link href="/privacy" className="text-gray-600 hover:text-blue-600">Privacy Policy</Link>

@@ -32,10 +32,20 @@ import { UserProfileEdit } from './UserProfileEdit'
 import 'react-circular-progressbar/dist/styles.css'
 import { HealthScore } from './health-score'
 import Image from 'next/image'
+import { CurrentStats } from './current-stats'
 
 export function DashboardPage() {
   const router = useRouter()
   const [activeView, setActiveView] = React.useState('uploadFile')
+
+  const menuItems = [
+    { id: 'profile', label: 'View Profile', icon: User },
+    { id: 'healthData', label: 'Health Data', icon: BarChart2 },
+    { id: 'uploadFile', label: 'Upload File', icon: FileUp },
+    { id: 'onboarding', label: 'Onboarding', icon: Clipboard },
+    { id: 'healthScore', label: 'Health Score', icon: Medal },
+    { id: 'currentStats', label: 'Current Health Data', icon: Medal },
+  ]
 
   const renderContent = () => {
     switch (activeView) {
@@ -45,6 +55,8 @@ export function DashboardPage() {
         return <HealthDataView />
       case 'healthScore':
         return <HealthScoreView />
+      case 'currentStats':
+        return <CurrentStats />
       case 'uploadFile':
         return <FileUploadView />
       case 'onboarding':
@@ -71,36 +83,17 @@ export function DashboardPage() {
           </SidebarHeader>
           <SidebarContent>
             <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton onClick={() => setActiveView('profile')} isActive={activeView === 'profile'}>
-                  <User className="mr-2 h-4 w-4" />
-                  <span>View Profile</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton onClick={() => setActiveView('healthData')} isActive={activeView === 'healthData'}>
-                  <BarChart2 className="mr-2 h-4 w-4" />
-                  <span>Health Data</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton onClick={() => setActiveView('uploadFile')} isActive={activeView === 'uploadFile'}>
-                  <FileUp className="mr-2 h-4 w-4" />
-                  <span>Upload File</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton onClick={() => setActiveView('onboarding')} isActive={activeView === 'onboarding'}>
-                  <Clipboard className="mr-2 h-4 w-4" />
-                  <span>Onboarding</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton onClick={() => setActiveView('healthScore')} isActive={activeView === 'healthScore'}>
-                  <Medal className="mr-2 h-4 w-4" />
-                  <span>Health Score</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+              {menuItems.map((item) => (
+                <SidebarMenuItem key={item.id}>
+                  <SidebarMenuButton 
+                    onClick={() => setActiveView(item.id)} 
+                    isActive={activeView === item.id}
+                  >
+                    <item.icon className="mr-2 h-4 w-4" />
+                    <span>{item.label}</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
             </SidebarMenu>
           </SidebarContent>
           <SidebarFooter>
@@ -194,11 +187,11 @@ export function DashboardPage() {
               {/* Top Right: Update Health Data */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Update Health Data</CardTitle>
+                  <CardTitle>Your Health Data</CardTitle>
                   <CardDescription>Keep your health metrics current</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <HealthDataForm />
+                  <CurrentStats />
                 </CardContent>
               </Card>
 
@@ -299,7 +292,8 @@ function HealthScoreView() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <HealthScore />
+        {/* <HealthScore /> */}
+        <CurrentStats />
 
         
       </CardContent>
