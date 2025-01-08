@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { User, BarChart2, FileUp, Menu, Clipboard , Medal} from 'lucide-react'
+import { User, BarChart2, FileUp, Menu, Clipboard , Medal, Mail, FileText, Lock , ChartLine } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -44,7 +44,10 @@ export function DashboardPage() {
     { id: 'uploadFile', label: 'Upload File', icon: FileUp },
     { id: 'onboarding', label: 'Onboarding', icon: Clipboard },
     { id: 'healthScore', label: 'Health Score', icon: Medal },
-    { id: 'currentStats', label: 'Current Health Data', icon: Medal },
+    { id: 'currentStats', label: 'Current Health Data', icon: ChartLine  },
+    { id: 'notifications', label: 'Notifications', icon: Mail },
+    { id: 'security', label: 'Password and Security', icon: Lock },
+    { id: 'documents', label: 'My Documents', icon: FileText },
   ]
 
   const renderContent = () => {
@@ -124,6 +127,22 @@ export function DashboardPage() {
             </div>
           </header>
           <main className="p-6">
+
+            <div className="grid grid-cols-1 gap-6 pb-6">
+            <Card>
+                <CardHeader>
+                  <CardTitle>Your Current Health Score</CardTitle>
+                  <CardDescription>A snapshot of your overall wellness, updated in real-time. The higher the score, the closer you are to optimal health!</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex gap-4">
+                    <Button className="p-3" disabled>Connect Device</Button>
+                    <Button className="p-3">Import PDF</Button>
+                    <Button className="p-3">Export PDF</Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
             <div className="grid grid-cols-3 gap-6">
               {/* Sidebar Content */}
               {renderContent()} 

@@ -8,13 +8,14 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Slider } from "@/components/ui/slider"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { HealthDataForm } from './health-data-form'
 
 export function OnboardingFormComponent() {
   const [step, setStep] = useState(1)
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    age: '',
+    dateOfBirth: '',
     gender: '',
     weight: 70,
     height: 170,
@@ -28,7 +29,7 @@ export function OnboardingFormComponent() {
   }
 
   const handleNext = () => {
-    if (step < 3) setStep(step + 1)
+    if (step < 4) setStep(step + 1)
   }
 
   const handlePrevious = () => {
@@ -53,8 +54,8 @@ export function OnboardingFormComponent() {
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <Card className="w-full max-w-lg">
         <CardHeader>
-          <CardTitle>Health SaaS Onboarding</CardTitle>
-          <CardDescription>Step {step} of 3</CardDescription>
+          <CardTitle>Metabolic-Point Onboarding</CardTitle>
+          <CardDescription>Step {step} of 4</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit}>
@@ -85,12 +86,12 @@ export function OnboardingFormComponent() {
             {step === 2 && (
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="age">Age</Label>
+                  <Label htmlFor="dateOfBirth">Date of Birth</Label>
                   <Input
-                    id="age"
-                    type="number"
-                    value={formData.age}
-                    onChange={(e) => updateFormData('age', e.target.value)}
+                    id="dateOfBirth"
+                    type="date"
+                    value={formData.dateOfBirth}
+                    onChange={(e) => updateFormData('dateOfBirth', e.target.value)}
                     required
                   />
                 </div>
@@ -150,6 +151,12 @@ export function OnboardingFormComponent() {
                 </div>
               </div>
             )}
+
+            {step === 4 && (
+              <div className="space-y-4">
+                <HealthDataForm />
+              </div>
+            )}
           </form>
         </CardContent>
         <CardFooter className="flex justify-between">
@@ -158,7 +165,7 @@ export function OnboardingFormComponent() {
               Previous
             </Button>
           )}
-          {step < 3 ? (
+          {step < 4 ? (
             <Button onClick={handleNext} className="ml-auto">
               Next
             </Button>
@@ -173,16 +180,27 @@ export function OnboardingFormComponent() {
       <Dialog open={showBMIDialog} onOpenChange={setShowBMIDialog}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Your BMI Result</DialogTitle>
+            <DialogTitle>Your All Set!</DialogTitle>
           </DialogHeader>
           <div className="py-4">
-            <p className="text-lg font-semibold text-center">Your BMI is: {bmi}</p>
+            <p className="text-sm font-semibold">Based on your information, we’re creating a personalized health journey
+            just for you. Let’s get started on your path to wellness.</p>
+            <p className="text-lg font-semibold text-center">Your BMI is: <span className={`${
+              bmi < 18.5 ? 'text-yellow-500' :
+              bmi >= 18.5 && bmi < 25 ? 'text-green-500' :
+              bmi >= 25 && bmi < 30 ? 'text-orange-500' :
+              'text-red-500'
+            }`}>{bmi}</span></p>
             <p className="text-sm text-gray-500 mt-2 text-center">
               BMI Categories:<br />
               Underweight: &lt;18.5<br />
               Normal weight: 18.5-24.9<br />
               Overweight: 25-29.9<br />
               Obesity: ≥30
+            </p>
+
+            <p className="text-lg font-semibold text-center">
+            <Button onClick={() => setShowBMIDialog(false)}>Go to Dashboard</Button>
             </p>
           </div>
         </DialogContent>
