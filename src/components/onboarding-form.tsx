@@ -133,13 +133,13 @@ export function OnboardingFormComponent() {
       </Card>
 
       <Dialog open={showBMIDialog} onOpenChange={setShowBMIDialog}>
-        <DialogContent>
+        <DialogContent className="w-full">
           <DialogHeader>
             <DialogTitle>Your All Set!</DialogTitle>
           </DialogHeader>
           <div className="py-4">
-            <p className="text-sm font-semibold">Based on your information, we’re creating a personalized health journey
-            just for you. Let’s get started on your path to wellness.</p>
+            <p className="text-sm font-semibold">Based on your information, we're creating a personalized health journey
+            just for you. Let's get started on your path to wellness.</p>
             <p className="text-lg font-semibold text-center">Your BMI is: <span className={`${
               bmi < 18.5 ? 'text-yellow-500' :
               bmi >= 18.5 && bmi < 25 ? 'text-green-500' :
@@ -157,6 +157,7 @@ export function OnboardingFormComponent() {
             <p className="text-lg font-semibold text-center">
             <Button onClick={() => setShowBMIDialog(false)}>Go to Dashboard</Button>
             </p>
+            <img src="/images/all_set.png" alt="All Set" className="w-full my-auto" />
           </div>
         </DialogContent>
       </Dialog>
