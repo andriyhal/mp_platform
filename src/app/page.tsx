@@ -1,10 +1,10 @@
-import { LandPage } from "@/components/app-page";
+import { LandPage } from "@/components/landpage";
 
 
 export default function Home() {
   return (
     
-        <main className="flex-1 overflow-y-auto p-8">
+        <main className="flex-1 overflow-y-auto ">
           <LandPage />
           
         </main>

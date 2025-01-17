@@ -3,8 +3,7 @@
 import * as React from 'react'
 import { User, BarChart2, FileUp, Menu, Clipboard , Medal, Mail, FileText, Lock , ChartLine } from 'lucide-react'
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { useRouter } from 'next/navigation'
 import {
   Card,
@@ -33,10 +32,13 @@ import 'react-circular-progressbar/dist/styles.css'
 import { HealthScore } from './health-score'
 import Image from 'next/image'
 import { CurrentStats } from './current-stats'
+import { ImportFile } from './import-file'
 
 export function DashboardPage() {
   const router = useRouter()
-  const [activeView, setActiveView] = React.useState('uploadFile')
+  const [activeView, setActiveView] = React.useState('onboarding')
+
+  const [showDialog, setShowDialog] = React.useState(false)
 
   const menuItems = [
     { id: 'profile', label: 'View Profile', icon: User },
@@ -81,7 +83,7 @@ export function DashboardPage() {
                 width={24}
                 height={24}
               />
-              <h2 className="text-xl font-bold">Metabolic-Point</h2>
+              <h2 className="text-md font-bold">METABOLIC-POINT</h2>
             </div>
           </SidebarHeader>
           <SidebarContent>
@@ -137,11 +139,19 @@ export function DashboardPage() {
                 <CardContent>
                   <div className="flex gap-4">
                     <Button className="p-3" disabled>Connect Device</Button>
-                    <Button className="p-3">Import PDF</Button>
+                    <Button className="p-3" onClick={() => setShowDialog(true)}>Import PDF</Button>
                     <Button className="p-3">Export PDF</Button>
                   </div>
                 </CardContent>
               </Card>
+              <Dialog open={showDialog} onOpenChange={setShowDialog}>
+                <DialogContent className="w-full">
+                  <DialogHeader>
+                    <DialogTitle>Import Data</DialogTitle>
+                  </DialogHeader>
+                   <FileUploadView />
+                </DialogContent>
+              </Dialog>
             </div>
             <div className="grid grid-cols-3 gap-6">
               {/* Sidebar Content */}
@@ -326,27 +336,7 @@ function HealthScoreView() {
 
 function FileUploadView() {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Upload Health Document</CardTitle>
-        <CardDescription>Upload your health-related documents securely</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="flex items-center justify-center w-full">
-          <Label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-            <div className="flex flex-col items-center justify-center pt-5 pb-6">
-              <FileUp className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" />
-              <p className="mb-2 text-sm text-gray-500 dark:text-gray-400"><span className="font-semibold">Click to upload</span> or drag and drop</p>
-              <p className="text-xs text-gray-500 dark:text-gray-400">PDF, DOC, DOCX (MAX. 10MB)</p>
-            </div>
-            <Input id="dropzone-file" type="file" className="hidden" />
-          </Label>
-        </div>
-      </CardContent>
-      <CardFooter>
-        <Button>Upload File</Button>
-      </CardFooter>
-    </Card>
+    <ImportFile />
   )
 }
 
