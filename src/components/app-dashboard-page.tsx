@@ -33,6 +33,7 @@ import { HealthScore } from './health-score'
 import Image from 'next/image'
 import { CurrentStats } from './current-stats'
 import { ImportFile } from './import-file'
+import { UserDataFiles } from './user-data-files'
 
 export function DashboardPage() {
   const router = useRouter()
@@ -66,6 +67,18 @@ export function DashboardPage() {
         return <FileUploadView />
       case 'onboarding':
         return <OnboardingView />
+      case 'documents':
+        return (
+          <Card>
+          <CardHeader>
+            <CardTitle>Uploaded Files</CardTitle>
+            <CardDescription>See your health files</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <UserDataFiles UserID={localStorage.getItem('userEmail') || 'User'} />
+          </CardContent>
+        </Card>
+        )
       default:
         return <FileUploadView />
     }
@@ -265,6 +278,8 @@ export function DashboardPage() {
                   <HealthDataChart />
                 </CardContent>
               </Card>
+
+
               
             </div>
           </main>
