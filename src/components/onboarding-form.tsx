@@ -3,15 +3,13 @@
 import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Slider } from "@/components/ui/slider"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { HealthDataForm } from './health-data-form'
 import { UserProfileEdit } from './UserProfileEdit'
+import { ImportFile } from './import-file'
 
-export function OnboardingFormComponent() {
+export function OnboardingFormComponent({ handleOnBoardingFinish }: { handleOnBoardingFinish: () => void }) {
   const [step, setStep] = useState(1)
   const [formData, setFormData] = useState({
     name: '',
@@ -22,15 +20,16 @@ export function OnboardingFormComponent() {
     height: 170,
     waist: 80, // Added waist circumference with default value
   })
-  const [showBMIDialog, setShowBMIDialog] = useState(false)
   const [bmi, setBMI] = useState(0)
 
+  
   const updateFormData = (field: string, value: string | number) => {
     setFormData(prev => ({ ...prev, [field]: value }))
   }
 
   const handleNext = () => {
     if (step < 4) setStep(step + 1)
+    
   }
 
   const handlePrevious = () => {
@@ -46,20 +45,21 @@ export function OnboardingFormComponent() {
     e.preventDefault()
     const calculatedBMI = calculateBMI(formData.weight, formData.height)
     setBMI(calculatedBMI)
-    setShowBMIDialog(true)
+    setStep(step + 1)
+    // setShowBMIDialog(true)
     console.log('Form submitted:', formData, 'BMI:', calculatedBMI)
     // Here you would typically send the data to your backend
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <Card className="w-full max-w-lg">
+    <div className="flex items-center justify-center  overflow-auto h-screen" style={{ height: '80vh'  }}>
+      <Card className="w-full " >
         <CardHeader>
           <CardTitle>Metabolic-Point Onboarding</CardTitle>
-          <CardDescription>Step {step} of 3</CardDescription>
+          <CardDescription>Step {step} of 4</CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit}>
+          <div>
             {step === 1 && (
               <UserProfileEdit action='add' />
             )}
@@ -108,59 +108,94 @@ export function OnboardingFormComponent() {
             )}
 
             {step === 3 && (
-              <div className="space-y-4">
-                <HealthDataForm />
+              <div className="flex items-center gap-6"  >
+                  <div>
+<Card>
+                    <CardHeader>
+                      <CardTitle>Upload Health Document</CardTitle>
+                      <CardDescription>Upload your health-related documents securely</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <HealthDataForm />
+                    </CardContent>
+                  </Card>
+                  </div>
+                  <div >
+<p > OR </p>
+                  </div>
+                  <div >
+<ImportFile />
+                  </div>
+                  
+                  
+                 
+
+                  
+                
               </div>
             )}
-          </form>
+            {step==4 && (
+              <div className="py-4">
+              <p className="text-sm font-semibold">Based on your information, we're creating a personalized health journey
+              just for you. Let's get started on your path to wellness.</p>
+              <p className="text-lg font-semibold text-center">Your BMI is: <span className={`${
+                bmi < 18.5 ? 'text-yellow-500' :
+                bmi >= 18.5 && bmi < 25 ? 'text-green-500' :
+                bmi >= 25 && bmi < 30 ? 'text-orange-500' :
+                'text-red-500'
+              }`}>{bmi}</span></p>
+              <p className="text-sm text-gray-500 mt-2 text-center">
+                BMI Categories:<br />
+                Underweight: &lt;18.5<br />
+                Normal weight: 18.5-24.9<br />
+                Overweight: 25-29.9<br />
+                Obesity: ≥30
+              </p>
+  
+              <p className="text-lg font-semibold text-center">
+              <Button onClick={() => handleOnBoardingFinish }>Go to Dashboard</Button>
+              </p>
+              <img src="/images/all_set.png" alt="All Set" className="w-full my-auto" />
+            </div>
+            )}
+          </div>
         </CardContent>
         <CardFooter className="flex justify-between">
-          {step > 1 && (
+          
+          {step == 1 &&  (
+            <Button onClick={handleNext} className="ml-auto">
+            Next
+          </Button>
+          )}
+          {step == 2 &&  (
+            <>
             <Button variant="outline" onClick={handlePrevious}>
               Previous
             </Button>
-          )}
-          {step < 3 ? (
             <Button onClick={handleNext} className="ml-auto">
-              Next
+            Next
+          </Button>
+          </>
+          )}
+          {step == 3 && (
+            <>
+            <Button variant="outline" onClick={handlePrevious}>
+              Previous
             </Button>
-          ) : (
             <Button onClick={handleSubmit} className="ml-auto">
-              Submit
+            Finish
+          </Button>
+          </>
+          )}
+          {step == 4 && (
+            <Button variant="outline" onClick={ handleOnBoardingFinish }>
+              Close
             </Button>
           )}
         </CardFooter>
       </Card>
 
-      <Dialog open={showBMIDialog} onOpenChange={setShowBMIDialog}>
-        <DialogContent className="w-full">
-          <DialogHeader>
-            <DialogTitle>Your All Set!</DialogTitle>
-          </DialogHeader>
-          <div className="py-4">
-            <p className="text-sm font-semibold">Based on your information, we're creating a personalized health journey
-            just for you. Let's get started on your path to wellness.</p>
-            <p className="text-lg font-semibold text-center">Your BMI is: <span className={`${
-              bmi < 18.5 ? 'text-yellow-500' :
-              bmi >= 18.5 && bmi < 25 ? 'text-green-500' :
-              bmi >= 25 && bmi < 30 ? 'text-orange-500' :
-              'text-red-500'
-            }`}>{bmi}</span></p>
-            <p className="text-sm text-gray-500 mt-2 text-center">
-              BMI Categories:<br />
-              Underweight: &lt;18.5<br />
-              Normal weight: 18.5-24.9<br />
-              Overweight: 25-29.9<br />
-              Obesity: ≥30
-            </p>
-
-            <p className="text-lg font-semibold text-center">
-            <Button onClick={() => setShowBMIDialog(false)}>Go to Dashboard</Button>
-            </p>
-            <img src="/images/all_set.png" alt="All Set" className="w-full my-auto" />
-          </div>
-        </DialogContent>
-      </Dialog>
+      
     </div>
   )
 }

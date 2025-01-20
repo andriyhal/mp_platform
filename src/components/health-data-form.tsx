@@ -135,7 +135,7 @@ export function HealthDataForm() {
 
   return (
     
-    <Form {...form}>
+    <Form {...form} >
       {lastUpdateDate && (
         <p className="text-sm text-muted-foreground mb-4">
           Last updated: {lastUpdateDate}
@@ -147,11 +147,12 @@ export function HealthDataForm() {
           name="height"
           render={({ field }) => (
             <FormItem>
+              <div className='grid grid-cols-2 items-center'>
               <FormLabel>Height (cm)</FormLabel>
               <FormControl>
                 <Input type="number" {...field} onChange={e => field.onChange(parseFloat(e.target.value))} />
               </FormControl>
-              
+              </div>
               <FormMessage />
             </FormItem>
           )}
@@ -161,11 +162,12 @@ export function HealthDataForm() {
           name="weight"
           render={({ field }) => (
             <FormItem>
+              <div className='grid grid-cols-2 items-center'>
               <FormLabel>Weight (kg)</FormLabel>
               <FormControl>
                 <Input type="number" {...field} onChange={e => field.onChange(parseFloat(e.target.value))} />
               </FormControl>
-              
+              </div>
               <FormMessage />
             </FormItem>
           )}
@@ -175,11 +177,12 @@ export function HealthDataForm() {
           name="waistCircumference"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Waist Circumference (inches)</FormLabel>
-              <FormControl>
-                <Input type="number" {...field} onChange={e => field.onChange(parseFloat(e.target.value))} />
-              </FormControl>
-              
+              <div className='grid grid-cols-2 items-center'>
+                <FormLabel>Waist Circumference (inches)</FormLabel>
+                <FormControl>
+                  <Input type="number" {...field} onChange={e => field.onChange(parseFloat(e.target.value))} />
+                </FormControl>
+              </div>
               <FormMessage />
             </FormItem>
           )}
@@ -189,11 +192,12 @@ export function HealthDataForm() {
           name="bloodPressureSystolic"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Blood Pressure (Systolic)</FormLabel>
-              <FormControl>
-                <Input type="number" {...field} onChange={e => field.onChange(parseFloat(e.target.value))} />
-              </FormControl>
-              
+              <div className='grid grid-cols-2 items-center'>
+                <FormLabel>Blood Pressure (Systolic)</FormLabel>
+                <FormControl>
+                  <Input type="number" {...field} onChange={e => field.onChange(parseFloat(e.target.value))} />
+                </FormControl>
+              </div>
               <FormMessage />
             </FormItem>
           )}
@@ -203,11 +207,12 @@ export function HealthDataForm() {
           name="bloodPressureDiastolic"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Blood Pressure (Diastolic)</FormLabel>
-              <FormControl>
-                <Input type="number" {...field} onChange={e => field.onChange(parseFloat(e.target.value))} />
-              </FormControl>
-              
+              <div className='grid grid-cols-2 items-center'>
+                <FormLabel>Blood Pressure (Diastolic)</FormLabel>
+                <FormControl>
+                  <Input type="number" {...field} onChange={e => field.onChange(parseFloat(e.target.value))} />
+                </FormControl>
+              </div>
               <FormMessage />
             </FormItem>
           )}
@@ -217,11 +222,12 @@ export function HealthDataForm() {
           name="fastingBloodGlucose"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Fasting Blood Glucose (mg/dL)</FormLabel>
-              <FormControl>
-                <Input type="number" {...field} onChange={e => field.onChange(parseFloat(e.target.value))} />
-              </FormControl>
-              
+              <div className='grid grid-cols-2 items-center'>
+                <FormLabel>Fasting Blood Glucose (mg/dL)</FormLabel>
+                <FormControl>
+                  <Input type="number" {...field} onChange={e => field.onChange(parseFloat(e.target.value))} />
+                </FormControl>
+              </div>
               <FormMessage />
             </FormItem>
           )}
@@ -231,11 +237,12 @@ export function HealthDataForm() {
           name="hdlCholesterol"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>HDL Cholesterol (mg/dL)</FormLabel>
-              <FormControl>
-                <Input type="number" {...field} onChange={e => field.onChange(parseFloat(e.target.value))} />
-              </FormControl>
-              
+              <div className='grid grid-cols-2 items-center '>
+                <FormLabel>HDL Cholesterol (mg/dL)</FormLabel>
+                <FormControl>
+                  <Input type="number" {...field} onChange={e => field.onChange(parseFloat(e.target.value))} />
+                </FormControl>
+              </div>
               <FormMessage />
             </FormItem>
           )}
@@ -245,11 +252,12 @@ export function HealthDataForm() {
           name="triglycerides"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Triglycerides (mg/dL)</FormLabel>
-              <FormControl>
-                <Input type="number" {...field} onChange={e => field.onChange(parseFloat(e.target.value))} />
-              </FormControl>
-              
+              <div className='grid grid-cols-2 items-center '>
+                <FormLabel>Triglycerides (mg/dL)</FormLabel>
+                <FormControl>
+                  <Input type="number" {...field} onChange={e => field.onChange(parseFloat(e.target.value))} />
+                </FormControl>
+              </div>
               <FormMessage />
             </FormItem>
           )}
@@ -259,11 +267,12 @@ export function HealthDataForm() {
           name="vitaminD2"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>25-Hydroxyvitamin D2 (nmol/L)</FormLabel>
-              <FormControl>
-                <Input type="number" {...field} onChange={e => field.onChange(parseFloat(e.target.value))} />
-              </FormControl>
-              
+              <div className='grid grid-cols-2 items-center'>
+                <FormLabel>25-Hydroxyvitamin D2 (nmol/L)</FormLabel>
+                <FormControl>
+                  <Input type="number" {...field} onChange={e => field.onChange(parseFloat(e.target.value))} />
+                </FormControl>
+              </div>
               <FormMessage />
             </FormItem>
           )}
@@ -273,11 +282,12 @@ export function HealthDataForm() {
           name="vitaminD3"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>25-Hydroxyvitamin D3 (nmol/L)</FormLabel>
-              <FormControl>
-                <Input type="number" {...field} onChange={e => field.onChange(parseFloat(e.target.value))} />
-              </FormControl>
-              
+              <div className='grid grid-cols-2 items-center'>
+                <FormLabel>25-Hydroxyvitamin D3 (nmol/L)</FormLabel>
+                <FormControl>
+                  <Input type="number" {...field} onChange={e => field.onChange(parseFloat(e.target.value))} />
+                </FormControl>
+              </div>
               <FormMessage />
             </FormItem>
           )}

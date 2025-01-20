@@ -24,9 +24,9 @@ export default function LoginPage() {
     router.push('/dashboard')
   }
 
-  if (showOnboarding) {
-    return <OnboardingFormComponent />
-  }
+  // if (showOnboarding) {
+  //   return <OnboardingFormComponent />
+  // }
 
   return (
     <div className="flex items-center justify-center bg-gray-100">

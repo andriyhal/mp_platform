@@ -40,18 +40,23 @@ export function DashboardPage() {
   const [activeView, setActiveView] = React.useState('onboarding')
 
   const [showDialog, setShowDialog] = React.useState(false)
+  const [showOnboardingDialog, setShowOnboardingDialog] = React.useState(false)
 
   const menuItems = [
     { id: 'profile', label: 'View Profile', icon: User },
     { id: 'healthData', label: 'Health Data', icon: BarChart2 },
     { id: 'uploadFile', label: 'Upload File', icon: FileUp },
-    { id: 'onboarding', label: 'Onboarding', icon: Clipboard },
+    // { id: 'onboarding', label: 'Onboarding', icon: Clipboard },
     { id: 'healthScore', label: 'Health Score', icon: Medal },
     { id: 'currentStats', label: 'Current Health Data', icon: ChartLine  },
     { id: 'notifications', label: 'Notifications', icon: Mail },
     { id: 'security', label: 'Password and Security', icon: Lock },
     { id: 'documents', label: 'My Documents', icon: FileText },
   ]
+
+  const handleOnBoardingFinish = () => {
+    setShowOnboardingDialog(false)
+  }
 
   const renderContent = () => {
     switch (activeView) {
@@ -66,7 +71,18 @@ export function DashboardPage() {
       case 'uploadFile':
         return <FileUploadView />
       case 'onboarding':
-        return <OnboardingView />
+        return (
+          <Dialog open={showOnboardingDialog} onOpenChange={setShowOnboardingDialog}>
+          <DialogContent className="w-3/4 max-w-6xl" >
+            <DialogHeader>
+              <DialogTitle>Onboarding</DialogTitle>
+            </DialogHeader>
+            <OnboardingFormComponent handleOnBoardingFinish={handleOnBoardingFinish} />
+          </DialogContent>
+        </Dialog>
+        
+      )
+
       case 'documents':
         return (
           <Card>
@@ -154,6 +170,7 @@ export function DashboardPage() {
                     <Button className="p-3" disabled>Connect Device</Button>
                     <Button className="p-3" onClick={() => setShowDialog(true)}>Import PDF</Button>
                     <Button className="p-3">Export PDF</Button>
+                    <Button className="p-3" onClick={() => setShowOnboardingDialog(true)}>Start Onboarding</Button>
                   </div>
                 </CardContent>
               </Card>
@@ -355,10 +372,3 @@ function FileUploadView() {
   )
 }
 
-function OnboardingView() {
-  return (
-    
-    <OnboardingFormComponent />
-    
-  )
-}
