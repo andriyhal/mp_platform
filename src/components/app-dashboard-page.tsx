@@ -179,16 +179,15 @@ export function DashboardPage() {
               <Dialog open={showDialog} onOpenChange={setShowDialog}>
                 <DialogContent className="w-full">
                   <DialogHeader>
-                    <DialogTitle>Import Data</DialogTitle>
-                    <DialogDescription>upload a document and so we can extract the info</DialogDescription>
+                    <DialogTitle>Upload Health Document</DialogTitle>
+                    <DialogDescription>Upload your health-related documents securely</DialogDescription>
                   </DialogHeader>
                    <FileUploadView />
                 </DialogContent>
               </Dialog>
             </div>
             <div className="grid grid-cols-2 gap-6">
-              {/* Sidebar Content */}
-              {renderContent()} 
+              
               {/* Top Left: Health Score Meter */}
               <Card>
                 <CardHeader>
@@ -235,16 +234,7 @@ export function DashboardPage() {
                 </CardContent>
               </Card>
 
-              {/* Bottom Left: Profile Edit */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>Profile Information</CardTitle>
-                  <CardDescription>Manage your personal details</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <UserProfileEdit action="edit" />
-                </CardContent>
-              </Card>
+             
               
               {/* Top Right: Update Health Data */}
               <Card>
@@ -288,6 +278,20 @@ export function DashboardPage() {
                   </div>
                 </CardContent>
               </Card>
+
+               {/* Bottom Left: Profile Edit */}
+               <Card>
+                <CardHeader>
+                  <CardTitle>Profile Information</CardTitle>
+                  <CardDescription>Manage your personal details</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <UserProfileEdit action="edit" />
+                </CardContent>
+              </Card>
+
+              {/* Sidebar Content */}
+              {renderContent()} 
 
               {/* <Card>
                 <CardHeader>

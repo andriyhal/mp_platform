@@ -29,8 +29,8 @@ export function ImportFile() {
     <div>
         <Card>
       <CardHeader>
-        <CardTitle>Upload Health Document</CardTitle>
-        <CardDescription>Upload your health-related documents securely</CardDescription>
+        <CardTitle> </CardTitle>
+        <CardDescription> </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="flex items-center justify-center w-full">
