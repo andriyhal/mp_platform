@@ -14,8 +14,8 @@ export function OnboardingFormComponent({ handleOnBoardingFinish }: { handleOnBo
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    dateOfBirth: '',
-    gender: '',
+    dateOfBirth: '2000-01-01',
+    gender: 'male',
     weight: 70,
     height: 170,
     waist: 80, // Added waist circumference with default value
@@ -116,7 +116,7 @@ export function OnboardingFormComponent({ handleOnBoardingFinish }: { handleOnBo
                       <CardDescription>Upload your health-related documents securely</CardDescription>
                     </CardHeader>
                     <CardContent>
-                      <HealthDataForm />
+                      <HealthDataForm group='basic' fetchLast='false' initialData={formData}/>
                     </CardContent>
                   </Card>
                   </div>

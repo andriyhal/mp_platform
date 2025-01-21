@@ -183,7 +183,7 @@ export function DashboardPage() {
                 </DialogContent>
               </Dialog>
             </div>
-            <div className="grid grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 gap-6">
               {/* Sidebar Content */}
               {renderContent()} 
               {/* Top Left: Health Score Meter */}
@@ -329,7 +329,7 @@ function HealthDataView() {
         <CardDescription>Calculate your health score based on various factors</CardDescription>
       </CardHeader>
       <CardContent>
-        <HealthDataForm />
+        <HealthDataForm group='all' fetchLast='true' initialData={{name: '', email: '', dateOfBirth: '', gender: '', weight: 0, height: 0, waist: 0}}/>
 
         
       </CardContent>
