@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { User, BarChart2, FileUp, Menu, Clipboard , Medal, Mail, FileText, Lock , ChartLine } from 'lucide-react'
 import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { useRouter } from 'next/navigation'
 import {
   Card,
@@ -39,8 +39,9 @@ export function DashboardPage() {
   const router = useRouter()
   const [activeView, setActiveView] = React.useState('onboarding')
 
-  const [showDialog, setShowDialog] = React.useState(false)
+  const [showDialog, setShowDialog] = React.useState(false)  //shows upload dialog
   const [showOnboardingDialog, setShowOnboardingDialog] = React.useState(false)
+  
 
   const menuItems = [
     { id: 'profile', label: 'View Profile', icon: User },
@@ -76,6 +77,7 @@ export function DashboardPage() {
           <DialogContent className="w-3/4 max-w-6xl" >
             <DialogHeader>
               <DialogTitle>Onboarding</DialogTitle>
+              <DialogDescription>Enter some health data to get started</DialogDescription>
             </DialogHeader>
             <OnboardingFormComponent handleOnBoardingFinish={handleOnBoardingFinish} />
           </DialogContent>
@@ -178,6 +180,7 @@ export function DashboardPage() {
                 <DialogContent className="w-full">
                   <DialogHeader>
                     <DialogTitle>Import Data</DialogTitle>
+                    <DialogDescription>upload a document and so we can extract the info</DialogDescription>
                   </DialogHeader>
                    <FileUploadView />
                 </DialogContent>
@@ -286,7 +289,7 @@ export function DashboardPage() {
                 </CardContent>
               </Card>
 
-              <Card>
+              {/* <Card>
                 <CardHeader>
                   <CardTitle>Health Data History</CardTitle>
                   <CardDescription>See your health history</CardDescription>
@@ -294,7 +297,7 @@ export function DashboardPage() {
                 <CardContent>
                   <HealthDataChart />
                 </CardContent>
-              </Card>
+              </Card> */}
 
 
               

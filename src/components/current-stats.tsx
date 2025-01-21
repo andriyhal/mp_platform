@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import { CheckCircle, XCircle } from 'lucide-react'
+import { HealthDataChart } from './health-data-chart'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 
 interface HealthData {
   height: number
@@ -29,10 +31,18 @@ const healthyRanges = {
   vitaminD2: { min: 20, max: 50 },
   vitaminD3: { min: 20, max: 50 }
 }
-
 export function CurrentStats() {
   const [healthData, setHealthData] = useState<HealthData | null>(null)
   const [error, setError] = useState<string | null>(null)
+
+  const [showChartDialog, setShowChartDialog] = useState(false)
+  const [selectedParameter, setSelectedParameter] = useState({
+    name: '',
+    value: 0,
+    max_range: 0,
+    min_range: 0,
+    inRange: false
+  })
 
   useEffect(() => {
     const fetchLatestHealthData = async () => {
@@ -85,7 +95,7 @@ export function CurrentStats() {
           
           return (
             <div key={key} className="flex items-center justify-between p-4 border rounded-lg">
-              <div>
+              <div onClick={() => { setShowChartDialog(true); setSelectedParameter({name : key , value: value , max_range: range.max , min_range: range.min, inRange : inRange}) }}>
                 <h3 className="font-medium">{key.replace(/([A-Z])/g, ' $1').trim()}</h3>
                 <p className="text-sm text-muted-foreground">
                   Healthy range: {range.min} - {range.max}
@@ -103,6 +113,15 @@ export function CurrentStats() {
           )
         })}
       </div>
+
+      <Dialog open={showChartDialog} onOpenChange={setShowChartDialog}>
+          <DialogContent className="w-3/4 max-w-6xl" >
+            <DialogHeader>
+              <DialogTitle>Your Stats</DialogTitle>
+            </DialogHeader>
+            <HealthDataChart parameter={ selectedParameter }/>
+          </DialogContent>
+        </Dialog>
     </div>
   )
 }
