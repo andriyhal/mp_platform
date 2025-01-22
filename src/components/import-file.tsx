@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
 import { Toaster } from './ui/toaster'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { FileUp } from 'lucide-react'
+import { FileUp, FileIcon } from 'lucide-react'
 import { Input } from "@/components/ui/input"
 
 export function ImportFile() {
@@ -24,6 +24,7 @@ export function ImportFile() {
   const [results, setResults] = useState('')
   const { toast } = useToast()
 
+  
 
   return (
     <div>
@@ -33,8 +34,9 @@ export function ImportFile() {
         <CardDescription> </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="flex items-center justify-center w-full">
-          <Label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600" onDrop={(e) => {
+        <div className="flex items-center justify-center w-full" >
+          <Label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600" 
+          onDrop={(e) => {
             e.preventDefault();
             const file = e.dataTransfer.files[0];
             if (file) {
@@ -44,14 +46,24 @@ export function ImportFile() {
                 description: `File selected: ${file.name}`,
                 variant: "success",
               });
+              // Display the filename in the dropzone with a file icon
+              e.currentTarget.querySelector('.filename').innerHTML = `<FileIcon className="w-4 h-4 mr-2" /> ${file.name}`;
             }
+          }}
+          onDragOver={(e) => {
+            e.preventDefault();
+            e.currentTarget.classList.add('bg-gray-200', 'dark:bg-gray-600');
+          }}
+          onDragLeave={(e) => {
+            e.currentTarget.classList.remove('bg-gray-200', 'dark:bg-gray-600');
           }}>
             <div className="flex flex-col items-center justify-center pt-5 pb-6">
               <FileUp className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" />
               <p className="mb-2 text-sm text-gray-500 dark:text-gray-400"><span className="font-semibold">Click to upload</span> or drag and drop</p>
               <p className="text-xs text-gray-500 dark:text-gray-400">PDF, DOC, DOCX (MAX. 10MB)</p>
+              <p className="filename text-sm text-gray-500 dark:text-gray-400 p-6"></p>
             </div>
-            <Input id="dropzone-file" type="file" className="" />
+            <Input id="dropzone-file" type="file" className="hidden" />
           </Label>
         </div>
       </CardContent>
@@ -67,7 +79,7 @@ export function ImportFile() {
               body: formData,
             });
             if (!response.ok) {
-              throw new Error('Failed to upload file');
+              throw new Error('Failed to upload file ' );
             }
             const data = await response.json();
             
