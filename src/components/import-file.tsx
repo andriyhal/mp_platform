@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
 import { Toaster } from './ui/toaster'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { FileUp, FileIcon } from 'lucide-react'
+import { FileUp } from 'lucide-react'
 import { Input } from "@/components/ui/input"
 
 export function ImportFile() {
@@ -48,10 +48,10 @@ export function ImportFile() {
                 variant: "default",
               });
               // Display the filename in the dropzone with a file icon
-              const filenameElement = e.currentTarget.querySelector('.filename');
-              if (filenameElement) {
-                filenameElement.innerHTML = `${file.name}`;
-              }
+              // const filenameElement = e.currentTarget.querySelector('.filename');
+              // if (filenameElement) {
+              //   filenameElement.innerHTML = `${file.name}`;
+              // }
             }
           }}
           onDragOver={(e) => {
@@ -67,15 +67,18 @@ export function ImportFile() {
               <p className="text-xs text-gray-500 dark:text-gray-400">PDF, DOC, DOCX (MAX. 10MB)</p>
               <p className="filename text-sm text-gray-500 dark:text-gray-400 p-6"></p>
             </div>
-            <Input id="dropzone-file" type="file" className="hidden" />
+           
           </Label>
+          
         </div>
+         <Input id="dropzone-file" type="file" className="max-w-md" />
       </CardContent>
       <CardFooter>
+        
         <Button onClick={async () => {
             setIsSubmitting(true)
           const formData = new FormData();
-          const fileInput = document.getElementById('dropzone-file') as HTMLInputElement;
+          const fileInput = document.getElementById('dropzone-file');
           if (fileInput.files && fileInput.files[0]) {
             formData.append('file', fileInput.files[0]);
           }

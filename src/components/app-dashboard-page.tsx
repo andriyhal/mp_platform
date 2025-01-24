@@ -112,19 +112,7 @@ export function DashboardPage() {
         return <CurrentStats />
       case 'uploadFile':
         return <FileUploadView />
-      case 'onboarding':
-        return (
-          <Dialog open={showOnboardingDialog} onOpenChange={setShowOnboardingDialog}>
-          <DialogContent className="w-3/4 max-w-6xl" >
-            <DialogHeader>
-              <DialogTitle>Onboarding</DialogTitle>
-              <DialogDescription>Enter some health data to get started</DialogDescription>
-            </DialogHeader>
-            <OnboardingFormComponent handleOnBoardingFinish={handleOnBoardingFinish} />
-          </DialogContent>
-        </Dialog>
-        
-      )
+      
 
       case 'documents':
         return (
@@ -234,7 +222,7 @@ export function DashboardPage() {
                 <CardHeader>
                   <CardTitle>Your Health Score</CardTitle>
                   <CardDescription>
-                    Current health assessment for {user.id || 'User'}
+                    Current health assessment for {user.name || 'User'}
 
                     
                   </CardDescription>
@@ -344,6 +332,16 @@ export function DashboardPage() {
                 </CardContent>
               </Card> */}
 
+<Dialog open={showOnboardingDialog} onOpenChange={setShowOnboardingDialog}>
+          <DialogContent className="w-3/4 max-w-6xl" >
+            <DialogHeader>
+              <DialogTitle>Onboarding</DialogTitle>
+              <DialogDescription>Enter some health data to get started</DialogDescription>
+            </DialogHeader>
+            <OnboardingFormComponent handleOnBoardingFinish={handleOnBoardingFinish} />
+          </DialogContent>
+        </Dialog>
+
 
               
             </div>
@@ -396,7 +394,7 @@ function HealthScoreView() {
       <CardHeader>
         <CardTitle>Your Health Score</CardTitle>
         <CardDescription>
-          Current health assessment for {user.id || 'User'}
+          Current health assessment for { user.name || 'User'}
 
           
         </CardDescription>
