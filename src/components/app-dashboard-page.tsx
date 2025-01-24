@@ -41,23 +41,12 @@ import { useEffect } from 'react'
 
 export function DashboardPage() {
 
-  const { user, token, logout } = useAuth();
+  const { user, token, loading , logout, validateToken } = useAuth();
   const router = useRouter();
 
-  // useEffect(() => {
-  //   // If no token or user, redirect to the login page
-  //   if (!token) {
-  //     router.push('/');
-  //   }
-  // }, [token, router]);
-
-  // if (!user) {
-  //   return <p>Loading...</p>;
-  // }
-  
-
-  
-  const [activeView, setActiveView] = React.useState('onboarding')
+ 
+   
+  const [activeView, setActiveView] = React.useState('documents')
 
   const [showDialog, setShowDialog] = React.useState(false)  //shows upload dialog
   const [showOnboardingDialog, setShowOnboardingDialog] = React.useState(false)
@@ -75,8 +64,37 @@ export function DashboardPage() {
     { id: 'documents', label: 'My Documents', icon: FileText },
   ]
 
-  const current_user = JSON.parse(localStorage.getItem('user') || '{}')
 
+
+
+    useEffect(() => {
+      console.log('debug', user, token, loading)
+      // If no token or user, redirect to the login page
+      if (!token) {
+        //router.push('/');
+        console.log('debug2', user, token, loading)
+      }else{
+        
+        console.log('debug3', user,token, loading)
+      }
+
+    }, [token]);
+
+    if (loading) {
+      return <p>Loading user...</p>;
+    }
+
+    if (token == 'missing') {
+      
+      router.push('/');
+    }
+
+    if (token == undefined) {
+      
+      return <p>Loading token..</p>;
+      
+    }
+  
 
   const handleOnBoardingFinish = () => {
     setShowOnboardingDialog(false)
@@ -116,7 +134,7 @@ export function DashboardPage() {
             <CardDescription>See your health files</CardDescription>
           </CardHeader>
           <CardContent>
-            <UserDataFiles UserID={localStorage.getItem('userEmail') || 'User'} />
+            <UserDataFiles UserID={user.id || 'User'} />
           </CardContent>
         </Card>
         )
@@ -126,6 +144,8 @@ export function DashboardPage() {
   }
 
   return (
+
+    
     
     <SidebarProvider>
       <div className="flex h-screen bg-gray-100">
@@ -171,7 +191,7 @@ export function DashboardPage() {
         <div className="flex-1 overflow-auto">
           <header className="bg-white shadow">
             <div className="flex items-center justify-between px-4 py-6 sm:px-6 lg:px-8">
-              <h1 className="text-3xl font-bold text-gray-900">Dashboard for {current_user.name}</h1>
+              <h1 className="text-3xl font-bold text-gray-900">Dashboard for {user.name}</h1>
               <SidebarTrigger>
                 <Button variant="outline" size="icon" className="lg:hidden">
                   <Menu className="h-6 w-6" />
@@ -214,7 +234,7 @@ export function DashboardPage() {
                 <CardHeader>
                   <CardTitle>Your Health Score</CardTitle>
                   <CardDescription>
-                    Current health assessment for {localStorage.getItem('userEmail') || 'User'}
+                    Current health assessment for {user.id || 'User'}
 
                     
                   </CardDescription>
@@ -376,7 +396,7 @@ function HealthScoreView() {
       <CardHeader>
         <CardTitle>Your Health Score</CardTitle>
         <CardDescription>
-          Current health assessment for {localStorage.getItem('userEmail') || 'User'}
+          Current health assessment for {user.id || 'User'}
 
           
         </CardDescription>
