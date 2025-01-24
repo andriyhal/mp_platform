@@ -57,10 +57,12 @@ export function UserProfileEdit(props: { action: "edit" | "add" }) {
     async function fetchUserProfile() {
       try {
         const userEmail = localStorage.getItem('userEmail')
+        const token = localStorage.getItem('token')
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROOT}/get-user-profile?userID=${userEmail}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
           },
         })
 

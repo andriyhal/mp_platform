@@ -6,6 +6,9 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { useToast } from "@/hooks/use-toast"
+import { Toaster } from './ui/toaster'
+import { useRouter } from 'next/navigation'
 
 export function SignUpPage() {
   const [formData, setFormData] = useState({
@@ -19,6 +22,11 @@ export function SignUpPage() {
     password: '',
     confirmPassword: '',
   })
+
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const router = useRouter()
+  const { toast } = useToast()
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -43,11 +51,51 @@ export function SignUpPage() {
     return isValid
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (validateForm()) {
-      console.log('Form submitted:', formData)
+      console.log('Registering user:', formData)
       // Here you would typically send the data to your backend
+      setIsSubmitting(true)
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROOT}/register-user`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        })
+
+        
+
+        if (response.status === 409) {
+          throw new Error('User already exists')
+        }
+
+        
+
+        if (!response.ok) {
+          throw new Error('Failed to register user')
+        }
+
+        const json = await response.json();
+        console.log('User registered successfully:', json);
+
+        toast({
+          title: "Registration Successful",
+          description: "Your account has been created successfully.",
+        })
+        router.push('/') // Redirect to dashboard after successful submission
+      } catch (error) {
+        console.error('Error registering user:', error)
+        toast({
+          title: "Registration Error",
+          description: error instanceof Error ? error.message : 'Failed to register user',
+          variant: "destructive",
+        })
+      } finally {
+        setIsSubmitting(false)
+      }
     }
   }
 
@@ -110,15 +158,17 @@ export function SignUpPage() {
           </form>
         </CardContent>
         <CardFooter className="flex flex-col space-y-4">
-          <Button className="w-full" onClick={handleSubmit}>Sign Up</Button>
+          <Button className="w-full" onClick={handleSubmit} disabled={isSubmitting}>
+          {isSubmitting ? 'Submitting...' : 'Sign Up'}</Button>
           <div className="text-sm text-center">
             Already have an account?{' '}
-            <Link href="/login" className="text-primary hover:underline">
+            <Link href="/" className="text-primary hover:underline">
               Log in
             </Link>
           </div>
         </CardFooter>
       </Card>
+      <Toaster />
     </div>
   )
 }

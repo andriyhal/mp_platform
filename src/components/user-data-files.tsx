@@ -38,10 +38,12 @@ export function UserDataFiles({ UserID }: UserDataFilesProps) {
     setIsLoading(true)
     setError(null)
     try {
+      const token = localStorage.getItem('token');
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROOT}/get-data-files`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({ UserID }),
       })

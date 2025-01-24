@@ -110,7 +110,13 @@ export function HealthDataChart(props: {parameter : {name : string , value: numb
     const fetchHealthData = async () => {
       try {
         const userId = localStorage.getItem('userEmail') || 'test'
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROOT}/get-health-history?userId=${userId}&parameter=${selectedParameter}`)
+        
+        const token = localStorage.getItem('token')
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROOT}/get-health-history?userId=${userId}&parameter=${selectedParameter}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
         
         if (!response.ok) {
           throw new Error('Failed to fetch health data')

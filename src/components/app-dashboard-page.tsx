@@ -75,6 +75,9 @@ export function DashboardPage() {
     { id: 'documents', label: 'My Documents', icon: FileText },
   ]
 
+  const current_user = JSON.parse(localStorage.getItem('user') || '{}')
+
+
   const handleOnBoardingFinish = () => {
     setShowOnboardingDialog(false)
   }
@@ -168,7 +171,7 @@ export function DashboardPage() {
         <div className="flex-1 overflow-auto">
           <header className="bg-white shadow">
             <div className="flex items-center justify-between px-4 py-6 sm:px-6 lg:px-8">
-              <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
+              <h1 className="text-3xl font-bold text-gray-900">Dashboard for {current_user.name}</h1>
               <SidebarTrigger>
                 <Button variant="outline" size="icon" className="lg:hidden">
                   <Menu className="h-6 w-6" />

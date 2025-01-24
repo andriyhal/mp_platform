@@ -64,7 +64,12 @@ export function HealthDataForm(props: { group: "all" | "basic", fetchLast: 'true
     const fetchLatestHealthData = async () => {
       try {
         const userId = localStorage.getItem('userEmail') || 'test'
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROOT}/get-health-data?userId=${userId}`)
+        const token = localStorage.getItem('token')
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROOT}/get-health-data?userId=${userId}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
         
         if (!response.ok) {
           throw new Error('Failed to fetch health data')
@@ -107,10 +112,13 @@ export function HealthDataForm(props: { group: "all" | "basic", fetchLast: 'true
         const userId = localStorage.getItem('userEmail') || 'test'
         const age =  calculateAge(props.initialData.dateOfBirth);
         //console.log(props)
-
+        const token = localStorage.getItem('token')
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROOT}/average-health-metrics?age=${age}&sex=${props.initialData.gender}&weight=${props.initialData.weight}` , {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
        
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROOT}/average-health-metrics?age=${age}&sex=${props.initialData.gender}&weight=${props.initialData.weight}`)
-        
         if (!response.ok) {
           throw new Error('Failed to fetch health data')
         }
@@ -185,10 +193,12 @@ export function HealthDataForm(props: { group: "all" | "basic", fetchLast: 'true
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsSubmitting(true)
     try {
+      const token = localStorage.getItem('token');
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROOT}/submit-health-data`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(values),
       })

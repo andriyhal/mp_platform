@@ -27,7 +27,7 @@ export function ForgotPassPage() {
         <CardFooter className="flex flex-col space-y-4">
           <Button className="w-full">Reset Password</Button>
           <div className="text-sm text-center">
-            <Link href="/login" className="text-primary hover:underline">
+            <Link href="/" className="text-primary hover:underline">
               Back to Log In
             </Link>
           </div>

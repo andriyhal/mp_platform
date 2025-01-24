@@ -21,8 +21,13 @@ export function HealthScore() {
       try {
         setIsSubmitting(true)
         const userId = localStorage.getItem('userEmail') || 'test'
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROOT}/calc-health-score?userId=${userId}`)
         
+        const token = localStorage.getItem('token')
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROOT}/calc-health-score?userId=${userId}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
         if (!response.ok) {
           throw new Error('Failed to fetch health score')
         }

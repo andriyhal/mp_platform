@@ -81,9 +81,13 @@ export function ImportFile() {
           }
           formData.append('UserID', localStorage.getItem('userEmail') || '');
           try {
+            const token = localStorage.getItem('token');
             const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROOT}/import-file`, {
               method: 'POST',
               body: formData,
+              headers: {
+                'Authorization': `Bearer ${token}`
+              }
             });
             if (!response.ok) {
               throw new Error('Failed to upload file ' );
