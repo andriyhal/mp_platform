@@ -34,9 +34,29 @@ import Image from 'next/image'
 import { CurrentStats } from './current-stats'
 import { ImportFile } from './import-file'
 import { UserDataFiles } from './user-data-files'
+import { useAuth} from '@/components/AuthContext';
+import { useEffect } from 'react'
+
+
 
 export function DashboardPage() {
-  const router = useRouter()
+
+  const { user, token, logout } = useAuth();
+  const router = useRouter();
+
+  // useEffect(() => {
+  //   // If no token or user, redirect to the login page
+  //   if (!token) {
+  //     router.push('/');
+  //   }
+  // }, [token, router]);
+
+  // if (!user) {
+  //   return <p>Loading...</p>;
+  // }
+  
+
+  
   const [activeView, setActiveView] = React.useState('onboarding')
 
   const [showDialog, setShowDialog] = React.useState(false)  //shows upload dialog
@@ -103,6 +123,7 @@ export function DashboardPage() {
   }
 
   return (
+    
     <SidebarProvider>
       <div className="flex h-screen bg-gray-100">
         <Sidebar>
@@ -137,10 +158,7 @@ export function DashboardPage() {
               <Button 
                 variant="outline" 
                 className="w-full" 
-                onClick={() => {
-                  localStorage.removeItem('email');
-                  router.push('/');
-                }}
+                onClick={logout}
               >
                 Log Out
               </Button>
@@ -310,6 +328,7 @@ export function DashboardPage() {
         </div>
       </div>
     </SidebarProvider>
+    
   )
 }
 
@@ -378,4 +397,6 @@ function FileUploadView() {
     <ImportFile />
   )
 }
+
+
 

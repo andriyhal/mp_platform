@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import LoginPage from './app-login-page'
 import Image from 'next/image'
+import { AuthProvider } from '@/components/AuthContext';
 
 
 export function LandPage() {
@@ -56,7 +57,10 @@ export function LandPage() {
           </div>
 
           <div className="lg:w-1/2 max-w-md bg-transparent">
+          <AuthProvider>
             <LoginPage />
+          </AuthProvider>
+            
           </div>
         </div>
       </main>

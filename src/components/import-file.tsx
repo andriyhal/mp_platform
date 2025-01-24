@@ -40,14 +40,18 @@ export function ImportFile() {
             e.preventDefault();
             const file = e.dataTransfer.files[0];
             if (file) {
-              document.getElementById('dropzone-file').files = e.dataTransfer.files;
+              const fileInput = document.getElementById('dropzone-file') as HTMLInputElement;
+              fileInput.files = e.dataTransfer.files;
               toast({
                 title: "File selected",
                 description: `File selected: ${file.name}`,
-                variant: "success",
+                variant: "default",
               });
               // Display the filename in the dropzone with a file icon
-              e.currentTarget.querySelector('.filename').innerHTML = `<FileIcon className="w-4 h-4 mr-2" /> ${file.name}`;
+              const filenameElement = e.currentTarget.querySelector('.filename');
+              if (filenameElement) {
+                filenameElement.innerHTML = `${file.name}`;
+              }
             }
           }}
           onDragOver={(e) => {
@@ -71,7 +75,10 @@ export function ImportFile() {
         <Button onClick={async () => {
             setIsSubmitting(true)
           const formData = new FormData();
-          formData.append('file', document.getElementById('dropzone-file').files[0] );
+          const fileInput = document.getElementById('dropzone-file') as HTMLInputElement;
+          if (fileInput.files && fileInput.files[0]) {
+            formData.append('file', fileInput.files[0]);
+          }
           formData.append('UserID', localStorage.getItem('userEmail') || '');
           try {
             const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROOT}/import-file`, {
@@ -97,7 +104,7 @@ export function ImportFile() {
             setIsSubmitting(false)
             toast({
                 title: "Error uploading file",
-                description: ` ${error.message}`,
+                // description: ` ${error.message}`,
                 variant: "destructive",
               })
           }

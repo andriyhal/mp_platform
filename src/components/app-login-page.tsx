@@ -7,26 +7,41 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { OnboardingFormComponent } from './onboarding-form'
+import { useAuth } from '@/components/AuthContext';
+
 
 export default function LoginPage() {
   const router = useRouter()
-  const [showOnboarding, setShowOnboarding] = useState(false)
+
   const [email, setEmail] = useState('test@example.com')
   const [password, setPassword] = useState('')
+  const [spinner, setSpinner] = useState(false)
+  const [error, setError] = useState('')
 
-  const handleLogin = (e: React.FormEvent) => {
+  const { user, login } = useAuth();
+
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Store email in localStorage
-    localStorage.setItem('userEmail', email)
-    // Here you would typically validate the credentials
-    // For now, we'll just redirect to dashboard
-    router.push('/dashboard')
+    setSpinner(true)
+    setError('')
+    try {
+      // Store email in localStorage
+      localStorage.setItem('userEmail', email)
+      // Here you would typically validate the credentials
+     
+      await login({ email: email, password: password })
+      // console.log(failLogin)
+      // if(failLogin){
+      //   setError('Invalid email or password. Please try again.')
+      // }
+      
+      
+    } catch (error) {
+      setSpinner(false)
+      setError('Invalid email or password. Please try again.')
+      
+    }
   }
-
-  // if (showOnboarding) {
-  //   return <OnboardingFormComponent />
-  // }
 
   return (
     <div className="flex items-center justify-center bg-gray-100">
@@ -68,7 +83,11 @@ export default function LoginPage() {
           </div>
         </CardContent>
         <CardFooter className="flex flex-col space-y-4">
-          <Button className="w-full" onClick={handleLogin}>Log In</Button>
+          <Button className="w-full" onClick={handleLogin} disabled={spinner}>
+            {spinner ? 'Loading ...' : 'Log In'}
+          </Button>
+          {/* {error && <div className="text-red-500">{error}</div>} */}
+          <div className="text-red-500">{error}</div>
           <Button variant="outline" className="w-full mt-2 flex items-center justify-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 48 48">
               <path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C12.955 4 4 12.955 4 24s8.955 20 20 20s20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"/>
