@@ -36,12 +36,13 @@ import { ImportFile } from './import-file'
 import { UserDataFiles } from './user-data-files'
 import { useAuth} from '@/components/AuthContext';
 import { useEffect } from 'react'
+import Link from 'next/link'
 
 
 
 export function DashboardPage() {
 
-  const { user, token, loading , logout, validateToken } = useAuth();
+  const { user, token, loading , logout } = useAuth();
   const router = useRouter();
 
  
@@ -90,9 +91,16 @@ export function DashboardPage() {
     }
 
     if (token == undefined) {
-      
-      return <p>Loading token..</p>;
-      
+      return (
+        <div className="flex flex-col items-center justify-center p-4 bg-white shadow rounded-lg">
+          <p className="text-lg font-semibold text-gray-800 mb-2">Your session has expired ...  
+          <Link href="/" className="text-primary hover:underline text-lg font-semibold pl">
+          please login to continue
+          </Link>
+          </p>
+          
+        </div>
+      )
     }
   
 
@@ -193,7 +201,7 @@ export function DashboardPage() {
             <div className="grid grid-cols-1 gap-6 pb-6">
             <Card>
                 <CardHeader>
-                  <CardTitle>Your Current Health Score</CardTitle>
+                  <CardTitle>About</CardTitle>
                   <CardDescription>A snapshot of your overall wellness, updated in real-time. The higher the score, the closer you are to optimal health!</CardDescription>
                 </CardHeader>
                 <CardContent>

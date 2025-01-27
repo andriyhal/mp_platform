@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Line } from 'react-chartjs-2'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -21,7 +20,9 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import 'chartjs-adapter-moment';
-import { CheckCircle, XCircle } from 'lucide-react'
+import { CheckCircle, XCircle , TriangleAlert } from 'lucide-react'
+import Image from 'next/image'
+import TrendGraph from './trend-graph'
 
 ChartJS.register(
   CategoryScale,
@@ -39,61 +40,71 @@ const parameters = [
     value: 'height', 
     label: 'Height (cm)', 
     about: 'The vertical length of a person measured in centimeters.', 
-    why: 'Height is used as a baseline to calculate body proportions and assess growth patterns or abnormalities.'
+    why: 'Height is used as a baseline to calculate body proportions and assess growth patterns or abnormalities.',
+    averageValue: 175 // Example average value
   },
   { 
     value: 'weight', 
     label: 'Weight (kg)', 
     about: 'The body mass of a person measured in kilograms.', 
-    why: 'Weight is a critical factor in determining overall health, body composition, and calculating BMI.'
+    why: 'Weight is a critical factor in determining overall health, body composition, and calculating BMI.',
+    averageValue: 70 // Example average value
   },
   { 
     value: 'waistCircumference', 
     label: 'Waist Circumference (inches)', 
     about: 'The measurement of the waistline around the abdomen.', 
-    why: 'Waist circumference is an indicator of abdominal fat, which is closely linked to cardiovascular risk and metabolic disorders.'
+    why: 'Waist circumference is an indicator of abdominal fat, which is closely linked to cardiovascular risk and metabolic disorders.',
+    averageValue: 32 // Example average value
   },
   { 
     value: 'bloodPressureSystolic', 
     label: 'Blood Pressure (Systolic)', 
     about: 'The top number in a blood pressure reading, indicating the pressure in arteries when the heart beats.', 
-    why: 'High systolic blood pressure is a major risk factor for cardiovascular disease and stroke.'
+    why: 'High systolic blood pressure is a major risk factor for cardiovascular disease and stroke.',
+    averageValue: 120 // Example average value
   },
   { 
     value: 'bloodPressureDiastolic', 
     label: 'Blood Pressure (Diastolic)', 
     about: 'The bottom number in a blood pressure reading, showing the pressure in arteries when the heart is at rest.', 
-    why: 'Elevated diastolic pressure can indicate poor vascular health and an increased risk of heart disease.'
+    why: 'Elevated diastolic pressure can indicate poor vascular health and an increased risk of heart disease.',
+    averageValue: 80 // Example average value
   },
   { 
     value: 'fastingBloodGlucose', 
     label: 'Fasting Blood Glucose (mg/dL)', 
     about: 'The level of glucose in the blood after a person has not eaten for at least 8 hours.', 
-    why: 'Fasting blood glucose helps assess insulin function and detect diabetes or prediabetes.'
+    why: 'Fasting blood glucose helps assess insulin function and detect diabetes or prediabetes.',
+    averageValue: 100 // Example average value
   },
   { 
     value: 'hdlCholesterol', 
     label: 'HDL Cholesterol (mg/dL)', 
     about: 'High-density lipoprotein cholesterol, also known as "good cholesterol."', 
-    why: 'Higher HDL levels are associated with a reduced risk of heart disease as it helps remove excess cholesterol from the bloodstream.'
+    why: 'Higher HDL levels are associated with a reduced risk of heart disease as it helps remove excess cholesterol from the bloodstream.',
+    averageValue: 60 // Example average value
   },
   { 
     value: 'triglycerides', 
     label: 'Triglycerides (mg/dL)', 
     about: 'A type of fat found in the blood, derived from consumed calories not immediately used for energy.', 
-    why: 'Elevated triglycerides are linked to an increased risk of heart disease and metabolic syndrome.'
+    why: 'Elevated triglycerides are linked to an increased risk of heart disease and metabolic syndrome.',
+    averageValue: 150 // Example average value
   },
   { 
     value: 'vitaminD2', 
     label: '25-Hydroxyvitamin D2 (nmol/L)', 
     about: 'A form of vitamin D derived from plant-based sources or supplements.', 
-    why: 'Vitamin D2 levels help assess overall vitamin D status and bone health.'
+    why: 'Vitamin D2 levels help assess overall vitamin D status and bone health.',
+    averageValue: 50 // Example average value
   },
   { 
     value: 'vitaminD3', 
     label: '25-Hydroxyvitamin D3 (nmol/L)', 
     about: 'A form of vitamin D synthesized by the skin when exposed to sunlight or obtained from animal-based sources.', 
-    why: 'Vitamin D3 plays a crucial role in calcium absorption, bone health, and immune system function.'
+    why: 'Vitamin D3 plays a crucial role in calcium absorption, bone health, and immune system function.',
+    averageValue: 75 // Example average value
   }
 ];
 
@@ -141,54 +152,40 @@ export function HealthDataChart(props: {parameter : {name : string , value: numb
     fetchHealthData()
   }, [selectedParameter])
 
-  const data = {
-    labels: chartData.dates,
-    datasets: [
-      {
-        label: parameters.find(p => p.value === selectedParameter)?.label || selectedParameter,
-        data: chartData.values,
-        fill: false,
-        borderColor: 'rgb(75, 192, 192)',
-        tension: 0.1
-      }
-    ]
-  }
-
-  const options = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        position: 'top' as const,
-      },
-      title: {
-        display: true,
-        text: 'Health Data Over Time'
-      }
-    },
-    scales: {
-      x: {
-        ticks: {
-            maxRotation: 90,
-            minRotation: 90
-        },
-      
-        type: 'time',
-        time: {
-            unit: 'day',
-            displayFormats: {
-              day: 'YYYY-MM-DD HH:mm:ss'
-            },
+  useEffect(() => {
+    const fetchEstimateHealthData = async () => {
+      try {
+        const userId = localStorage.getItem('userEmail') || 'test'
+       
+        //console.log(props)
+        const token = localStorage.getItem('token')
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROOT}/average-health-metrics` , {
+          headers: {
+            'Authorization': `Bearer ${token}`
           }
-        },
-      y: {
-        beginAtZero: false
+        })
+       
+        if (!response.ok) {
+          throw new Error('Failed to fetch health data')
+        }
+
+        const data = await response.json()
+        if (data) {
+            parameters.forEach((param) => {
+              param.averageValue = data[param.value];
+            });
+        }
+      } catch (error) {
+        console.error('Error fetching health data:', error)
+      
       }
     }
-  }
+
+    fetchEstimateHealthData()
+  }, [])
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 overflow-auto h-screen p-6" style={{ height: '80vh'  }} >
       {/* <Select
         value={selectedParameter}
         onValueChange={setSelectedParameter}
@@ -216,7 +213,12 @@ export function HealthDataChart(props: {parameter : {name : string , value: numb
       ) : (
         <>
         <div className="grid grid-cols-1 gap-6 pb-6">
-          <div className="grid grid-cols-3 gap-6 pb-6">
+          <div className="grid grid-cols-1 gap-6 pb-6">
+            <Image src="/images/blood_sample.png" alt="Blood Sample" width={300}  height={24}/>
+            
+          </div>
+
+          {/* <div className="grid grid-cols-3 gap-6 pb-6">
             <div>
             <span className="font-bold">{props.parameter.value} </span>
                 
@@ -233,7 +235,32 @@ export function HealthDataChart(props: {parameter : {name : string , value: numb
                 )}
             </div>
            
+          </div> */}
+           <div className={`flex items-center justify-between p-4 rounded-lg shadow-md ${props.parameter.inRange ? 'bg-green-50' : 'bg-red-50'}`}>
+            
+            <div className="flex items-center">
+              <div className={`flex items-center justify-center w-32 h-16 text-2xl font-bold rounded-lg ${props.parameter.inRange ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-600'}`}>
+                {props.parameter.value}
+                
+              </div>
+              <div className="ml-4">
+                <h4 className="text-gray-800 font-semibold">{parameters.find(param => param.value === props.parameter.name)?.label || props.parameter.name} </h4>
+                <p className="text-sm text-muted-foreground">Healthy range: {props.parameter.min_range} - {props.parameter.max_range}</p>
+              </div>
+            </div>
+
+            
+            <div className="flex items-center">
+              
+              {props.parameter.inRange ? (
+                  <CheckCircle className="w-5 h-5 text-green-500" /> 
+                ) : (
+                  <TriangleAlert  className="w-5 h-5 text-red-500" />
+                )}
+              
+            </div>
           </div>
+
         </div>
         <div className="grid grid-cols-1 gap-6 pb-6">
           <div className="flex justify-between space-x-4">
@@ -273,13 +300,15 @@ export function HealthDataChart(props: {parameter : {name : string , value: numb
           <p>This is where you add your warning text</p>
         </div>
         <div className="grid grid-cols-2 gap-6">
-          <div className="w-[300px] h-[300px]">
-            <Line data={data} options={options} />
+         
+        <div className="w-[400px] h-[600px]">
+            {/* <Line data={data} options={options} /> */}
+            <TrendGraph chartData={chartData}/>
           </div>
-          
           <div>
             <h2>Average Value</h2>
-            <p>The average value is this </p>
+            <p>The average value for someone with your age, gender and weight is: </p>
+            <p>{parameters.find(param => param.value === props.parameter.name)?.averageValue || props.parameter.name} </p>
           </div>
           
         </div>

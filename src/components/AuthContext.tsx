@@ -8,7 +8,7 @@ interface AuthContextType {
   loading: boolean;
   login: (credentials: any) => Promise<void>;
   logout: () => void;
-  validateToken: () => void;
+  
 }
 
 // Create context with the type and initial value
@@ -18,7 +18,7 @@ const AuthContext = createContext<AuthContextType>({
   loading: true,
   login: async () => {},
   logout: () => {},
-  validateToken: async () => {},
+  
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
@@ -128,7 +128,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setToken(newToken);
     } catch (error) {
       console.error('Token validation failed:', error);
+      
       logout();
+      throw error; // Re-throw error to be handled in the UI
     }
   };
 
@@ -138,7 +140,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, [token]);
 
   return (
-    <AuthContext.Provider value={{ user, token, loading, login, logout ,  validateToken }}>
+    <AuthContext.Provider value={{ user, token, loading, login, logout  }}>
       {children}
     </AuthContext.Provider>
   );

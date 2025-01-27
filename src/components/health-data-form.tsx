@@ -131,13 +131,13 @@ export function HealthDataForm(props: { group: "all" | "basic", fetchLast: 'true
             height: Number(props.initialData.height) ?? 170,
             weight: Number(props.initialData.weight) ?? 70,
             waistCircumference: Number(props.initialData.waist) ?? 32,
-            bloodPressureSystolic: Number(data.avgSystolic) ?? 120,
-            bloodPressureDiastolic: Number(data.avgDiastolic) ?? 80,
-            fastingBloodGlucose: Number(data.avgGlucose) ?? 100,
-            hdlCholesterol: Number(data.avgHDL) ?? 50,
-            triglycerides: Number(data.avgTriglycerides) ?? 150,
-            vitaminD2: Number(data.avgVitaminD2) ?? 50,
-            vitaminD3: Number(data.avgVitaminD3) ?? 50,
+            bloodPressureSystolic:  Number(data.bloodPressureSystolic ) ?? 120,
+            bloodPressureDiastolic: Number(data.bloodPressureDiastolic ) ?? 80,
+            fastingBloodGlucose:    Number(data.fastingBloodGlucose   ) ?? 100,
+            hdlCholesterol:         Number(data.hdlCholesterol        ) ?? 50,
+            triglycerides:          Number(data.triglycerides         ) ?? 150,
+            vitaminD2:              Number(data.vitaminD2             ) ?? 50,
+            vitaminD3:              Number(data.vitaminD3             ) ?? 50,
 
           })
 
