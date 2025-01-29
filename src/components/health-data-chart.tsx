@@ -111,7 +111,7 @@ const parameters = [
 
 export function HealthDataChart(props: {parameter : {name : string , value: number , max_range: number , min_range: number, inRange : boolean} }  ) {
   const [selectedParameter, setSelectedParameter] = useState(props.parameter.name || 'weight')
-  const [chartData, setChartData] = useState<{dates: string[], values: number[]}>({
+  const [chartData, setChartData] = useState<{dates: Date[], values: number[]}>({
     dates: [],
     values: []
   })

@@ -37,6 +37,7 @@ import { UserDataFiles } from './user-data-files'
 import { useAuth} from '@/components/AuthContext';
 import { useEffect } from 'react'
 import Link from 'next/link'
+import { toast } from '@/hooks/use-toast'
 
 
 
@@ -81,6 +82,43 @@ export function DashboardPage() {
 
     }, [token]);
 
+    // Add new effect to check for health data
+    useEffect(() => {
+      const checkHealthData = async () => {
+        if (!token || token === 'missing') return;
+        
+        try {
+          const userId = localStorage.getItem('userEmail') || 'test';
+          const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROOT}/get-health-data?userId=${userId}`, {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          });
+          
+          
+
+          if (!response.ok) {
+            setShowOnboardingDialog(true);
+            //throw new Error('Error hook checking health data')
+
+          }
+
+          const data = await response.json();
+  
+          
+          // If no health data is found, show onboarding dialog
+          // if (!data || Object.keys(data).length === 0) {
+          //   setShowOnboardingDialog(true);
+          // }
+        } catch (error) {
+          console.error('Error hook checking health data:', error);
+          
+        }
+      };
+
+      checkHealthData();
+    }, [token]);
+
     if (loading) {
       return <p>Loading user...</p>;
     }
@@ -106,6 +144,9 @@ export function DashboardPage() {
 
   const handleOnBoardingFinish = () => {
     setShowOnboardingDialog(false)
+    //router.push('/dashboard')
+    console.log('performing a refresh')
+    location.reload();
   }
 
   const renderContent = () => {
@@ -226,6 +267,7 @@ export function DashboardPage() {
             <div className="grid grid-cols-2 gap-6">
               
               {/* Top Left: Health Score Meter */}
+              
               <Card>
                 <CardHeader>
                   <CardTitle>Your Health Score</CardTitle>
@@ -270,6 +312,7 @@ export function DashboardPage() {
                   </div>
                 </CardContent>
               </Card>
+              
 
              
               
@@ -287,7 +330,7 @@ export function DashboardPage() {
               
 
               {/* Bottom Right: Recommendations */}
-              <Card>
+              {/* <Card>
                 <CardHeader>
                   <CardTitle>Health Recommendations</CardTitle>
                   <CardDescription>Personalized health insights</CardDescription>
@@ -314,7 +357,7 @@ export function DashboardPage() {
                     </div>
                   </div>
                 </CardContent>
-              </Card>
+              </Card> */}
 
                {/* Bottom Left: Profile Edit */}
                <Card>
@@ -344,7 +387,7 @@ export function DashboardPage() {
           <DialogContent className="w-3/4 max-w-6xl" >
             <DialogHeader>
               <DialogTitle>Onboarding</DialogTitle>
-              <DialogDescription>Enter some health data to get started</DialogDescription>
+              <DialogDescription>Thank you for signing up.  To get started please enter some key health data so we can start to build your health profile.</DialogDescription>
             </DialogHeader>
             <OnboardingFormComponent handleOnBoardingFinish={handleOnBoardingFinish} />
           </DialogContent>
@@ -397,20 +440,17 @@ function HealthDataView() {
 }
 
 function HealthScoreView() {
+  const { user } = useAuth();
   return (
     <Card>
       <CardHeader>
         <CardTitle>Your Health Score</CardTitle>
         <CardDescription>
-          Current health assessment for { user.name || 'User'}
-
-          
+          Current health score for {user?.name || 'User'}
         </CardDescription>
       </CardHeader>
       <CardContent>
-        {/* <HealthScore /> */}
-        <CurrentStats />
-
+         <HealthScore /> 
         
       </CardContent>
       <CardFooter>

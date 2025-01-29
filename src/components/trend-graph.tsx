@@ -73,6 +73,8 @@ const TrendGraph = ({ chartData }: { chartData: ChartDataProps }) => {
     ],
   };
 
+  //console.log(data)
+
   const options = {
     responsive: true,
     plugins: {
@@ -87,10 +89,12 @@ const TrendGraph = ({ chartData }: { chartData: ChartDataProps }) => {
         },
         type: 'time',
         time: {
-            unit: 'day',
+            unit: activeTab === "12 months" ? 'day' : activeTab === "30 Days" ? 'day' : activeTab === "7 Days" ? 'minute' : 'minute',
+            
             displayFormats: {
-                day: 'YYYY-MM-DD HH:mm:ss'
-            },
+              day: 'YYYY-MM-DD',
+              minute: 'HH:mm:ss'
+          }
         },
         
       },

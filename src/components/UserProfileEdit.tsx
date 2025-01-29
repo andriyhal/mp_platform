@@ -39,7 +39,7 @@ const formSchema = z.object({
 })
 
 export function UserProfileEdit(props: { action: "edit" | "add" }) {
-  const router = useRouter()
+  //const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
 
@@ -115,7 +115,7 @@ export function UserProfileEdit(props: { action: "edit" | "add" }) {
         title: "Success",
         description: "Your profile has been updated successfully.",
       })
-      router.push('/dashboard') // Redirect to dashboard after successful update
+      //router.push('/dashboard') // Redirect to dashboard after successful update
     } catch (error) {
       console.error('Error updating user profile:', error)
       toast({
@@ -135,7 +135,7 @@ export function UserProfileEdit(props: { action: "edit" | "add" }) {
           <div>Loading...</div>
         ) : (
           <>
-            <FormField
+            {/* <FormField
               control={form.control}
               name="userId"
               render={({ field }) => (
@@ -148,7 +148,7 @@ export function UserProfileEdit(props: { action: "edit" | "add" }) {
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
             <FormField
               control={form.control}
               name="sex"
@@ -192,7 +192,7 @@ export function UserProfileEdit(props: { action: "edit" | "add" }) {
           {isSubmitting ? 'Saving...' : props.action === 'add' ? 'Add Profile' : 'Save Profile'}
         </Button>
       </form>
-      <Toaster />
+      {/* <Toaster /> */}
     </Form>
   )
 }

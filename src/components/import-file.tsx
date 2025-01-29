@@ -119,7 +119,7 @@ export function ImportFile() {
           {isSubmitting ? 'Submitting...' : 'Upload Data'}</Button>
       </CardFooter>
     </Card>
-        <Toaster />
+        {/* <Toaster /> */}
         <Dialog open={showDialog} onOpenChange={setShowDialog}>
         <DialogContent className="w-full">
           <DialogHeader>

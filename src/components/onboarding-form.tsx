@@ -20,7 +20,7 @@ export function OnboardingFormComponent({ handleOnBoardingFinish }: { handleOnBo
     height: 170,
     waist: 80, // Added waist circumference with default value
   })
-  const [bmi, setBMI] = useState(0)
+  
 
   
   const updateFormData = (field: string, value: string | number) => {
@@ -36,18 +36,14 @@ export function OnboardingFormComponent({ handleOnBoardingFinish }: { handleOnBo
     if (step > 1) setStep(step - 1)
   }
 
-  const calculateBMI = (weight: number, height: number): number => {
-    const heightInMeters = height / 100
-    return Number((weight / (heightInMeters * heightInMeters)).toFixed(1))
-  }
+  
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    const calculatedBMI = calculateBMI(formData.weight, formData.height)
-    setBMI(calculatedBMI)
+    
     setStep(step + 1)
     // setShowBMIDialog(true)
-    console.log('Form submitted:', formData, 'BMI:', calculatedBMI)
+    //console.log('Form submitted:', formData, 'BMI:', calculatedBMI)
     // Here you would typically send the data to your backend
   }
 
@@ -61,7 +57,7 @@ export function OnboardingFormComponent({ handleOnBoardingFinish }: { handleOnBo
         <CardContent>
           <div>
             {step === 1 && (
-              <UserProfileEdit action='add' />
+              <UserProfileEdit action='edit' />
             )}
 
             
@@ -138,19 +134,7 @@ export function OnboardingFormComponent({ handleOnBoardingFinish }: { handleOnBo
               <div className="py-4">
               <p className="text-sm font-semibold">Based on your information, we're creating a personalized health journey
               just for you. Let's get started on your path to wellness.</p>
-              <p className="text-lg font-semibold text-center">Your BMI is: <span className={`${
-                bmi < 18.5 ? 'text-yellow-500' :
-                bmi >= 18.5 && bmi < 25 ? 'text-green-500' :
-                bmi >= 25 && bmi < 30 ? 'text-orange-500' :
-                'text-red-500'
-              }`}>{bmi}</span></p>
-              <p className="text-sm text-gray-500 mt-2 text-center">
-                BMI Categories:<br />
-                Underweight: &lt;18.5<br />
-                Normal weight: 18.5-24.9<br />
-                Overweight: 25-29.9<br />
-                Obesity: ≥30
-              </p>
+              
   
               <p className="text-lg font-semibold text-center">
               <Button onClick={() => handleOnBoardingFinish }>Go to Dashboard</Button>
