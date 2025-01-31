@@ -139,7 +139,7 @@ export function HealthScore() {
             </table>
           </div>
     
-          <div>
+          {/* <div>
             <h2 className="text-xl font-semibold mb-2">Health Supplements</h2>
             <table className="w-full border-collapse border border-gray-300">
               <thead>
@@ -159,7 +159,7 @@ export function HealthScore() {
                 ))}
               </tbody>
             </table>
-          </div>
+          </div> */}
         </div>
         )}
         {/* <Toaster /> */}

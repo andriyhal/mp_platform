@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { User, BarChart2, FileUp, Menu, Clipboard , Medal, Mail, FileText, Lock , ChartLine } from 'lucide-react'
+import { User, BarChart2, FileUp, Menu, Clipboard , Medal, Mail, FileText, Lock , ChartLine ,HomeIcon, ShoppingCartIcon, HeartPulseIcon , Code2Icon} from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { useRouter } from 'next/navigation'
@@ -38,6 +38,9 @@ import { useAuth} from '@/components/AuthContext';
 import { useEffect } from 'react'
 import Link from 'next/link'
 import { toast } from '@/hooks/use-toast'
+import HealthJourneyCards from './HealthJourneyCards'
+import ProductRecommendations from './ProductRecommendations'
+import HealthExpertConsultation from './HealthExpertConsultation'
 
 
 
@@ -55,15 +58,24 @@ export function DashboardPage() {
   
 
   const menuItems = [
+    { id: 'dashboard', label: 'Dashboard', icon: HomeIcon },
+    { id: 'journey', label: 'My Health Journey', icon: BarChart2 },
+    { id: 'network', label: 'Provider Network', icon: HeartPulseIcon },
+    { id: 'marketplace', label: 'Marketplace', icon: ShoppingCartIcon },
+    { id: 'orders', label: 'My Orders', icon: FileText },
+    
     { id: 'profile', label: 'View Profile', icon: User },
+    { id: 'notifications', label: 'Notifications', icon: Mail },
+    { id: 'security', label: 'Password and Security', icon: Lock },
+    { id: 'documents', label: 'My Documents', icon: FileText },
+
+    //Below is test links
+    { id: 'break', label: '-----------', icon: Code2Icon },
     { id: 'healthData', label: 'Health Data', icon: BarChart2 },
     { id: 'uploadFile', label: 'Upload File', icon: FileUp },
     // { id: 'onboarding', label: 'Onboarding', icon: Clipboard },
     { id: 'healthScore', label: 'Health Score', icon: Medal },
     { id: 'currentStats', label: 'Current Health Data', icon: ChartLine  },
-    { id: 'notifications', label: 'Notifications', icon: Mail },
-    { id: 'security', label: 'Password and Security', icon: Lock },
-    { id: 'documents', label: 'My Documents', icon: FileText },
   ]
 
 
@@ -74,10 +86,10 @@ export function DashboardPage() {
       // If no token or user, redirect to the login page
       if (!token) {
         //router.push('/');
-        console.log('debug2', user, token, loading)
+        //console.log('debug2', user, token, loading)
       }else{
         
-        console.log('debug3', user,token, loading)
+        //console.log('debug3', user,token, loading)
       }
 
     }, [token]);
@@ -171,7 +183,7 @@ export function DashboardPage() {
             <CardDescription>See your health files</CardDescription>
           </CardHeader>
           <CardContent>
-            <UserDataFiles UserID={user.id || 'User'} />
+            <UserDataFiles UserID={user ? user.id : 'User'} />
           </CardContent>
         </Card>
         )
@@ -228,7 +240,7 @@ export function DashboardPage() {
         <div className="flex-1 overflow-auto">
           <header className="bg-white shadow">
             <div className="flex items-center justify-between px-4 py-6 sm:px-6 lg:px-8">
-              <h1 className="text-3xl font-bold text-gray-900">Dashboard for {user.name}</h1>
+              <h1 className="text-3xl font-bold text-gray-900">Dashboard for {user ? user.name : 'User'}</h1>
               <SidebarTrigger>
                 <Button variant="outline" size="icon" className="lg:hidden">
                   <Menu className="h-6 w-6" />
@@ -272,7 +284,7 @@ export function DashboardPage() {
                 <CardHeader>
                   <CardTitle>Your Health Score</CardTitle>
                   <CardDescription>
-                    Current health assessment for {user.name || 'User'}
+                    Current health assessment for {user ? user.name : 'User'}
 
                     
                   </CardDescription>
@@ -360,15 +372,11 @@ export function DashboardPage() {
               </Card> */}
 
                {/* Bottom Left: Profile Edit */}
-               <Card>
-                <CardHeader>
-                  <CardTitle>Profile Information</CardTitle>
-                  <CardDescription>Manage your personal details</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <UserProfileEdit action="edit" />
-                </CardContent>
-              </Card>
+               <HealthJourneyCards />
+
+               <ProductRecommendations />
+
+               <HealthExpertConsultation />
 
               {/* Sidebar Content */}
               {renderContent()} 
