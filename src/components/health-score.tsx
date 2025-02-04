@@ -70,9 +70,18 @@ export function HealthScore() {
         <CircularProgressbar 
             value={jsonObj.score || 0} 
             text={`${jsonObj.score}%`}
+            circleRatio={0.5}
             styles={{
             path: { 
-                stroke: `rgb(${255 - (jsonObj.score * 2.55)}, ${jsonObj.score * 2.55}, 0)` 
+                stroke: `rgb(${255 - (jsonObj.score * 2.55)}, ${jsonObj.score * 2.55}, 0)` ,
+                transform: 'rotate(-0.25turn)',
+                transformOrigin: 'center center',
+            },
+            trail: {
+              
+              // Rotate the trail
+              transform: 'rotate(-0.25turn)',
+              transformOrigin: 'center center',
             },
             text: { 
                 fill: `rgb(${255 - (jsonObj.score * 2.55)}, ${jsonObj.score * 2.55}, 0)`,
