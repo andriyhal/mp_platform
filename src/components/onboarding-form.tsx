@@ -137,7 +137,7 @@ export function OnboardingFormComponent({ handleOnBoardingFinish }: { handleOnBo
               
   
               <p className="text-lg font-semibold text-center">
-              <Button onClick={() => handleOnBoardingFinish }>Go to Dashboard</Button>
+              <Button onClick={ handleOnBoardingFinish }>Go to Dashboard</Button>
               </p>
               <img src="/images/all_set.png" alt="All Set" className="w-full my-auto" />
             </div>

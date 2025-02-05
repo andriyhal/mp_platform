@@ -235,12 +235,12 @@ export function HealthDataForm(props: { group: "all" | "basic", fetchLast: 'true
           Last updated: {lastUpdateDate}
         </p>
       )}
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
         <FormField
           control={form.control}
           name="height"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className=''>
               <div className='grid grid-cols-2 items-center'>
               <FormLabel>Height (cm)</FormLabel>
               <FormControl>

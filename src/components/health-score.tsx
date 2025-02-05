@@ -40,14 +40,14 @@ export function HealthScore() {
           throw new Error('Data is not in the correct format');
         }
         const parsedData = JSON.parse(data);
-        console.log('Health Score Data:', parsedData)
+        //console.log('Health Score Data:', parsedData)
         setBMI(parsedData.bmi || null)
         setLastUpdateDate(parsedData.lastUpdate || null)
         setScoreDetails(parsedData.description || null)
         setJsonObj(parsedData)
         
       } catch (error) {
-        console.error('Error fetching health score:', error)
+        //console.error('Error fetching health score:', error)
         toast({
           title: "Error",
           description: "Failed to fetch latest health score",
