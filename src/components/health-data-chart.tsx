@@ -12,15 +12,9 @@ import {
   TimeScale,
   Legend
 } from 'chart.js'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
+
 import 'chartjs-adapter-moment';
-import { CheckCircle, XCircle , TriangleAlert } from 'lucide-react'
+import { CheckCircle, TriangleAlert } from 'lucide-react'
 import Image from 'next/image'
 import TrendGraph from './trend-graph'
 
@@ -116,6 +110,11 @@ export function HealthDataChart(props: {parameter : {name : string , value: numb
     values: []
   })
   const [isLoading, setIsLoading] = useState(true)
+
+  //to remove error
+  if(0){
+    setSelectedParameter('')
+  }
 
   useEffect(() => {
     const fetchHealthData = async () => {

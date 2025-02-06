@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation'
 
 // Add interface for the context type
 interface AuthContextType {
-  user: any | string | null;
+  user:  any | string | null;
   token: string | null;
   loading: boolean;
   login: (credentials: any) => Promise<void>;
@@ -22,7 +22,7 @@ const AuthContext = createContext<AuthContextType>({
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<any | string | null>(null);
+  const [user, setUser] = useState< any | string | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
  

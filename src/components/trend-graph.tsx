@@ -87,7 +87,11 @@ const TrendGraph = ({ chartData }: { chartData: ChartDataProps }) => {
         grid: {
           display: false,
         },
-        type: 'time',
+        ticks: {
+          maxRotation: 90,
+          minRotation: 90
+        },
+        type: 'time' ,
         time: {
             unit: activeTab === "12 months" ? 'day' : activeTab === "30 Days" ? 'day' : activeTab === "7 Days" ? 'minute' : 'minute',
             

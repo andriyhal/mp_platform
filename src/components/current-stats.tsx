@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 import { CheckCircle, XCircle } from 'lucide-react'
 import { HealthDataChart } from './health-data-chart'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { CircularProgressbar } from 'react-circular-progressbar'
 
 
 interface HealthData {

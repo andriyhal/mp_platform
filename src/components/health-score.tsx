@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import { CircularProgressbar } from 'react-circular-progressbar'
 import { useToast } from "@/hooks/use-toast"
-import { Toaster } from './ui/toaster'
 
 
 export function HealthScore() {
@@ -47,7 +46,7 @@ export function HealthScore() {
         setJsonObj(parsedData)
         
       } catch (error) {
-        //console.error('Error fetching health score:', error)
+        console.error('Error fetching health score:', error)
         toast({
           title: "Error",
           description: "Failed to fetch latest health score",
@@ -66,6 +65,8 @@ export function HealthScore() {
   return (
     <div>
         <div className="grid grid-cols-2 gap-6 items-center">
+        
+        {!isSubmitting && (
         <div className="w-3/4 p-6">
         <CircularProgressbar 
             value={jsonObj.score || 0} 
@@ -90,6 +91,7 @@ export function HealthScore() {
             }}
         />
         </div>
+        )}
 
         {bmi && (
           <div>

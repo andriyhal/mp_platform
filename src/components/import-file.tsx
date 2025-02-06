@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import {
     Card,
     CardContent,
@@ -12,7 +12,7 @@ import {
   import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
-import { Toaster } from './ui/toaster'
+
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { FileUp } from 'lucide-react'
 import { Input } from "@/components/ui/input"
@@ -78,8 +78,8 @@ export function ImportFile() {
         <Button onClick={async () => {
             setIsSubmitting(true)
           const formData = new FormData();
-          const fileInput = document.getElementById('dropzone-file');
-          if (fileInput.files && fileInput.files[0]) {
+          const fileInput = document.getElementById('dropzone-file') as HTMLInputElement;
+          if (fileInput && fileInput.files && fileInput.files[0]) {
             formData.append('file', fileInput.files[0]);
           }
           formData.append('UserID', localStorage.getItem('userEmail') || '');
@@ -108,6 +108,7 @@ export function ImportFile() {
               setShowDialog(true)
             
           } catch (error) {
+            console.log(error)
             setIsSubmitting(false)
             toast({
                 title: "Error uploading file",

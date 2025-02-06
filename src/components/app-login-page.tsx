@@ -11,14 +11,16 @@ import { useAuth } from '@/components/AuthContext';
 
 
 export default function LoginPage() {
-  const router = useRouter()
+ 
 
-  const [email, setEmail] = useState('tester@example.com')
-  const [password, setPassword] = useState('password')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  // const [email, setEmail] = useState('tester@example.com')
+  // const [password, setPassword] = useState('password')
   const [spinner, setSpinner] = useState(false)
   const [error, setError] = useState('')
 
-  const { user, login } = useAuth();
+  const { login } = useAuth();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()

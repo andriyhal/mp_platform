@@ -2,12 +2,12 @@
 
 import React from "react";
 import { useState, useEffect } from 'react'
-import { User, TargetIcon ,HomeIcon, PlayIcon, HeartPulseIcon , Code2Icon, PillBottle, UtensilsCrossed , Sprout } from 'lucide-react'
+import { TargetIcon , PlayIcon,PillBottle, UtensilsCrossed , Sprout } from 'lucide-react'
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
+
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
@@ -45,15 +45,23 @@ import { useToast } from "@/hooks/use-toast"
 //   },
 // ];
 
+interface JourneyItem {
+  title: string;
+  description: string;
+  linkText: string;
+  icon: 'PlayIcon' | 'TargetIcon' | 'PillIcon' | 'MeatIcon' | 'LeafIcon';
+  iconColor: string;
+}
+
 export default function HealthJourneyCards() {
 
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  
   const [showAll, setShowAll] = useState(false)
-  const [data, setData] = useState([{
+  const [data, setData] = useState<JourneyItem[]>([{
     title: "Complete Daily Step Goal: 10,000 Steps",
     description: "Staying active helps regulate blood pressure and cholesterol levels.",
     linkText: "Go",
-    icon: TargetIcon ,
+    icon: 'TargetIcon',
     iconColor: "purple"
   }])
   const { toast } = useToast()
@@ -61,7 +69,7 @@ export default function HealthJourneyCards() {
   useEffect(() => {
     const fetchRecommendations = async () => {
       try {
-        setIsSubmitting(true)
+        
         const userId = localStorage.getItem('userEmail') || 'test'
         
         const token = localStorage.getItem('token')
@@ -92,7 +100,7 @@ export default function HealthJourneyCards() {
           variant: "destructive",
         })
       } finally {
-        setIsSubmitting(false)
+        
       }
     }
 

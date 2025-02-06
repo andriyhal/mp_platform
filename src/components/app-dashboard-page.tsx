@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { User, BarChart2, FileUp, Menu, Clipboard , Medal, Mail, FileText, Lock , ChartLine ,HomeIcon, ShoppingCartIcon, HeartPulseIcon , Code2Icon} from 'lucide-react'
+import { User, BarChart2, FileUp, Menu , Medal, Mail, FileText, Lock , ChartLine ,HomeIcon, ShoppingCartIcon, HeartPulseIcon , Code2Icon} from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { useRouter } from 'next/navigation'
@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/sidebar"
 import { OnboardingFormComponent } from './onboarding-form'
 import { HealthDataForm } from './health-data-form'
-import { HealthDataChart } from './health-data-chart'
+
 import { UserProfileEdit } from './UserProfileEdit'
 import 'react-circular-progressbar/dist/styles.css'
 import { HealthScore } from './health-score'
@@ -37,7 +37,7 @@ import { UserDataFiles } from './user-data-files'
 import { useAuth} from '@/components/AuthContext';
 import { useEffect } from 'react'
 import Link from 'next/link'
-import { toast } from '@/hooks/use-toast'
+
 import HealthJourneyCards from './HealthJourneyCards'
 import ProductRecommendations from './ProductRecommendations'
 import HealthExpertConsultation from './HealthExpertConsultation'
@@ -95,41 +95,7 @@ export function DashboardPage() {
     }, [token]);
 
     // Add new effect to check for health data
-    useEffect(() => {
-      const checkHealthData = async () => {
-        if (!token || token === 'missing') return;
-        
-        try {
-          const userId = localStorage.getItem('userEmail') || 'test';
-          const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROOT}/get-health-data?userId=${userId}`, {
-            headers: {
-              'Authorization': `Bearer ${token}`
-            }
-          });
-          
-          
-
-          if (!response.ok) {
-            setShowOnboardingDialog(true);
-            //throw new Error('Error hook checking health data')
-
-          }
-
-          const data = await response.json();
-  
-          
-          // If no health data is found, show onboarding dialog
-          // if (!data || Object.keys(data).length === 0) {
-          //   setShowOnboardingDialog(true);
-          // }
-        } catch (error) {
-          console.error('Error hook checking health data:', error);
-          
-        }
-      };
-
-      checkHealthData();
-    }, [token]);
+    
 
     if (loading) {
       return <p>Loading user...</p>;

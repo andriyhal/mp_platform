@@ -55,6 +55,7 @@ export function UserDataFiles({ UserID }: UserDataFilesProps) {
       const data = await response.json()
       setFiles(data)
     } catch (err) {
+      console.log(err)
       setError('Failed to load data files. Please try again.')
       toast({
         title: "Error",

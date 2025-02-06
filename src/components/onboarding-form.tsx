@@ -132,8 +132,8 @@ export function OnboardingFormComponent({ handleOnBoardingFinish }: { handleOnBo
             )}
             {step==4 && (
               <div className="py-4">
-              <p className="text-sm font-semibold">Based on your information, we're creating a personalized health journey
-              just for you. Let's get started on your path to wellness.</p>
+              <p className="text-sm font-semibold">Based on your information, we&apos;re creating a personalized health journey
+              just for you. Let&apos;s get started on your path to wellness.</p>
               
   
               <p className="text-lg font-semibold text-center">

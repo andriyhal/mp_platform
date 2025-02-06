@@ -1,10 +1,9 @@
 import React from "react";
-import { User, TargetIcon ,HomeIcon, PlayIcon, HeartPulseIcon , Code2Icon} from 'lucide-react'
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
+ 
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
