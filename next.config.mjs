@@ -13,6 +13,9 @@ const nextConfig = {
     //     // !! WARN !!
     //     ignoreBuildErrors: true,
     //   },
+    // images: {
+    //     unoptimized: true,
+    //   },
 };
 
 export default nextConfig;

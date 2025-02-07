@@ -41,7 +41,7 @@ import Link from 'next/link'
 import HealthJourneyCards from './HealthJourneyCards'
 import ProductRecommendations from './ProductRecommendations'
 import HealthExpertConsultation from './HealthExpertConsultation'
-
+import { Toaster } from './ui/toaster'
 
 
 export function DashboardPage() {
@@ -367,7 +367,7 @@ export function DashboardPage() {
           </DialogContent>
         </Dialog>
 
-
+<Toaster />
               
             </div>
           </main>
