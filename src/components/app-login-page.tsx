@@ -1,8 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -12,15 +12,17 @@ import { useAuth } from '@/components/AuthContext';
 
 export default function LoginPage() {
  
+ 
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  // const [email, setEmail] = useState('tester@example.com')
-  // const [password, setPassword] = useState('password')
+  const [email, setEmail] = useState(process.env.NEXT_PUBLIC_LOGIN_AUTOCOMPLETE_USER ?? '')
+  const [password, setPassword] = useState(process.env.NEXT_PUBLIC_LOGIN_AUTOCOMPLETE_PASSWORD ?? '')
+ 
   const [spinner, setSpinner] = useState(false)
   const [error, setError] = useState('')
 
   const { login } = useAuth();
+
+
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -28,7 +30,7 @@ export default function LoginPage() {
     setError('')
     try {
       // Store email in localStorage
-      localStorage.setItem('userEmail', email)
+      localStorage.setItem('userEmail', email )
       // Here you would typically validate the credentials
      
       await login({ email: email, password: password })

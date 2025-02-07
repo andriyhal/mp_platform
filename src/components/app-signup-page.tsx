@@ -53,6 +53,17 @@ export function SignUpPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    if(process.env.NEXT_PUBLIC_DISABLE_SIGNUP == 'true'){
+      
+        toast({
+          title: "Sign up is currently disabled",
+          description: 'Failed to register user',
+          variant: "destructive",
+        })
+        return
+    }
+
     if (validateForm()) {
       console.log('Registering user:', formData)
       // Here you would typically send the data to your backend
