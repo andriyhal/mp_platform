@@ -38,7 +38,7 @@ const formSchema = z.object({
   }),
 })
 
-export function UserProfileEdit(props: { action: "edit" | "add" }) {
+export function UserProfileEdit(props: { action: "edit" | "add" ; onSuccess: () => void; } ) {
   //const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
@@ -115,6 +115,7 @@ export function UserProfileEdit(props: { action: "edit" | "add" }) {
         title: "Success",
         description: "Your profile has been updated successfully.",
       })
+      props.onSuccess() //trigger next step if onBoarding
       //router.push('/dashboard') // Redirect to dashboard after successful update
     } catch (error) {
       console.error('Error updating user profile:', error)

@@ -17,7 +17,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { FileUp } from 'lucide-react'
 import { Input } from "@/components/ui/input"
 
-export function ImportFile() {
+export function ImportFile(props: {  onSuccess: () => void; } ) {
   
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [showDialog, setShowDialog] = useState(false)
@@ -106,6 +106,7 @@ export function ImportFile() {
               setIsSubmitting(false)
               setResults(data.ocrText)
               setShowDialog(true)
+              props.onSuccess() //trigger next step if onBoarding
             
           } catch (error) {
             console.log(error)

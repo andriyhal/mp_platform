@@ -4,13 +4,34 @@ import { useState, useEffect } from 'react'
 import { CircularProgressbar } from 'react-circular-progressbar'
 import { useToast } from "@/hooks/use-toast"
 
+interface HealthScoreData {
+  score: number;
+  description: string;
+  lastUpdate: string;
+  waistCircumference: number;
+  bloodPressureSystolic: number;
+  bloodPressureDiastolic: number;
+  fastingBloodGlucose: number;
+  hdlCholesterol: number;
+  triglycerides: number;
+}
 
 export function HealthScore() {
   
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [bmi, setBMI] = useState(0)
   const [lastUpdateDate, setLastUpdateDate] = useState<string | null>(null)
-  const [jsonObj, setJsonObj] = useState<{score: number, description: string, lastUpdate: string, activity_recommendations: Array<any>, health_supplements: Array<any>}>({score: 0, description: '', lastUpdate: '', activity_recommendations: [], health_supplements: []})
+  const [jsonObj, setJsonObj] = useState<HealthScoreData>({
+    score: 0,
+    description: '',
+    lastUpdate: '',
+    waistCircumference: 0,
+    bloodPressureSystolic: 0,
+    bloodPressureDiastolic: 0,
+    fastingBloodGlucose: 0,
+    hdlCholesterol: 0,
+    triglycerides: 0
+  })
   const [scoreDetails, setScoreDetails] = useState<string | null>(null)
   const { toast } = useToast()
 
@@ -35,15 +56,16 @@ export function HealthScore() {
 
         const data = await response.json()
         
-        if (typeof data !== 'string') {
-          throw new Error('Data is not in the correct format');
-        }
-        const parsedData = JSON.parse(data);
+        // if (typeof data !== 'string') {
+        //   throw new Error('Data is not in the correct format');
+        // }
+        // const parsedData = JSON.parse(data);
+
         //console.log('Health Score Data:', parsedData)
-        setBMI(parsedData.bmi || null)
-        setLastUpdateDate(parsedData.lastUpdate || null)
-        setScoreDetails(parsedData.description || null)
-        setJsonObj(parsedData)
+        setBMI(data.bmi || null)
+        setLastUpdateDate(data.lastUpdate || null)
+        setScoreDetails(data.description || null)
+        setJsonObj(data)
         
       } catch (error) {
         console.error('Error fetching health score:', error)
@@ -60,7 +82,7 @@ export function HealthScore() {
     fetchHealthScore()
   }, [toast])
 
-  
+  //sample jsonObj = {"height":100,"weight":100,"waistCircumference":0,"bloodPressureSystolic":100,"bloodPressureDiastolic":100,"fastingBloodGlucose":80,"hdlCholesterol":80,"triglycerides":80,"vitaminD2":20,"vitaminD3":100,"score":76}
 
   return (
     <div>
@@ -93,7 +115,7 @@ export function HealthScore() {
         </div>
         )}
 
-        {bmi && (
+        {!isSubmitting && (
           <div>
               <p className="text-lg font-semibold text-center">Your BMI is: <span className={`${
                 bmi < 18.5 ? 'text-yellow-500' :
@@ -118,16 +140,17 @@ export function HealthScore() {
             Last updated: {lastUpdateDate}
             </p>
         )}
-        {scoreDetails && (
+
+        {/* {scoreDetails && (
             <p className="text-sm text-muted-foreground mb-4">
             {scoreDetails}
             </p>
-        )}
+        )} */}
         
-        {jsonObj && (
+        {!isSubmitting && (
           <div className="p-6">
           
-    
+          {/* 
           <div className="mb-8">
             <h2 className="text-xl font-semibold mb-2">Activity Recommendations</h2>
             <table className="w-full border-collapse border border-gray-300">
@@ -149,28 +172,50 @@ export function HealthScore() {
               </tbody>
             </table>
           </div>
+          */}
+
+        <div className="mb-8">
+          <h2 className="text-xl font-semibold mb-2">Score Breakdown</h2>
+          <table className="w-full border-collapse border border-gray-300">
+            <thead>
+              <tr className="bg-gray-200">
+                <th className="border border-gray-300 px-4 py-2">Metric</th>
+                <th className="border border-gray-300 px-4 py-2">Score</th>
+              </tr>
+            </thead>
+            <tbody>
+             
+              <tr>
+                <td className="border border-gray-300 px-4 py-2">Waist Heigth Ratio </td>
+                <td className="border border-gray-300 px-4 py-2">{jsonObj.waistCircumference}</td>
+              </tr>
+              <tr>
+                <td className="border border-gray-300 px-4 py-2">Blood Pressure (Systolic)</td>
+                <td className="border border-gray-300 px-4 py-2">{jsonObj.bloodPressureSystolic}</td>
+              </tr>
+              <tr>
+                <td className="border border-gray-300 px-4 py-2">Blood Pressure (Diastolic)</td>
+                <td className="border border-gray-300 px-4 py-2">{jsonObj.bloodPressureDiastolic}</td>
+              </tr>
+              <tr>
+                <td className="border border-gray-300 px-4 py-2">Fasting Blood Glucose (mg/dL)</td>
+                <td className="border border-gray-300 px-4 py-2">{jsonObj.fastingBloodGlucose}</td>
+              </tr>
+              <tr>
+                <td className="border border-gray-300 px-4 py-2">HDL Cholesterol (mg/dL)</td>
+                <td className="border border-gray-300 px-4 py-2">{jsonObj.hdlCholesterol}</td>
+              </tr>
+              <tr>
+                <td className="border border-gray-300 px-4 py-2">Triglycerides (mg/dL)</td>
+                <td className="border border-gray-300 px-4 py-2">{jsonObj.triglycerides}</td>
+              </tr>
+            
+
+            </tbody>
+          </table>
+        </div>
     
-          {/* <div>
-            <h2 className="text-xl font-semibold mb-2">Health Supplements</h2>
-            <table className="w-full border-collapse border border-gray-300">
-              <thead>
-                <tr className="bg-gray-200">
-                  <th className="border border-gray-300 px-4 py-2">Name</th>
-                  <th className="border border-gray-300 px-4 py-2">Benefits</th>
-                  <th className="border border-gray-300 px-4 py-2">Recommended Dosage</th>
-                </tr>
-              </thead>
-              <tbody>
-                {jsonObj.health_supplements.map((supplement, index) => (
-                  <tr key={index} className="hover:bg-gray-100">
-                    <td className="border border-gray-300 px-4 py-2">{supplement.name}</td>
-                    <td className="border border-gray-300 px-4 py-2">{supplement.benefits}</td>
-                    <td className="border border-gray-300 px-4 py-2">{supplement.recommendedDosage}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div> */}
+          
         </div>
         )}
         {/* <Toaster /> */}

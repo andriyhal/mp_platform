@@ -57,7 +57,7 @@ export function OnboardingFormComponent({ handleOnBoardingFinish }: { handleOnBo
         <CardContent>
           <div>
             {step === 1 && (
-              <UserProfileEdit action='edit' />
+              <UserProfileEdit action='edit' onSuccess={ () => {setStep(step + 1)}} />
             )}
 
             
@@ -112,7 +112,7 @@ export function OnboardingFormComponent({ handleOnBoardingFinish }: { handleOnBo
                       <CardDescription>Upload your health-related documents securely</CardDescription>
                     </CardHeader>
                     <CardContent>
-                      <HealthDataForm group='basic' fetchLast='false' initialData={formData}/>
+                      <HealthDataForm group='basic' fetchLast='false' initialData={formData} onSuccess={ () => {setStep(step + 1)}} />
                     </CardContent>
                   </Card>
                   </div>
@@ -120,7 +120,7 @@ export function OnboardingFormComponent({ handleOnBoardingFinish }: { handleOnBo
 <p > OR </p>
                   </div>
                   <div >
-<ImportFile />
+<ImportFile onSuccess={ () => {setStep(step + 1)}} />
                   </div>
                   
                   

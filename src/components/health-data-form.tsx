@@ -35,7 +35,7 @@ const formSchema = z.object({
 
 
 
-export function HealthDataForm(props: { group: "all" | "basic", fetchLast: 'true' | 'false', initialData: { name: string, email: string, dateOfBirth: string, gender: string, weight: number, height: number, waist: number }}) {
+export function HealthDataForm(props: { group: "all" | "basic", fetchLast: 'true' | 'false',  onSuccess: () => void ,  initialData: { name: string, email: string, dateOfBirth: string, gender: string, weight: number, height: number, waist: number }}) {
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [lastUpdateDate, setLastUpdateDate] = useState<string | null>(null)
@@ -214,6 +214,7 @@ export function HealthDataForm(props: { group: "all" | "basic", fetchLast: 'true
         title: "Success",
         description: "Your health data has been submitted successfully.",
       })
+      props.onSuccess() //trigger next step if onBoarding
       router.push('/dashboard') // Redirect to dashboard after successful submission
     } catch (error) {
       console.error('Error submitting health data:', error)
