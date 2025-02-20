@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { CircularProgressbar } from 'react-circular-progressbar'
 import { useToast } from "@/hooks/use-toast"
+import { Button } from "@/components/ui/button"
 
 interface HealthScoreData {
   score: number;
@@ -34,6 +35,7 @@ export function HealthScore() {
   })
   const [scoreDetails, setScoreDetails] = useState<string | null>(null)
   const { toast } = useToast()
+  const [showScoreBreakdown, setShowScoreBreakdown] = useState(false)
 
 
     
@@ -174,10 +176,12 @@ export function HealthScore() {
           </div>
           */}
 
-      
-        {/* <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-2">Score Breakdown</h2>
-          <table className="w-full border-collapse border border-gray-300">
+      <Button className="m-2" onClick={() => setShowScoreBreakdown(!showScoreBreakdown)}>{showScoreBreakdown ? 'Hide Breakdown' : 'Show Breakdown'}</Button>
+        
+        {showScoreBreakdown && (
+        <div className="mb-8">
+          
+          <table className="w-full border-collapse border border-gray-300 text-xs">
             <thead>
               <tr className="bg-gray-200">
                 <th className="border border-gray-300 px-4 py-2">Metric</th>
@@ -214,11 +218,12 @@ export function HealthScore() {
 
             </tbody>
           </table>
-        </div> */}
-    
-          
         </div>
         )}
+
+        </div>
+        )}
+
         {/* <Toaster /> */}
     </div>
   )
