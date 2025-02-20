@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { CheckCircle, XCircle } from 'lucide-react'
+import { CheckCircle, EllipsisVertical, XCircle } from 'lucide-react'
 import { HealthDataChart } from './health-data-chart'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 
@@ -21,16 +21,16 @@ interface HealthData {
 }
 
 const healthyRanges = {
-  height: { min: 150, max: 200 },
-  weight: { min: 45, max: 100 },
-  waistCircumference: { min: 20, max: 40 },
-  bloodPressureSystolic: { min: 90, max: 120 },
-  bloodPressureDiastolic: { min: 60, max: 80 },
-  fastingBloodGlucose: { min: 70, max: 100 },
-  hdlCholesterol: { min: 40, max: 60 },
-  triglycerides: { min: 50, max: 150 },
-  vitaminD2: { min: 20, max: 50 },
-  vitaminD3: { min: 20, max: 50 }
+  height: { min: 150, max: 200 , label:'Height', unit:'cm'},
+  weight: { min: 45, max: 100 , label:'Weight', unit:'kg'},
+  waistCircumference: { min: 20, max: 40 , label:'Waist Circumference', unit:'cm'},
+  bloodPressureSystolic: { min: 90, max: 120 , label:'Systolic', unit:'mmHg'},
+  bloodPressureDiastolic: { min: 60, max: 80 , label:'Diastolic', unit:'mmHg'},
+  fastingBloodGlucose: { min: 70, max: 100 , label:'Fasting Insulin', unit:'mg/dL'},
+  hdlCholesterol: { min: 40, max: 60 , label:'HDL Cholesterol', unit:'mg/dL'},
+  triglycerides: { min: 50, max: 150 , label:'Triglycerides', unit:'mg/dL'},
+  vitaminD2: { min: 20, max: 50 , label:'Vitamin D2', unit:'ng/mL'},
+  vitaminD3: { min: 20, max: 50 , label:'Vitamin D3', unit:'ng/mL'}
 }
 
 
@@ -107,19 +107,30 @@ export function CurrentStats() {
           
           return (
             <div key={key} className="flex items-center justify-between p-2 border rounded-lg">
-              <div onClick={() => { setShowChartDialog(true); setSelectedParameter({name : key , value: value , max_range: range.max , min_range: range.min, inRange : inRange}) }}>
-                <h3 className="font-medium">{key.replace(/([A-Z])/g, ' $1').trim()}</h3>
-                <p className="text-sm text-muted-foreground">
-                  Healthy range: {range.min} - {range.max}
-                </p>
+              <div className="flex " >
+                <h4 className="font-medium min-w-[150px] text-sm">{range.label}</h4>
+                
+                <span className={`inline-flex items-center rounded-md  px-2 py-1 text-xs font-medium  ring-1  ring-inset  ${inRange ? 'ring-green-600/20 text-green-700 rounded-md bg-green-50' : 'ring-red-600/20 text-red-700 rounded-md bg-red-50'}`}>Healthy range</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="font-bold">{value}</span>
-                {inRange ? (
+                <span className="font-bold">{value}</span><span className="text-xs">{range.unit}</span>
+                {/* {inRange ? (
                   <CheckCircle className="w-5 h-5 text-green-500" />
                 ) : (
                   <XCircle className="w-5 h-5 text-red-500" />
-                )}
+                )} */}
+              </div>
+              <div className=" " >
+                
+                <p className={`text-xs pl-2 `}>
+                  Recommended: 
+                </p>
+                <p className={`text-xs pl-2 `}>
+                   {range.min} - {range.max}
+                </p>
+              </div>
+              <div className="flex items-center gap-2" onClick={() => { setShowChartDialog(true); setSelectedParameter({name : key , value: value , max_range: range.max , min_range: range.min, inRange : inRange}) }}>
+                <EllipsisVertical />
               </div>
             </div>
           )

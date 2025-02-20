@@ -32,21 +32,24 @@ ChartJS.register(
 const parameters = [
   { 
     value: 'height', 
-    label: 'Height (cm)', 
+    label: 'Height', 
+    unit: 'cm',
     about: 'The vertical length of a person measured in centimeters.', 
     why: 'Height is used as a baseline to calculate body proportions and assess growth patterns or abnormalities.',
     averageValue: 175 // Example average value
   },
   { 
     value: 'weight', 
-    label: 'Weight (kg)', 
+    label: 'Weight', 
+    unit: 'kg',
     about: 'The body mass of a person measured in kilograms.', 
     why: 'Weight is a critical factor in determining overall health, body composition, and calculating BMI.',
     averageValue: 70 // Example average value
   },
   { 
     value: 'waistCircumference', 
-    label: 'Waist Circumference (inches)', 
+    label: 'Waist Circumference', 
+    unit: 'cm',
     about: 'The measurement of the waistline around the abdomen.', 
     why: 'Waist circumference is an indicator of abdominal fat, which is closely linked to cardiovascular risk and metabolic disorders.',
     averageValue: 32 // Example average value
@@ -54,6 +57,7 @@ const parameters = [
   { 
     value: 'bloodPressureSystolic', 
     label: 'Blood Pressure (Systolic)', 
+    unit: 'mmHg',
     about: 'The top number in a blood pressure reading, indicating the pressure in arteries when the heart beats.', 
     why: 'High systolic blood pressure is a major risk factor for cardiovascular disease and stroke.',
     averageValue: 120 // Example average value
@@ -61,41 +65,47 @@ const parameters = [
   { 
     value: 'bloodPressureDiastolic', 
     label: 'Blood Pressure (Diastolic)', 
+    unit: 'mmHg',
     about: 'The bottom number in a blood pressure reading, showing the pressure in arteries when the heart is at rest.', 
     why: 'Elevated diastolic pressure can indicate poor vascular health and an increased risk of heart disease.',
     averageValue: 80 // Example average value
   },
   { 
     value: 'fastingBloodGlucose', 
-    label: 'Fasting Blood Glucose (mg/dL)', 
+    label: 'Fasting Blood Glucose', 
+    unit: 'mg/dL',
     about: 'The level of glucose in the blood after a person has not eaten for at least 8 hours.', 
     why: 'Fasting blood glucose helps assess insulin function and detect diabetes or prediabetes.',
     averageValue: 100 // Example average value
   },
   { 
     value: 'hdlCholesterol', 
-    label: 'HDL Cholesterol (mg/dL)', 
+    label: 'HDL Cholesterol', 
+    unit: 'mg/dL',
     about: 'High-density lipoprotein cholesterol, also known as "good cholesterol."', 
     why: 'Higher HDL levels are associated with a reduced risk of heart disease as it helps remove excess cholesterol from the bloodstream.',
     averageValue: 60 // Example average value
   },
   { 
     value: 'triglycerides', 
-    label: 'Triglycerides (mg/dL)', 
+    label: 'Triglycerides', 
+    unit: 'mg/dL',
     about: 'A type of fat found in the blood, derived from consumed calories not immediately used for energy.', 
     why: 'Elevated triglycerides are linked to an increased risk of heart disease and metabolic syndrome.',
     averageValue: 150 // Example average value
   },
   { 
     value: 'vitaminD2', 
-    label: '25-Hydroxyvitamin D2 (nmol/L)', 
+    label: '25-Hydroxyvitamin D2', 
+    unit: 'nmol/L',
     about: 'A form of vitamin D derived from plant-based sources or supplements.', 
     why: 'Vitamin D2 levels help assess overall vitamin D status and bone health.',
     averageValue: 50 // Example average value
   },
   { 
     value: 'vitaminD3', 
-    label: '25-Hydroxyvitamin D3 (nmol/L)', 
+    label: '25-Hydroxyvitamin D3', 
+    unit: 'nmol/L',
     about: 'A form of vitamin D synthesized by the skin when exposed to sunlight or obtained from animal-based sources.', 
     why: 'Vitamin D3 plays a crucial role in calcium absorption, bone health, and immune system function.',
     averageValue: 75 // Example average value
@@ -240,7 +250,9 @@ export function HealthDataChart(props: {parameter : {name : string , value: numb
             <div className="flex items-center">
               <div className={`flex items-center justify-center w-32 h-16 text-2xl font-bold rounded-lg ${props.parameter.inRange ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-600'}`}>
                 {props.parameter.value}
-                
+                <span className='text-xs'>
+                {parameters.find(param => param.value === props.parameter.name)?.unit || ''} 
+                </span>
               </div>
               <div className="ml-4">
                 <h4 className="text-gray-800 font-semibold">{parameters.find(param => param.value === props.parameter.name)?.label || props.parameter.name} </h4>

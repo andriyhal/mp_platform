@@ -397,8 +397,8 @@ function HealthDataView() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Health Score Calculator</CardTitle>
-        <CardDescription>Calculate your health score based on various factors</CardDescription>
+        <CardTitle>Update your data</CardTitle>
+        <CardDescription> </CardDescription>
       </CardHeader>
       <CardContent>
         <HealthDataForm group='all' fetchLast='true' initialData={{name: '', email: '', dateOfBirth: '', gender: '', weight: 0, height: 0, waist: 0}}/>

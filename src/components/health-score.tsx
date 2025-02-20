@@ -174,7 +174,8 @@ export function HealthScore() {
           </div>
           */}
 
-        <div className="mb-8">
+      
+        {/* <div className="mb-8">
           <h2 className="text-xl font-semibold mb-2">Score Breakdown</h2>
           <table className="w-full border-collapse border border-gray-300">
             <thead>
@@ -213,7 +214,7 @@ export function HealthScore() {
 
             </tbody>
           </table>
-        </div>
+        </div> */}
     
           
         </div>
