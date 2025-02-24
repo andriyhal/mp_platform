@@ -38,6 +38,7 @@ import { useToast } from "@/hooks/use-toast"
 export default function ProductRecommendations() {
 
   const [showAll, setShowAll] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
   interface ProductItem {
     title: string;
@@ -83,6 +84,7 @@ export default function ProductRecommendations() {
         // console.log('recommendations Data:', parsedData)
        
         setData(jsonObj)
+        setIsLoading(false)
         
       } catch (error) {
         console.error('Error fetching recommendation:', error)
@@ -102,6 +104,7 @@ export default function ProductRecommendations() {
 
   return (
  <>
+ {isLoading ? <p>Loading...</p> : (
     <Card>
     <CardHeader>
       <CardTitle>
@@ -115,7 +118,7 @@ export default function ProductRecommendations() {
       <CardDescription>See our recommendations</CardDescription>
     </CardHeader>
     <CardContent>
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 ">
            {showAll ? data.map((item, index) => (
             <div
             key={index}
@@ -168,7 +171,7 @@ export default function ProductRecommendations() {
         </div>
     </CardContent>
   </Card>
-    
+ )}
     </>
   );
 }

@@ -88,7 +88,7 @@ export function HealthScore() {
 
   return (
     <div>
-        <div className="grid grid-cols-2 gap-6 items-center">
+        <div className="grid grid-cols-1 gap-6 items-center">
         
         {!isSubmitting && (
         <div className="w-3/4 p-6">
@@ -117,7 +117,7 @@ export function HealthScore() {
         </div>
         )}
 
-        {!isSubmitting && (
+        {/* {!isSubmitting && (
           <div>
               <p className="text-lg font-semibold text-center">Your BMI is: <span className={`${
                 bmi < 18.5 ? 'text-yellow-500' :
@@ -133,7 +133,7 @@ export function HealthScore() {
                 Obesity: ≥30
               </p>
           </div>
-        )}
+        )} */}
 
         </div>
 

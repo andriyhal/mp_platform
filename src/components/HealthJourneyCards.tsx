@@ -13,37 +13,7 @@ import {
 } from "@/components/ui/card"
 import { useToast } from "@/hooks/use-toast"
 
-// dummy data
-// const data = [
-//   {
-//     title: "Watch a Video: Managing High Cholesterol",
-//     description: "Learn how diet and lifestyle changes can help control LDL cholesterol.",
-//     linkText: "Go",
-//     icon: PlayIcon ,
-//     iconColor: "orange"
-//   },
-//   {
-//     title: "Complete Daily Step Goal: 10,000 Steps",
-//     description: "Staying active helps regulate blood pressure and cholesterol levels.",
-//     linkText: "Go",
-//     icon: TargetIcon ,
-//     iconColor: "purple"
-//   },
-//   {
-//     title: "Watch a Video: Managing High Cholesterol",
-//     description: "Learn how diet and lifestyle changes can help control LDL cholesterol.",
-//     linkText: "Go",
-//     icon: PlayIcon ,
-//     iconColor: "orange"
-//   },
-//   {
-//     title: "Complete Daily Step Goal: 10,000 Steps",
-//     description: "Staying active helps regulate blood pressure and cholesterol levels.",
-//     linkText: "Go",
-//     icon: TargetIcon ,
-//     iconColor: "purple"
-//   },
-// ];
+
 
 interface JourneyItem {
   title: string;
@@ -55,7 +25,7 @@ interface JourneyItem {
 
 export default function HealthJourneyCards() {
 
-  
+  const [isLoading, setIsLoading] = useState(true)
   const [showAll, setShowAll] = useState(false)
   const [data, setData] = useState<JourneyItem[]>([{
     title: "Complete Daily Step Goal: 10,000 Steps",
@@ -91,6 +61,7 @@ export default function HealthJourneyCards() {
         // console.log('recommendations Data:', parsedData)
        
         setData(jsonObj)
+        setIsLoading(false)
         
       } catch (error) {
         console.error('Error fetching recommendation:', error)
@@ -110,6 +81,7 @@ export default function HealthJourneyCards() {
 
   return (
  <>
+    {isLoading ? <p>Loading...</p> : (
     <Card>
     <CardHeader>
       <CardTitle>
@@ -173,7 +145,7 @@ export default function HealthJourneyCards() {
         </div>
     </CardContent>
   </Card>
-    
+    )}
     </>
   );
 }

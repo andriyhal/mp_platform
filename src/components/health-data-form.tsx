@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { useToast } from "@/hooks/use-toast"
+import { Info , Badge } from 'lucide-react'
 
 
 const formSchema = z.object({
@@ -303,7 +304,9 @@ export function HealthDataForm(props: { group: "all" | "basic", fetchLast: 'true
           render={({ field }) => (
             <FormItem>
               <div className='grid grid-cols-2 items-center'>
-                <FormLabel>Blood Pressure (Systolic)</FormLabel>
+                
+                <FormLabel >Blood Pressure (Systolic) </FormLabel>
+                
                 <FormControl>
                   <Input type="number" {...field} 
                   style={{ backgroundColor: fieldStyles.bloodPressureSystolic || 'white' }}
@@ -323,7 +326,7 @@ export function HealthDataForm(props: { group: "all" | "basic", fetchLast: 'true
           render={({ field }) => (
             <FormItem>
               <div className='grid grid-cols-2 items-center'>
-                <FormLabel>Blood Pressure (Diastolic)</FormLabel>
+                <FormLabel>Blood Pressure (Diastolic) </FormLabel>
                 <FormControl>
                   <Input type="number" {...field} 
                   style={{ backgroundColor: fieldStyles.bloodPressureDiastolic || 'white' }}
@@ -399,7 +402,12 @@ export function HealthDataForm(props: { group: "all" | "basic", fetchLast: 'true
         />
         
         
-          <FormField
+         
+
+        {props.group === 'all' && (
+          //add form fields here that are not part of group
+          <>
+           <FormField
             control={form.control}
             name="vitaminD2"
             render={({ field }) => (
@@ -442,11 +450,6 @@ export function HealthDataForm(props: { group: "all" | "basic", fetchLast: 'true
               </FormItem>
             )}
           />
-
-        {props.group === 'all' && (
-          //add form fields here that are not part of group
-          <>
-          
           </>
         )}
         

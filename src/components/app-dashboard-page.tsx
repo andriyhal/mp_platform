@@ -51,9 +51,12 @@ export function DashboardPage() {
 
  
    
-  const [activeView, setActiveView] = React.useState('documents')
+  const [activeView, setActiveView] = React.useState('')
+
+
 
   const [showDialog, setShowDialog] = React.useState(false)  //shows upload dialog
+  const [showSideDialog, setShowSideDialog] = React.useState(false)  //shows upload dialog
   const [showOnboardingDialog, setShowOnboardingDialog] = React.useState(false)
   
 
@@ -71,7 +74,7 @@ export function DashboardPage() {
 
     //Below is test links
     { id: 'break', label: '-----------', icon: Code2Icon },
-    { id: 'healthData', label: 'Health Data', icon: BarChart2 },
+    { id: 'healthData', label: 'Submit Health Data', icon: BarChart2 },
     { id: 'uploadFile', label: 'Upload File', icon: FileUp },
     // { id: 'onboarding', label: 'Onboarding', icon: Clipboard },
     { id: 'healthScore', label: 'Health Score', icon: Medal },
@@ -122,9 +125,7 @@ export function DashboardPage() {
 
   const handleOnBoardingFinish = () => {
     setShowOnboardingDialog(false)
-    //router.push('/dashboard')
-    console.log('performing a refresh')
-    location.reload();
+    
   }
 
   const renderContent = () => {
@@ -139,7 +140,18 @@ export function DashboardPage() {
         return <CurrentStats />
       case 'uploadFile':
         return <FileUploadView />
-      
+      case 'journey':
+        return <HealthJourneyCards />
+      case 'network':
+        return <HealthExpertConsultation />
+      case 'marketplace':
+        return <ProductRecommendations />
+      case 'orders':
+        return <p>Not yet implemented</p>
+      case 'notifications':
+        return <p>Not yet implemented</p>
+      case 'security':
+        return <p>Not yet implemented</p>
 
       case 'documents':
         return (
@@ -154,7 +166,7 @@ export function DashboardPage() {
         </Card>
         )
       default:
-        return <FileUploadView />
+        return <> </>
     }
   }
 
@@ -181,7 +193,16 @@ export function DashboardPage() {
               {menuItems.map((item) => (
                 <SidebarMenuItem key={item.id}>
                   <SidebarMenuButton 
-                    onClick={() => setActiveView(item.id)} 
+                    onClick={() => {
+                      setActiveView(item.id);
+                      setShowSideDialog(true);
+                      const renderContentDiv = document.getElementById('renderContent');
+                      if (renderContentDiv && item.id != 'dashboard') {
+                        renderContentDiv.scrollIntoView({ behavior: 'smooth' ,
+                          block: 'center',
+                          inline: 'center'});
+                      }
+                    }} 
                     isActive={activeView === item.id}
                   >
                     <item.icon className="mr-2 h-4 w-4" />
@@ -258,7 +279,8 @@ export function DashboardPage() {
                 <CardContent className="flex justify-center p-6">
                   <div >
                     <div>
-                      <HealthScore />
+                    {!showOnboardingDialog && (<HealthScore />)}
+                      
                     </div>
                     
                     {/* <div style={{ padding: '20px 0px' }}>
@@ -301,7 +323,11 @@ export function DashboardPage() {
                   <CardDescription>Keep your health metrics current</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <CurrentStats />
+                  <div className='h-3/4 overflow-auto'>
+                    {!showOnboardingDialog && (<CurrentStats />)}
+                  </div>
+                  
+                  
                 </CardContent>
               </Card>
 
@@ -338,14 +364,37 @@ export function DashboardPage() {
               </Card> */}
 
                {/* Bottom Left: Profile Edit */}
-               <HealthJourneyCards />
+               {!showOnboardingDialog && (<HealthJourneyCards />)}
+               
 
-               <ProductRecommendations />
+               {!showOnboardingDialog && (<ProductRecommendations />)}
+             
 
-               <HealthExpertConsultation />
+               {!showOnboardingDialog && (<HealthExpertConsultation />)}
+               
+               {!showOnboardingDialog && !showDialog && (
+                <Card>
+                <CardHeader>
+                  <CardTitle>Uploaded Files</CardTitle>
+                  <CardDescription>See your health files</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <UserDataFiles UserID={user ? user.id : 'User'} />
+                </CardContent>
+              </Card>
+               )}
 
               {/* Sidebar Content */}
-              {renderContent()} 
+              <Dialog open={showSideDialog} onOpenChange={setShowSideDialog}  >
+                <DialogContent className="w-full max-w-[800px] " >
+                  
+                    <div id='renderContent' className="max-h-[500px] overflow-auto">
+                    {renderContent()} 
+                  </div>
+                </DialogContent>
+              </Dialog>
+              
+             
 
               {/* <Card>
                 <CardHeader>
@@ -401,12 +450,12 @@ function HealthDataView() {
         <CardDescription> </CardDescription>
       </CardHeader>
       <CardContent>
-        <HealthDataForm group='all' fetchLast='true' initialData={{name: '', email: '', dateOfBirth: '', gender: '', weight: 0, height: 0, waist: 0}}/>
+        <HealthDataForm group='basic' fetchLast='true' initialData={{name: '', email: '', dateOfBirth: '', gender: '', weight: 0, height: 0, waist: 0}}/>
 
         
       </CardContent>
       <CardFooter>
-        <Button>Calculate Score</Button>
+        
         
       </CardFooter>
     </Card>

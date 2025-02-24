@@ -110,7 +110,7 @@ export function CurrentStats() {
               <div className="flex " >
                 <h4 className="font-medium min-w-[150px] text-sm">{range.label}</h4>
                 
-                <span className={`inline-flex items-center rounded-md  px-2 py-1 text-xs font-medium  ring-1  ring-inset  ${inRange ? 'ring-green-600/20 text-green-700 rounded-md bg-green-50' : 'ring-red-600/20 text-red-700 rounded-md bg-red-50'}`}>Healthy range</span>
+                <span className={`text-center items-center rounded-md   px-2 py-1 text-xs font-medium  ring-1 w-[115px] ring-inset  ${inRange ? 'ring-green-600/20 text-green-700 rounded-md bg-green-50' : 'ring-red-600/20 text-red-700 rounded-md bg-red-50'}`}>{inRange ? 'Healthy range' : 'Unhealthy range'}</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="font-bold">{value}</span><span className="text-xs">{range.unit}</span>

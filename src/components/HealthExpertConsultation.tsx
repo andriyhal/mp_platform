@@ -1,4 +1,5 @@
 import React from "react";
+import { useState, useEffect } from 'react'
 import { User } from 'lucide-react';
 import {
   Card,
@@ -46,8 +47,12 @@ const data = [
 ];
 
 export default function HealthExpertConsultation() {
+
+  const [isLoading, setIsLoading] = useState(false)
+
   return (
     <>
+    {isLoading ? <p>Loading...</p> : (
       <Card>
         <CardHeader>
           <CardTitle>
@@ -102,6 +107,7 @@ export default function HealthExpertConsultation() {
           </div>
         </CardContent>
       </Card>
+    )}
     </>
   );
 }
