@@ -451,7 +451,7 @@ function HealthDataView() {
         <CardDescription> </CardDescription>
       </CardHeader>
       <CardContent>
-        <HealthDataForm group='basic' fetchLast='true' initialData={{name: '', email: '', dateOfBirth: '', gender: '', weight: 0, height: 0, waist: 0}}/>
+        <HealthDataForm group='all' fetchLast='true' initialData={{name: '', email: '', dateOfBirth: '', gender: '', weight: 0, height: 0, waist: 0}} onSuccess={() => console.log('success')}/>
 
         
       </CardContent>

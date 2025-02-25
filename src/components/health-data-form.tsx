@@ -30,8 +30,8 @@ const formSchema = z.object({
   fastingBloodGlucose: z.number().min(50).max(500),
   hdlCholesterol: z.number().min(20).max(100),
   triglycerides: z.number().min(50).max(1000),
-  vitaminD2: z.number().min(0).max(200),
-  vitaminD3: z.number().min(0).max(200),
+  // vitaminD2: z.number().min(0).max(200),
+  // vitaminD3: z.number().min(0).max(200),
 })
 
 
@@ -55,8 +55,8 @@ export function HealthDataForm(props: { group: "all" | "basic", fetchLast: 'true
       fastingBloodGlucose: 100,
       hdlCholesterol: 50,
       triglycerides: 150,
-      vitaminD2: 50,
-      vitaminD3: 50,
+      // vitaminD2: 50,
+      // vitaminD3: 50,
     },
   })
 
@@ -91,8 +91,8 @@ export function HealthDataForm(props: { group: "all" | "basic", fetchLast: 'true
             fastingBloodGlucose: Number(data.fastingBloodGlucose) ?? 100,
             hdlCholesterol: Number(data.hdlCholesterol) ?? 50,
             triglycerides: Number(data.triglycerides) ?? 150,
-            vitaminD2: Number(data.vitaminD2) ?? 50,
-            vitaminD3: Number(data.vitaminD3) ?? 50,
+            // vitaminD2: Number(data.vitaminD2) ?? 50,
+            // vitaminD3: Number(data.vitaminD3) ?? 50,
           })
         }
       } catch (error) {
@@ -139,8 +139,8 @@ export function HealthDataForm(props: { group: "all" | "basic", fetchLast: 'true
             fastingBloodGlucose:    Number(data.fastingBloodGlucose   ) ?? 100,
             hdlCholesterol:         Number(data.hdlCholesterol        ) ?? 50,
             triglycerides:          Number(data.triglycerides         ) ?? 150,
-            vitaminD2:              Number(data.vitaminD2             ) ?? 50,
-            vitaminD3:              Number(data.vitaminD3             ) ?? 50,
+            // vitaminD2:              Number(data.vitaminD2             ) ?? 50,
+            // vitaminD3:              Number(data.vitaminD3             ) ?? 50,
 
           })
 
@@ -410,7 +410,7 @@ export function HealthDataForm(props: { group: "all" | "basic", fetchLast: 'true
         {props.group === 'all' && (
           //add form fields here that are not part of group
           <>
-           <FormField
+           {/* <FormField
             control={form.control}
             name="vitaminD2"
             render={({ field }) => (
@@ -452,7 +452,7 @@ export function HealthDataForm(props: { group: "all" | "basic", fetchLast: 'true
                 <FormMessage />
               </FormItem>
             )}
-          />
+          /> */}
           </>
         )}
         
