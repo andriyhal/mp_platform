@@ -70,9 +70,10 @@ export default function HealthExpertConsultation() {
             {data.map((item, index) => (
               <div
                 key={index}
-                className="p-4 bg-gray-100 rounded-lg shadow hover:shadow-md hover:bg-gray-200"
+                className="p-4 bg-gray-100 rounded-lg shadow hover:shadow-md hover:bg-gray-200 "
               >
                 {item.image !== '' ? (
+                  <div className="h-[110px]" >
                   <Image
                     src={item.image}
                     alt={item.name}
@@ -80,8 +81,9 @@ export default function HealthExpertConsultation() {
                     width={100}
                     height={100}
                   />
+                  </div>
                 ) : (
-                  <div className="rounded-lg bg-gray-300" style={{ height: '100px' }}>
+                  <div className="rounded-lg bg-gray-300 h-[110px]" >
                     <User className="h-full w-full rounded-lg mb-4" />
                   </div>
                 )}

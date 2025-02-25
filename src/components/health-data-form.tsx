@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { useToast } from "@/hooks/use-toast"
-import { Info , Badge } from 'lucide-react'
+
 
 
 const formSchema = z.object({
@@ -39,6 +39,7 @@ const formSchema = z.object({
 export function HealthDataForm(props: { group: "all" | "basic", fetchLast: 'true' | 'false',  onSuccess: () => void ,  initialData: { name: string, email: string, dateOfBirth: string, gender: string, weight: number, height: number, waist: number }}) {
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const [lastUpdateDate, setLastUpdateDate] = useState<string | null>(null)
   const { toast } = useToast()
 
@@ -60,7 +61,7 @@ export function HealthDataForm(props: { group: "all" | "basic", fetchLast: 'true
   })
 
   if(props.fetchLast == 'true'){  //only get data if
-
+  
   useEffect(() => {
     const fetchLatestHealthData = async () => {
       try {
@@ -79,6 +80,7 @@ export function HealthDataForm(props: { group: "all" | "basic", fetchLast: 'true
         const data = await response.json()
         if (data.lastUpdate) {
           setLastUpdateDate(data.lastUpdate)
+          setIsLoading(false)
           form.reset({
             UserID: userId,
             height: Number(data.height) ?? 170,
@@ -232,6 +234,7 @@ export function HealthDataForm(props: { group: "all" | "basic", fetchLast: 'true
   return (
     
     <Form {...form} >
+      {isLoading && <p>Loading...</p>}
       {lastUpdateDate && (
         <p className="text-sm text-muted-foreground mb-4">
           Last updated: {lastUpdateDate}

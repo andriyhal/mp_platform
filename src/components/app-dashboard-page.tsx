@@ -71,14 +71,15 @@ export function DashboardPage() {
     { id: 'notifications', label: 'Notifications', icon: Mail },
     { id: 'security', label: 'Password and Security', icon: Lock },
     { id: 'documents', label: 'My Documents', icon: FileText },
-
-    //Below is test links
-    { id: 'break', label: '-----------', icon: Code2Icon },
     { id: 'healthData', label: 'Submit Health Data', icon: BarChart2 },
-    { id: 'uploadFile', label: 'Upload File', icon: FileUp },
-    // { id: 'onboarding', label: 'Onboarding', icon: Clipboard },
-    { id: 'healthScore', label: 'Health Score', icon: Medal },
-    { id: 'currentStats', label: 'Current Health Data', icon: ChartLine  },
+
+    // //Below is test links
+    // { id: 'break', label: '-----------', icon: Code2Icon },
+    
+    // { id: 'uploadFile', label: 'Upload File', icon: FileUp },
+    // // { id: 'onboarding', label: 'Onboarding', icon: Clipboard },
+    // { id: 'healthScore', label: 'Health Score', icon: Medal },
+    // { id: 'currentStats', label: 'Current Health Data', icon: ChartLine  },
   ]
 
 
@@ -279,7 +280,7 @@ export function DashboardPage() {
                 <CardContent className="flex justify-center p-6">
                   <div >
                     <div>
-                    {!showOnboardingDialog && (<HealthScore />)}
+                    {!showOnboardingDialog && !showDialog && (<HealthScore />)}
                       
                     </div>
                     
@@ -324,7 +325,7 @@ export function DashboardPage() {
                 </CardHeader>
                 <CardContent>
                   <div className='h-3/4 overflow-auto'>
-                    {!showOnboardingDialog && (<CurrentStats />)}
+                    {!showOnboardingDialog && !showDialog && (<CurrentStats />)}
                   </div>
                   
                   
@@ -364,10 +365,10 @@ export function DashboardPage() {
               </Card> */}
 
                {/* Bottom Left: Profile Edit */}
-               {!showOnboardingDialog && (<HealthJourneyCards />)}
+               {!showOnboardingDialog && !showDialog &&  (<HealthJourneyCards />)}
                
 
-               {!showOnboardingDialog && (<ProductRecommendations />)}
+               {!showOnboardingDialog && !showDialog && (<ProductRecommendations />)}
              
 
                {!showOnboardingDialog && (<HealthExpertConsultation />)}
@@ -388,7 +389,7 @@ export function DashboardPage() {
               <Dialog open={showSideDialog} onOpenChange={setShowSideDialog}  >
                 <DialogContent className="w-full max-w-[800px] " >
                   
-                    <div id='renderContent' className="max-h-[500px] overflow-auto">
+                    <div id='renderContent' className="max-h-[600px] overflow-auto">
                     {renderContent()} 
                   </div>
                 </DialogContent>
@@ -435,7 +436,7 @@ function ProfileView() {
         <CardDescription>View and edit your personal information</CardDescription>
       </CardHeader>
       <CardContent>
-        <UserProfileEdit action="edit" />
+        <UserProfileEdit action="edit" onSuccess={() => console.log('success')}/>
       </CardContent>
       
     </Card>
@@ -486,7 +487,7 @@ function HealthScoreView() {
 
 function FileUploadView() {
   return (
-    <ImportFile />
+    <ImportFile onSuccess={() => console.log('success')} />
   )
 }
 

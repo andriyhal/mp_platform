@@ -57,7 +57,7 @@ export function OnboardingFormComponent({ handleOnBoardingFinish }: { handleOnBo
         <CardContent>
           <div>
             {step === 1 && (
-              <UserProfileEdit action='edit' onSuccess={ () => {setStep(step + 1)}} />
+              <UserProfileEdit action='add' onSuccess={ () => {setStep(step + 1)}} />
             )}
 
             

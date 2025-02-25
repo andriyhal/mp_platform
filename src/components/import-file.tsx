@@ -71,14 +71,23 @@ export function ImportFile(props: {  onSuccess: () => void; } ) {
           </Label>
           
         </div>
-         <Input id="dropzone-file" type="file" className="max-w-md" />
+         <Input id="dropzone-file" type="file" className="max-w-md"  />
       </CardContent>
       <CardFooter>
         
         <Button onClick={async () => {
+            const fileInput = document.getElementById('dropzone-file') as HTMLInputElement;
+            if (!fileInput.files || fileInput.files.length === 0) {
+              toast({
+                title: "Error",
+                description: "Please select a file to upload.",
+                variant: "destructive",
+              });
+              return;
+            }
             setIsSubmitting(true)
           const formData = new FormData();
-          const fileInput = document.getElementById('dropzone-file') as HTMLInputElement;
+          
           if (fileInput && fileInput.files && fileInput.files[0]) {
             formData.append('file', fileInput.files[0]);
           }
@@ -104,8 +113,10 @@ export function ImportFile(props: {  onSuccess: () => void; } ) {
             //   })
               //alert(`File uploaded successfully. OCR Text: ${data.ocrText}`)
               setIsSubmitting(false)
-              setResults(data.ocrText)
+              //setResults(data.ocrText)
+              setResults('Data imported')
               setShowDialog(true)
+              console.log(data.ocrText)
               props.onSuccess() //trigger next step if onBoarding
             
           } catch (error) {
