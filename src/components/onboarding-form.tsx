@@ -57,7 +57,17 @@ export function OnboardingFormComponent({ handleOnBoardingFinish }: { handleOnBo
         <CardContent>
           <div>
             {step === 1 && (
-              <UserProfileEdit action='add' onSuccess={ () => {setStep(step + 1)}} />
+              <UserProfileEdit 
+                action='edit' 
+                onSuccess={(dateOfBirth, sex) => {
+                  setFormData(prev => ({ 
+                    ...prev, 
+                    dateOfBirth: dateOfBirth,
+                    gender: sex 
+                  }));
+                  setStep(step + 1);
+                }} 
+              />
             )}
 
             

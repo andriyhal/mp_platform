@@ -38,7 +38,10 @@ const formSchema = z.object({
   }),
 })
 
-export function UserProfileEdit(props: { action: "edit" | "add" ; onSuccess: () => void; } ) {
+export function UserProfileEdit(props: { 
+  action: "edit" | "add"; 
+  onSuccess: (dateOfBirth: string, sex: string) => void; 
+}) {
   //const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
@@ -115,7 +118,7 @@ export function UserProfileEdit(props: { action: "edit" | "add" ; onSuccess: () 
         title: "Success",
         description: "Your profile has been updated successfully.",
       })
-      props.onSuccess() //trigger next step if onBoarding
+      props.onSuccess(values.dateOfBirth, values.sex) // Pass the form values
       //router.push('/dashboard') // Redirect to dashboard after successful update
     } catch (error) {
       console.error('Error updating user profile:', error)

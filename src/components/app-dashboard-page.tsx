@@ -280,7 +280,7 @@ export function DashboardPage() {
                 <CardContent className="flex justify-center p-6">
                   <div >
                     <div>
-                    {!showOnboardingDialog && !showDialog && (<HealthScore />)}
+                    {!showOnboardingDialog && !showDialog && !showSideDialog && (<HealthScore />)}
                       
                     </div>
                     
@@ -325,7 +325,7 @@ export function DashboardPage() {
                 </CardHeader>
                 <CardContent>
                   <div className='h-3/4 overflow-auto'>
-                    {!showOnboardingDialog && !showDialog && (<CurrentStats />)}
+                    {!showOnboardingDialog && !showDialog && !showSideDialog &&  (<CurrentStats />)}
                   </div>
                   
                   
@@ -365,15 +365,15 @@ export function DashboardPage() {
               </Card> */}
 
                {/* Bottom Left: Profile Edit */}
-               {!showOnboardingDialog && !showDialog &&  (<HealthJourneyCards />)}
+               {!showOnboardingDialog && !showDialog && !showSideDialog &&  (<HealthJourneyCards />)}
                
 
-               {!showOnboardingDialog && !showDialog && (<ProductRecommendations />)}
+               {!showOnboardingDialog && !showDialog && !showSideDialog && (<ProductRecommendations />)}
              
 
-               {!showOnboardingDialog && (<HealthExpertConsultation />)}
+               {!showOnboardingDialog && !showDialog && !showSideDialog && (<HealthExpertConsultation />)}
                
-               {!showOnboardingDialog && !showDialog && (
+               {!showOnboardingDialog && !showDialog && !showSideDialog && (
                 <Card>
                 <CardHeader>
                   <CardTitle>Uploaded Files</CardTitle>
