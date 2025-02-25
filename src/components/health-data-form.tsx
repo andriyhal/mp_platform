@@ -144,7 +144,11 @@ export function HealthDataForm(props: { group: "all" | "basic", fetchLast: 'true
 
           })
 
-          //
+        toast({
+          title: "Estimation Complete",
+          description: "Based on your profile, we have estimated some parameters which are highlighted in light blue.",
+          variant: "default",
+        })
         }
       } catch (error) {
         console.error('Error fetching health data:', error)
