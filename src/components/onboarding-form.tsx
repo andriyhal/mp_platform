@@ -8,6 +8,7 @@ import { Slider } from "@/components/ui/slider"
 import { HealthDataForm } from './health-data-form'
 import { UserProfileEdit } from './UserProfileEdit'
 import { ImportFile } from './import-file'
+import { CircularProgressbar } from 'react-circular-progressbar'
 
 export function OnboardingFormComponent({ handleOnBoardingFinish }: { handleOnBoardingFinish: () => void }) {
   const [step, setStep] = useState(1)
@@ -55,7 +56,8 @@ export function OnboardingFormComponent({ handleOnBoardingFinish }: { handleOnBo
           <CardDescription>Step {step} of 4</CardDescription>
         </CardHeader>
         <CardContent>
-          <div>
+        <div className={`grid ${step < 3 ? 'grid-cols-2' : 'grid-cols-1'} gap-6 pb-6`} >
+          <div className="">
             {step === 1 && (
               <UserProfileEdit 
                 action='edit' 
@@ -152,6 +154,85 @@ export function OnboardingFormComponent({ handleOnBoardingFinish }: { handleOnBo
               <img src="/images/all_set.png" alt="All Set" className="w-full my-auto" />
             </div>
             )}
+            </div>
+
+{/* Right pane as image */}
+{step < 3 && (
+            <img src="/images/onboarding.png" alt="All Set" className="w-full my-auto" />
+)}
+
+{/* Right pane as components */}
+{step < 3 && false && (
+    <div className="bg-primary min-h-100% flex flex-col items-top justify-center p-6 space-y-6">
+      
+      {/* Main Content Container */}
+      <div className="relative w-[400px] max-w-3xl bg-white py-6 px-12 rounded-2xl shadow-lg">
+        
+        {/* Waist Circumference Card */}
+        <div className="absolute w-[150px] top-[-20px] left-[-20px] bg-white p-4 rounded-lg shadow-md">
+          <p className="text-sm text-gray-600">Waist Circumference</p>
+          <p className="text-2xl font-bold">88 cm</p>
+          <p className="text-xs text-gray-500">Recommended: &lt;150 mg/dL</p>
+          <span className="text-green-500 text-sm font-semibold">Healthy Range</span>
+        </div>
+
+        {/* Progress Indicator */}
+        <div className="flex flex-col items-center justify-center py-1">
+        <div className='w-[150px] h-[150px] pt-8'>
+        <CircularProgressbar 
+            
+            value={66} 
+            text={`66%`}
+            circleRatio={0.5}
+            styles={{
+            path: { 
+                stroke: `rgb(${255 - (66 * 2.55)}, ${66 * 2.55}, 0)` ,
+                transform: 'rotate(-0.25turn)',
+                transformOrigin: 'center center',
+            },
+            trail: {
+              
+              // Rotate the trail
+              transform: 'rotate(-0.25turn)',
+              transformOrigin: 'center center',
+            },
+            text: { 
+                fill: `rgb(${255 - (66 * 2.55)}, ${66 * 2.55}, 0)`,
+                fontSize: '16px' 
+            }
+            }}
+        />
+        
+        </div>
+        <p className="text-sm text-gray-600 mt-2">
+            Your result is much better compared to last month!
+          </p>
+          
+        </div>
+        
+        {/* Exercise Suggestion Card */}
+        <Card className="absolute w-[150px] bottom-[-40px] right-[-30px] bg-white p-4 rounded-lg shadow-md ">
+          <p className="text-xs font-bold text-blue-500">Exercise</p>
+          <p className="text-sm font-semibold">10 minutes of stretching in the morning - start now!</p>
+          <p className="text-xs text-gray-500 mt-1">
+            Lorem ipsum dolor sit amet consectetur...
+          </p>
+          <p className="text-xs text-gray-500 mt-2">🕒 3 min.</p>
+        </Card>
+      </div>
+
+      {/* Bottom Text */}
+      <div className="text-center text-white pt-8">
+        <h2 className="text-xl font-bold">Lorem ipsum dolor</h2>
+        <p className="text-sm max-w-md">
+          Lorem ipsum dolor sit amet consectetur. Fringilla pellentesque sed at neque donec est
+          dictumst. Aenean mauris vel purus odio.
+        </p>
+      </div>
+    </div>
+)}
+
+
           </div>
         </CardContent>
         <CardFooter className="flex justify-between">
