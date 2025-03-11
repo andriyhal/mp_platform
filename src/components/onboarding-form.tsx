@@ -9,9 +9,18 @@ import { HealthDataForm } from './health-data-form'
 import { UserProfileEdit } from './UserProfileEdit'
 import { ImportFile } from './import-file'
 import { CircularProgressbar } from 'react-circular-progressbar'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { Input } from "@/components/ui/input"
 
 export function OnboardingFormComponent({ handleOnBoardingFinish }: { handleOnBoardingFinish: () => void }) {
   const [step, setStep] = useState(1)
+  const [fileUploaded, setFileUploaded] = useState(false)
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -29,6 +38,16 @@ export function OnboardingFormComponent({ handleOnBoardingFinish }: { handleOnBo
   }
 
   const handleNext = () => {
+    
+
+    if (step == 1){
+      onFinishStep1()
+    }
+
+    if (step == 2){
+      onFinishStep2()
+    }
+
     if (step < 4) setStep(step + 1)
     
   }
@@ -37,6 +56,66 @@ export function OnboardingFormComponent({ handleOnBoardingFinish }: { handleOnBo
     if (step > 1) setStep(step - 1)
   }
 
+  async function onFinishStep1() {
+    
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROOT}/edit-user`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({userId : localStorage.getItem('userEmail') || "", sex : formData.gender , dateOfBirth : formData.dateOfBirth , action : 'edit'}),
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to update user profile')
+      }
+
+      
+    } catch (error) {
+      console.error('Error updating user profile:', error)
+      
+    } 
+  }
+
+  async function onFinishStep2() {
+    
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROOT}/submit-health-data`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(
+          { UserID : localStorage.getItem('userEmail') || "",
+            height: formData.height,
+            weight: formData.weight,
+            waistCircumference:     formData.waist,
+            bloodPressureSystolic:  0,
+            bloodPressureDiastolic: 0,
+            fastingBloodGlucose:    0,
+            hdlCholesterol:         0,
+            triglycerides:          0,
+            vitaminD2:              0,
+            vitaminD3:              0,}
+        ),
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to submit health data')
+      }
+
+      const json = await response.json();
+      console.log(json);
+
+     
+    } catch (error) {
+      console.error('Error submitting health data:', error)
+      
+    } 
+  }
   
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -59,17 +138,53 @@ export function OnboardingFormComponent({ handleOnBoardingFinish }: { handleOnBo
         <div className={`grid ${step < 3 ? 'grid-cols-2' : 'grid-cols-1'} gap-6 pb-6`} >
           <div className="">
             {step === 1 && (
-              <UserProfileEdit 
-                action='edit' 
-                onSuccess={(dateOfBirth, sex) => {
-                  setFormData(prev => ({ 
+              // <UserProfileEdit 
+              //   action='edit' 
+              //   onSuccess={(dateOfBirth, sex) => {
+              //     setFormData(prev => ({ 
+              //       ...prev, 
+              //       dateOfBirth: dateOfBirth,
+              //       gender: sex 
+              //     }));
+              //     setStep(step + 1);
+              //   }} 
+              // />
+
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="dob">Date of Birth</Label>
+                  <Input
+                    id="dob"
+                    type="date"
+                    value={formData.dateOfBirth}
+                    onChange={(e) => {setFormData(prev => ({ 
+                      ...prev, 
+                      dateOfBirth: e.target.value 
+                    }));}}
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="gender">Gender</Label>
+                  <Select onValueChange={(value) => {setFormData(prev => ({ 
                     ...prev, 
-                    dateOfBirth: dateOfBirth,
-                    gender: sex 
-                  }));
-                  setStep(step + 1);
-                }} 
-              />
+                    gender: value 
+                  }));}}
+                  defaultValue={formData.gender}
+                  >
+                  
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select gender" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="male">Male</SelectItem>
+                      <SelectItem value="female">Female</SelectItem>
+                      <SelectItem value="other">Other</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  
+                </div>
+              </div>
             )}
 
             
@@ -124,7 +239,7 @@ export function OnboardingFormComponent({ handleOnBoardingFinish }: { handleOnBo
                       <CardDescription>Upload your health-related documents securely</CardDescription>
                     </CardHeader>
                     <CardContent>
-                      <HealthDataForm group='basic' fetchLast='false' initialData={formData} onSuccess={ () => {setStep(step + 1)}} />
+                      {!fileUploaded ? <HealthDataForm group='basic' fetchLast='false' initialData={formData} onSuccess={() => setFileUploaded(true)} /> : <div className=''><span className='text-xs text-red-500 '>Please check your values have been imported correctly</span><HealthDataForm group='basic' fetchLast='true' initialData={formData} onSuccess={() => console.log('updated')} /></div>}
                     </CardContent>
                   </Card>
                   </div>
@@ -132,7 +247,7 @@ export function OnboardingFormComponent({ handleOnBoardingFinish }: { handleOnBo
 <p > OR </p>
                   </div>
                   <div >
-<ImportFile onSuccess={ () => {setStep(step + 1)}} />
+<ImportFile onSuccess={ () => {setFileUploaded(true)}} />
                   </div>
                   
                   
