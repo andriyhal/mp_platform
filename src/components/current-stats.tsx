@@ -23,12 +23,12 @@ interface HealthData {
 const healthyRanges = {
   height: { min: 150, max: 200 , label:'Height', unit:'cm'},
   weight: { min: 45, max: 100 , label:'Weight', unit:'kg'},
-  waistCircumference: { min: 20, max: 40 , label:'Waist Circumference', unit:'cm'},
+  waistCircumference: { min: 20, max: 94 , label:'Waist Circumference', unit:'cm'},
   bloodPressureSystolic: { min: 90, max: 120 , label:'Systolic', unit:'mmHg'},
   bloodPressureDiastolic: { min: 60, max: 80 , label:'Diastolic', unit:'mmHg'},
-  fastingBloodGlucose: { min: 70, max: 100 , label:'Fasting Blood Glucose', unit:'mg/dL'},
-  hdlCholesterol: { min: 40, max: 60 , label:'HDL Cholesterol', unit:'mg/dL'},
-  triglycerides: { min: 50, max: 150 , label:'Triglycerides', unit:'mg/dL'},
+  fastingBloodGlucose: { min: 0, max: 85 , label:'Fasting Blood Glucose', unit:'mg/dL'},
+  hdlCholesterol: { min: 60, max: 100 , label:'HDL Cholesterol', unit:'mg/dL'},
+  triglycerides: { min: 0, max: 80 , label:'Triglycerides', unit:'mg/dL'},
   vitaminD2: { min: 20, max: 50 , label:'Vitamin D2', unit:'ng/mL'},
   vitaminD3: { min: 20, max: 50 , label:'Vitamin D3', unit:'ng/mL'}
 }
