@@ -42,6 +42,7 @@ import HealthJourneyCards from './HealthJourneyCards'
 import ProductRecommendations from './ProductRecommendations'
 import HealthExpertConsultation from './HealthExpertConsultation'
 import { Toaster } from './ui/toaster'
+import Container from './Container'
 
 
 export function DashboardPage() {
@@ -240,6 +241,7 @@ export function DashboardPage() {
           <main className="p-6">
 
             <div className="grid grid-cols-1 gap-6 pb-6">
+            
             <Card>
                 <CardHeader>
                   <CardTitle>About</CardTitle>
@@ -408,7 +410,7 @@ export function DashboardPage() {
               </Card> */}
 
 <Dialog open={showOnboardingDialog} onOpenChange={setShowOnboardingDialog}>
-          <DialogContent className="w-3/4 max-w-6xl" >
+          <DialogContent className="w-3/4 max-w-0.95" >
             <DialogHeader>
               <DialogTitle>Onboarding</DialogTitle>
               <DialogDescription>Thank you for signing up.  To get started please enter some key health data so we can start to build your health profile.</DialogDescription>
@@ -418,6 +420,8 @@ export function DashboardPage() {
         </Dialog>
 
 <Toaster />
+
+
               
             </div>
           </main>
@@ -487,7 +491,7 @@ function HealthScoreView() {
 
 function FileUploadView() {
   return (
-    <ImportFile onSuccess={() => console.log('success')} />
+    <ImportFile onSuccess={(ocrData) => console.log(JSON.parse(ocrData))} />
   )
 }
 

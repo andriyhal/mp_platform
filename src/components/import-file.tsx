@@ -17,7 +17,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { FileUp } from 'lucide-react'
 import { Input } from "@/components/ui/input"
 
-export function ImportFile(props: {  onSuccess: () => void; } ) {
+export function ImportFile(props: { onSuccess: (ocrData: any) => void }) {
   
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [showDialog, setShowDialog] = useState(false)
@@ -116,8 +116,8 @@ export function ImportFile(props: {  onSuccess: () => void; } ) {
               //setResults(data.ocrText)
               setResults('Data imported')
               setShowDialog(true)
-              console.log(data.ocrText)
-              props.onSuccess() //trigger next step if onBoarding
+              //console.log(data.ocrText)
+              props.onSuccess(data.ocrText) //trigger next step if onBoarding
             
           } catch (error) {
             console.log(error)
@@ -129,7 +129,7 @@ export function ImportFile(props: {  onSuccess: () => void; } ) {
               })
           }
         }} disabled={isSubmitting}>
-          {isSubmitting ? 'Submitting...' : 'Upload Data'}</Button>
+          {isSubmitting ? 'Submitting...' : 'Upload Data for data extraction'}</Button>
       </CardFooter>
     </Card>
         {/* <Toaster /> */}

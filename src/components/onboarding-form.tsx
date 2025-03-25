@@ -30,11 +30,14 @@ import * as z from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useToast } from "@/hooks/use-toast"
+import Container from './Container'
 
 const formSchema = z.object({
   UserID: z.string(),
-  dateOfBirth: z.string(),
-  gender: z.enum(['male', 'female', 'other']),
+  dateOfBirth: z.string().min(1, "Date of birth is required"),
+  gender: z.enum(['male', 'female', 'other'], {
+    required_error: "Please select a gender",
+  }),
   height: z.number().min(50).max(300),
   weight: z.number().min(20).max(500),
   waistCircumference: z.number().min(20).max(200),
@@ -57,7 +60,7 @@ const form = useForm<z.infer<typeof formSchema>>({
   defaultValues: {
     UserID: localStorage.getItem('userEmail') || 'test',
     dateOfBirth: '2000-01-01',
-    gender: 'male',
+    gender: 'male' as const,
     height: 170,
     weight: 70,
     waistCircumference: 80,
@@ -70,7 +73,8 @@ const form = useForm<z.infer<typeof formSchema>>({
 })
   
 let fieldStyles = {
-            
+  dateOfBirth: '',
+  gender: '',          
   height: '',
   weight: '',
   waistCircumference:     '',
@@ -120,6 +124,8 @@ const fetchEstimateHealthData = async () => {
       
       form.reset({
         UserID: userId,
+        dateOfBirth: form.getValues().dateOfBirth,
+        gender: form.getValues().gender,
         height: Number(form.getValues().height) ?? 170,
         weight: Number(form.getValues().weight) ?? 70,
         waistCircumference: Number(form.getValues().waistCircumference) ?? 32,
@@ -151,7 +157,14 @@ const fetchEstimateHealthData = async () => {
   
   const handleNext = async () => {
     const isValid = await form.trigger()
-    if (!isValid) return
+    if (!isValid) {
+      toast({
+        title: "Error",
+        description: "Form is not set correctly",
+        variant: "destructive",
+      })
+      return
+    }
 
     if (step === 1) {
       await onFinishStep1()
@@ -162,7 +175,13 @@ const fetchEstimateHealthData = async () => {
   }
 
   const handlePrevious = () => {
-    if (step > 1) setStep(step - 1)
+    if (step > 1) {
+      const currentValues = form.getValues();
+      
+      setStep(step - 1);
+      
+      form.reset(currentValues);
+    }
   }
 
   async function onFinishStep1() {
@@ -193,81 +212,140 @@ const fetchEstimateHealthData = async () => {
   
 
 
+  const renderStep1 = () => {
+    // Watch all relevant form values for reactivity
+    const { weight, height, waistCircumference, dateOfBirth, gender } = form.watch();
 
-  const renderStep1 = () => (
-    <div className="space-y-4">
-      <FormField
-        control={form.control}
-        name="dateOfBirth"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Date of Birth</FormLabel>
-            <FormControl>
-              <Input type="date" {...field} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-      <FormField
-        control={form.control}
-        name="gender"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Gender</FormLabel>
-            <Select onValueChange={field.onChange} defaultValue={field.value}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select gender" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="male">Male</SelectItem>
-                <SelectItem value="female">Female</SelectItem>
-                <SelectItem value="other">Other</SelectItem>
-              </SelectContent>
-            </Select>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-      
-      <div className="space-y-2">
-        <Label htmlFor="weight">Weight (kg)</Label>
-        <Slider
-          id="weight"
-          min={30}
-          max={200}
-          step={1}
-          value={[form.getValues().weight]}
-          onValueChange={(value) => form.setValue('weight', value[0])}
+    return (
+      <div className="space-y-4">
+        <FormField
+          control={form.control}
+          name="dateOfBirth"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Date of Birth</FormLabel>
+              <FormControl>
+                <Input 
+                  type="date" 
+                  {...field}
+                  value={dateOfBirth} // Use watched value instead of field.value
+                  onChange={(e) => {
+                    field.onChange(e.target.value);
+                    form.setValue('dateOfBirth', e.target.value, { 
+                      shouldValidate: true,
+                      shouldDirty: true 
+                    });
+                  }}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-        <div className="text-center">{form.getValues().weight} kg</div>
-      </div>
-      <div className="space-y-2">
-        <Label htmlFor="height">Height (cm)</Label>
-        <Slider
-          id="height"
-          min={100}
-          max={250}
-          step={1}
-          value={[form.getValues().height]}
-          onValueChange={(value) => form.setValue('height', value[0])}
+        <FormField
+          control={form.control}
+          name="gender"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Gender</FormLabel>
+              <Select 
+                value={gender} // Use watched value
+                onValueChange={(value) => {
+                  field.onChange(value);
+                  form.setValue('gender', value as 'male' | 'female' | 'other', {
+                    shouldValidate: true,
+                    shouldDirty: true
+                  });
+                }}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select gender" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="male">Male</SelectItem>
+                  <SelectItem value="female">Female</SelectItem>
+                  <SelectItem value="other">Other</SelectItem>
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-        <div className="text-center">{form.getValues().height} cm</div>
-      </div>
-      <div className="space-y-2">
-        <Label htmlFor="waist">Waist Circumference (cm)</Label>
-        <Slider
-          id="waist"
-          min={50}
-          max={200}
-          step={1}
-          value={[form.getValues().waistCircumference]}
-          onValueChange={(value) => form.setValue('waistCircumference', value[0])}
+        
+        <FormField
+          control={form.control}
+          name="weight"
+          render={({ field }) => (
+            <FormItem>
+              <div className="space-y-2">
+                <FormLabel>Weight (kg)</FormLabel>
+                <Slider
+                  id="weight"
+                  min={30}
+                  max={200}
+                  step={1}
+                  value={[weight]}
+                  onValueChange={(value) => {
+                    field.onChange(value[0]);
+                    form.setValue('weight', value[0], {
+                      shouldValidate: true,
+                      shouldDirty: true
+                    });
+                  }}
+                />
+                <div className="text-center">{weight} kg</div>
+              </div>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-        <div className="text-center">{form.getValues().waistCircumference} cm</div>
+
+        <FormField
+          control={form.control}
+          name="height"
+          render={({ field }) => (
+            <FormItem>
+              <div className="space-y-2">
+                <FormLabel>Height (cm)</FormLabel>
+                <Slider
+                  id="height"
+                  min={100}
+                  max={250}
+                  step={1}
+                  value={[field.value]}
+                  onValueChange={(value) => field.onChange(value[0])}
+                />
+                <div className="text-center">{height} cm</div>
+              </div>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="waistCircumference"
+          render={({ field }) => (
+            <FormItem>
+              <div className="space-y-2">
+                <FormLabel>Waist Circumference (cm)</FormLabel>
+                <Slider
+                  id="waist"
+                  min={50}
+                  max={200}
+                  step={1}
+                  value={[field.value]}
+                  onValueChange={(value) => field.onChange(value[0])}
+                />
+                <div className="text-center">{waistCircumference} cm</div>
+              </div>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
       </div>
-    </div>
-  )
+    );
+  };
 
   async function onFinishStep2() {
     try {
@@ -378,7 +456,7 @@ const fetchEstimateHealthData = async () => {
                                 render={({ field }) => (
                                   <FormItem>
                                     <div className='grid grid-cols-2 items-center'>
-                                      <FormLabel>Waist Circumference (inches)</FormLabel>
+                                      <FormLabel>Waist Circumference (cm)</FormLabel>
                                       <FormControl>
                                         <Input type="number" {...field}
                                         style={{ backgroundColor: fieldStyles.waistCircumference || 'white' }}
@@ -502,7 +580,57 @@ const fetchEstimateHealthData = async () => {
                         <p>OR</p>
                       </div>
                       <div>
-                        <ImportFile onSuccess={() => {setFileUploaded(true)}} />
+                        <ImportFile onSuccess={(ocrData) => {
+                          // Set file uploaded state
+                          setFileUploaded(true);
+                          
+                          try {
+                            console.log(ocrData)
+                            ocrData = JSON.parse(ocrData)
+                            // Parse OCR data and map to form fields
+                            const formUpdates: Partial<z.infer<typeof formSchema>> = {
+                              // Keep existing basic measurements
+                              height: form.getValues().height,
+                              weight: form.getValues().weight,
+                              waistCircumference: form.getValues().waistCircumference,
+                              
+                              // Map OCR data to form fields
+                              // bloodPressureSystolic: form.getValues().bloodPressureSystolic, // Not in OCR data
+                              // bloodPressureDiastolic: form.getValues().bloodPressureDiastolic, // Not in OCR data
+                              fastingBloodGlucose: ocrData["Blood Glucose"]?.Value || form.getValues().fastingBloodGlucose,
+                              hdlCholesterol: ocrData["HDL Cholesterol"]?.Value || form.getValues().hdlCholesterol,
+                              triglycerides: ocrData["Triglycerides level"]?.Value || form.getValues().triglycerides,
+                            };
+
+                            // Update form values while preserving existing values if OCR data is missing
+                            form.reset({
+                              ...form.getValues(),
+                              ...formUpdates
+                            });
+
+                            // Set complete state
+                            setIsComplete(true);
+
+                            // Show success toast with details
+                            toast({
+                              title: "Data Imported Successfully",
+                              description: "Your lab results have been imported. Please review the values.",
+                              variant: "default",
+                            });
+
+                            // Log the imported data for verification
+                            console.log("Imported OCR data:", ocrData);
+                            console.log("Updated form values:", formUpdates);
+
+                          } catch (error) {
+                            console.error("Error processing OCR data:", error);
+                            toast({
+                              title: "Error Processing Data",
+                              description: "There was an error processing your lab results. Please check the values manually.",
+                              variant: "destructive",
+                            });
+                          }
+                        }} />
                       </div>
                     </div>
                   )}
@@ -522,7 +650,8 @@ const fetchEstimateHealthData = async () => {
 
                 {/* Right pane as image */}
                 {step < 2 && (
-                  <img src="/images/onboarding.png" alt="All Set" className="w-full my-auto" />
+                  // <img src="/images/onboarding.png" alt="All Set" className="w-full my-auto" />
+                  <Container />
                 )}
               </div>
             </form>
