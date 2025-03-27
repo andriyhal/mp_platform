@@ -101,6 +101,8 @@ export function CurrentStats() {
       <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
         {Object.entries(healthData).map(([key, value]) => {
           if (key === 'lastUpdate') return null
+          if (key === 'height') return null
+          if (key === 'weight') return null
           
           const inRange = isInRange(value, key as keyof typeof healthyRanges)
           const range = healthyRanges[key as keyof typeof healthyRanges]

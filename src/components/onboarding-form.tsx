@@ -217,7 +217,37 @@ const fetchEstimateHealthData = async () => {
     const { weight, height, waistCircumference, dateOfBirth, gender } = form.watch();
 
     return (
-      <div className="space-y-4">
+      <div className="grid grid-cols-2 gap-6 pb-6">
+      <div className="space-y-4  items-center justify-center">
+        <FormField
+          control={form.control}
+          name="gender"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Sex</FormLabel>
+              <Select 
+                value={gender} // Use watched value
+                onValueChange={(value) => {
+                  field.onChange(value);
+                  form.setValue('gender', value as 'male' | 'female' | 'other', {
+                    shouldValidate: true,
+                    shouldDirty: true
+                  });
+                }}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select gender" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="male">Male</SelectItem>
+                  <SelectItem value="female">Female</SelectItem>
+                  <SelectItem value="other">Other</SelectItem>
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <FormField
           control={form.control}
           name="dateOfBirth"
@@ -242,36 +272,8 @@ const fetchEstimateHealthData = async () => {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="gender"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Gender</FormLabel>
-              <Select 
-                value={gender} // Use watched value
-                onValueChange={(value) => {
-                  field.onChange(value);
-                  form.setValue('gender', value as 'male' | 'female' | 'other', {
-                    shouldValidate: true,
-                    shouldDirty: true
-                  });
-                }}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select gender" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="male">Male</SelectItem>
-                  <SelectItem value="female">Female</SelectItem>
-                  <SelectItem value="other">Other</SelectItem>
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        
+        </div>
+        <div className="space-y-4  items-center justify-center">
         <FormField
           control={form.control}
           name="weight"
@@ -344,6 +346,7 @@ const fetchEstimateHealthData = async () => {
           )}
         />
       </div>
+      </div>
     );
   };
 
@@ -391,14 +394,25 @@ const fetchEstimateHealthData = async () => {
     <div className="flex items-center justify-center overflow-auto h-screen" style={{ height: '80vh' }}>
       <Card className="w-full">
         <CardHeader>
-          <CardTitle>Metabolic-Point Onboarding</CardTitle>
-          <CardDescription>{step !=3 ? `Step ${step} of 2 ` : ''}</CardDescription>
+          <CardTitle></CardTitle>
+          <CardDescription></CardDescription>
         </CardHeader>
+
         <CardContent>
+        <div className={`grid ${step < 3 ? 'grid-cols-2' : 'grid-cols-1'} gap-6 pb-6`}>
+          
           <Form {...form}>
             <form onSubmit={form.handleSubmit(() => {})}>
-              <div className={`grid ${step < 2 ? 'grid-cols-2' : 'grid-cols-1'} gap-6 pb-6`}>
+              
                 <div className="">
+
+                {step < 3 && <img src="/images/logo.svg" alt="metabolic-point-logo" style={{ width: '150px' }} className="p-4" />}
+          <p className="py-2">{step !=3 ? `Step ${step} of 2 ` : ''}</p>
+
+          <h1 className="text-4xl text-bold py-2">{step === 1 && 'Onboarding'}{step === 2 && 'Your Health Information'}</h1>
+          <p className="py-2">{step === 1 && 'Thank you for signing up. To get started please enter some key health data so we can start to build your health profile.'}
+            {step === 2 && 'If you don’t have this information from your blood work, you can simply upload a PDF containing your details, and we’ll process it to generate your results.'}</p>
+                  
                   {step === 1 && renderStep1()}
                   {step === 2 && (
                     <div className="flex items-center gap-6">
@@ -410,7 +424,7 @@ const fetchEstimateHealthData = async () => {
                           </CardHeader>
                           <CardContent>
                             <div className="space-y-2">
-                              <FormField
+                              {/* <FormField
                                 control={form.control}
                                 name="height"
                                 render={({ field }) => (
@@ -469,7 +483,7 @@ const fetchEstimateHealthData = async () => {
                                     <FormMessage />
                                   </FormItem>
                                 )}
-                              />
+                              /> */}
                               <FormField
                                 control={form.control}
                                 name="bloodPressureSystolic"
@@ -635,11 +649,17 @@ const fetchEstimateHealthData = async () => {
                     </div>
                   )}
                   {step === 3 && (
+                    
                     <div className="py-4">
-                      <p className="text-sm font-semibold">
-                        Based on your information, we&apos;re creating a personalized health journey
-                        just for you. Let&apos;s get started on your path to wellness.
+                      <img src="/images/logo.svg" alt="metabolic-point-logo" style={{ width: '150px' }} className="p-2 mx-auto" />
+                      <p className="text-4xl font-semibold text-center">
+                        You're All Set!
                       </p>
+                      <p className="text-sm  text-center">
+                        Based on your information, we&apos;re creating a personalized health journey
+                        just for you. 
+                      </p>
+                      <p className="text-sm  text-center">Let&apos;s get started on your path to wellness.</p>
                       <p className="text-lg font-semibold text-center">
                         <Button onClick={handleOnBoardingFinish}>Go to Dashboard</Button>
                       </p>
@@ -647,15 +667,19 @@ const fetchEstimateHealthData = async () => {
                     </div>
                   )}
                 </div>
-
+                </form>
+                </Form>
                 {/* Right pane as image */}
-                {step < 2 && (
-                  // <img src="/images/onboarding.png" alt="All Set" className="w-full my-auto" />
+                {step < 3 && (
+                  //  <img src="/images/onboarding.png" alt="All Set" className="w-full my-auto" />
+                  <div className="bg-gradient-to-b from-[#0093D4] to-[#004C6E] h-100  items-center justify-center">  
+                  <img src="/images/white-metabolic-point.svg" alt="metabolic-point-logo" style={{ width: '300px' }} className="mx-auto w-200 p-8" />
                   <Container />
+                  </div>
                 )}
-              </div>
-            </form>
-          </Form>
+              
+            
+          </div>
         </CardContent>
         <CardFooter className="flex justify-between">
           {step === 1 && (
@@ -673,11 +697,11 @@ const fetchEstimateHealthData = async () => {
               </Button>
             </>
           )}
-          {step === 3 && (
+          {/* {step === 3 && (
             <Button variant="outline" onClick={handleOnBoardingFinish}>
               Close
             </Button>
-          )}
+          )} */}
         </CardFooter>
       </Card>
     </div>

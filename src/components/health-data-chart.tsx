@@ -17,6 +17,9 @@ import 'chartjs-adapter-moment';
 import { CheckCircle, TriangleAlert } from 'lucide-react'
 import Image from 'next/image'
 import TrendGraph from './trend-graph'
+import HealthExpertConsultation from './HealthExpertConsultation';
+import ProductRecommendations from './ProductRecommendations';
+import HealthJourneyCards from './HealthJourneyCards';
 
 ChartJS.register(
   CategoryScale,
@@ -223,7 +226,7 @@ export function HealthDataChart(props: {parameter : {name : string , value: numb
         <>
         <div className="grid grid-cols-1 gap-6 pb-6">
           <div className="grid grid-cols-1 gap-6 pb-6">
-            <Image src="/images/blood_sample.png" alt="Blood Sample" width={300}  height={24}/>
+            <Image src="/images/blood_sample.png" alt="Blood Sample" width={100}height={24} style={{ width: '100%' }}/>
             
           </div>
 
@@ -312,7 +315,7 @@ export function HealthDataChart(props: {parameter : {name : string , value: numb
         </div>
         <div className="grid grid-cols-2 gap-6">
          
-        <div className="w-[400px] h-[600px]">
+          <div className="w-[400px] h-100">
             {/* <Line data={data} options={options} /> */}
             <TrendGraph chartData={chartData}/>
           </div>
@@ -322,6 +325,15 @@ export function HealthDataChart(props: {parameter : {name : string , value: numb
             <p>{parameters.find(param => param.value === props.parameter.name)?.averageValue || props.parameter.name} </p>
           </div>
           
+        </div>
+        <div className="grid grid-cols-1 gap-6">
+          <HealthJourneyCards />
+        </div>
+        <div className="grid grid-cols-1 gap-6">
+          <HealthExpertConsultation variant='row'/>
+        </div>
+        <div className="grid grid-cols-1 gap-6">
+          <ProductRecommendations />
         </div>
         </>
         

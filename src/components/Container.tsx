@@ -7,6 +7,7 @@ export default function Container() {
     <div className={styles.Container_3206_26221}>
       <div className={styles.Container_3241_52796}>
         <div className={styles.Content_3241_52797}>
+        <div className={styles.Rectangle_199_3241_530172}></div>
           <div className={styles.Frame_1707479799_3241_52999}>
             <div className={styles.Card_2_3241_52919}>
               <div className={styles.Title_3241_52920}>
@@ -62,6 +63,7 @@ export default function Container() {
             </div>
             <div className={styles.Rectangle_200_3241_53016}></div>
             <div className={styles.Rectangle_199_3241_53017}></div>
+            
             <div className={styles.HealthJourneyCard_3241_53019}>
                 <div className={styles.Image_3125_31949}>
                 <div className={styles.Zipcar_1_3125_31950}></div>

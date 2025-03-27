@@ -373,7 +373,7 @@ export function DashboardPage() {
                {!showOnboardingDialog && !showDialog && !showSideDialog && (<ProductRecommendations />)}
              
 
-               {!showOnboardingDialog && !showDialog && !showSideDialog && (<HealthExpertConsultation />)}
+               {!showOnboardingDialog && !showDialog && !showSideDialog && (<HealthExpertConsultation variant='default'/>)}
                
                {!showOnboardingDialog && !showDialog && !showSideDialog && (
                 <Card>
@@ -412,8 +412,8 @@ export function DashboardPage() {
 <Dialog open={showOnboardingDialog} onOpenChange={setShowOnboardingDialog}>
           <DialogContent className="w-3/4 max-w-0.95" >
             <DialogHeader>
-              <DialogTitle>Onboarding</DialogTitle>
-              <DialogDescription>Thank you for signing up.  To get started please enter some key health data so we can start to build your health profile.</DialogDescription>
+              <DialogTitle></DialogTitle>
+              <DialogDescription></DialogDescription>
             </DialogHeader>
             <OnboardingFormComponent handleOnBoardingFinish={handleOnBoardingFinish} />
           </DialogContent>
