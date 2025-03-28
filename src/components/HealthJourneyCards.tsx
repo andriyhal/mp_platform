@@ -23,7 +23,7 @@ interface JourneyItem {
   iconColor: string;
 }
 
-export default function HealthJourneyCards() {
+export default function HealthJourneyCards(props: { filter: string }) {
 
   const [isLoading, setIsLoading] = useState(true)
   const [showAll, setShowAll] = useState(false)
@@ -40,7 +40,11 @@ export default function HealthJourneyCards() {
     const fetchRecommendations = async () => {
       try {
 
-        const userId = localStorage.getItem('userEmail') || 'test'
+        let userId = localStorage.getItem('userEmail') || 'test'
+
+        if (props.filter != 'personal') {
+          userId = props.filter
+        }
 
         const token = localStorage.getItem('token')
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROOT}/get-reco-actions?userId=${userId}`, {

@@ -62,7 +62,7 @@ import HealthJourneyCards from "./HealthJourneyCards";
 import ProductRecommendations from "./ProductRecommendations";
 import HealthExpertConsultation from "./HealthExpertConsultation";
 import { Toaster } from "./ui/toaster";
-import Container from "./Container";
+
 
 export function DashboardPage() {
 	const { user, token, loading, logout } = useAuth();
@@ -150,11 +150,11 @@ export function DashboardPage() {
 			case "uploadFile":
 				return <FileUploadView />;
 			case "journey":
-				return <HealthJourneyCards />;
+				return <HealthJourneyCards filter='personal' />;
 			case "network":
 				return <HealthExpertConsultation />;
 			case "marketplace":
-				return <ProductRecommendations />;
+				return <ProductRecommendations filter='personal' />;
 			case "orders":
 				return <p>Not yet implemented</p>;
 			case "notifications":
@@ -293,7 +293,7 @@ export function DashboardPage() {
 						<div className="grid grid-cols-2 gap-6">
 							{/* Top Left: Health Score Meter */}
 
-							<Card>
+							<Card className="h-full">
 								<CardHeader>
 									<CardTitle>Central Health Score</CardTitle>
 									<CardDescription>
@@ -316,10 +316,10 @@ export function DashboardPage() {
 							{/* Top Right: Update Health Data */}
 							<Card>
 								<CardHeader>
-									<CardTitle>Your Health Data</CardTitle>
+									{/* <CardTitle>Your Health Data</CardTitle>
 									<CardDescription>
 										Keep your health metrics current
-									</CardDescription>
+									</CardDescription> */}
 								</CardHeader>
 								<CardContent>
 									<div className="h-3/4 overflow-auto">
@@ -334,14 +334,14 @@ export function DashboardPage() {
 							{/* Bottom Left: Profile Edit */}
 							<div className="col-span-5 gap-6 ">
 								{!showOnboardingDialog && !showDialog && !showSideDialog && (
-									<HealthJourneyCards />
+									<HealthJourneyCards filter='personal' />
 								)}
 							</div>
 
 							<div className="col-span-7 gap-6 ">
 								<div className="pb-6 ">
 									{!showOnboardingDialog && !showDialog && !showSideDialog && (
-										<ProductRecommendations />
+										<ProductRecommendations filter='personal' />
 									)}
 								</div>
 								<div>

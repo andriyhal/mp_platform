@@ -3,12 +3,12 @@ import { useRouter } from 'next/navigation'
 
 // Add interface for the context type
 interface AuthContextType {
-  user:  any | string | null;
+  user: any | string | null;
   token: string | null;
   loading: boolean;
   login: (credentials: any) => Promise<void>;
   logout: () => void;
-  
+  validateToken: () => Promise<void>;
 }
 
 // Create context with the type and initial value
@@ -16,32 +16,34 @@ const AuthContext = createContext<AuthContextType>({
   user: null,
   token: null,
   loading: true,
-  login: async () => {},
-  logout: () => {},
-  
+  login: async () => { },
+  logout: () => { },
+  validateToken: async () => { },
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState< any | string | null>(null);
+  const [user, setUser] = useState<any | string | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
- 
+
 
   const router = useRouter()
 
   // Load token and user from localStorage when the app initializes
   useEffect(() => {
-    const loadUserFromStorage = () => {
+    const loadUserFromStorage = async () => {
       const storedToken = localStorage.getItem('token');
       const storedUser = localStorage.getItem('user');
-     
 
       if (storedToken && storedUser) {
-        setToken(storedToken);
         try {
+          await validateToken(); // Validate token first
+          setToken(storedToken);
           setUser(JSON.parse(storedUser));
         } catch (error) {
-          console.error('Error parsing stored user:', error);
+          // If validation fails, clear credentials
+          setToken('missing');
+          setUser('missing');
         }
       } else {
         setToken('missing');
@@ -51,11 +53,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     };
 
     loadUserFromStorage();
-  }, []);
+  }, []); // Remove token dependency to avoid loops
 
   // Login function to authenticate the user and get a token
   const login = async (credentials: { email: string; password: string }) => {
-    
+
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROOT}/auth/login`, {
         method: 'POST',
@@ -67,24 +69,24 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       if (response.status === 401) {
         //console.error('Login failed: Invalid credentials');
-       
+
         throw new Error('Invalid email or password. Please try again.'); // Throw error if login fails
-        
+
       }
 
       if (response.status === 403) {
         throw new Error('Too many login attempts. Please try again later'); // Throw error if login fails
-        
+
       }
 
       const data = await response.json();
 
-      
+
       const { token, user } = data;
       //console.log(data)
       // Store token and user in localStorage
-      localStorage.setItem('token', token );
-      localStorage.setItem('user', JSON.stringify(user ));
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(user));
 
       // Update state
       setToken(token);
@@ -128,19 +130,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setToken(newToken);
     } catch (error) {
       console.error('Token validation failed:', error);
-      
+
       logout();
       throw error; // Re-throw error to be handled in the UI
     }
   };
 
-  useEffect(() => {
-    // Optionally, validate the token on app load
-    validateToken();
-  }, [token]);
-
   return (
-    <AuthContext.Provider value={{ user, token, loading, login, logout  }}>
+    <AuthContext.Provider value={{ user, token, loading, login, logout, validateToken }}>
       {children}
     </AuthContext.Provider>
   );
