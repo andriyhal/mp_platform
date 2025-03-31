@@ -37,32 +37,12 @@ export default function Home() {
 
   Clarity.init(projectId);
 
-  const { user, token, loading, logout, validateToken } = useAuth();
 
   const [showDialog, setShowDialog] = React.useState(false); //shows upload dialog
   const [showSideDialog, setShowSideDialog] = React.useState(false); //shows upload dialog
   const [showOnboardingDialog, setShowOnboardingDialog] = React.useState(false);
 
-  const [activeView, setActiveView] = React.useState("");
 
-  function ProfileView() {
-    return (
-      <Card>
-        <CardHeader>
-          <CardTitle>Your Profile</CardTitle>
-          <CardDescription>
-            View and edit your personal information
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <UserProfileEdit
-            action="edit"
-            onSuccess={() => console.log("success")}
-          />
-        </CardContent>
-      </Card>
-    );
-  }
 
   function HealthDataView() {
     return (
@@ -92,23 +72,6 @@ export default function Home() {
     );
   }
 
-  function HealthScoreView() {
-    const { user } = useAuth();
-    return (
-      <Card>
-        <CardHeader>
-          <CardTitle>Your Health Score</CardTitle>
-          <CardDescription>
-            Current health score for {user?.name || "User"}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <HealthScore />
-        </CardContent>
-        <CardFooter></CardFooter>
-      </Card>
-    );
-  }
 
   function FileUploadView() {
     return (
@@ -120,47 +83,7 @@ export default function Home() {
     setShowOnboardingDialog(false);
   };
 
-  const renderContent = () => {
-    switch (activeView) {
-      case "profile":
-        return <ProfileView />;
-      case "healthData":
-        return <HealthDataView />;
-      case "healthScore":
-        return <HealthScoreView />;
-      case "currentStats":
-        return <CurrentStats />;
-      case "uploadFile":
-        return <FileUploadView />;
-      case "journey":
-        return <HealthJourneyCards filter='personal' />;
-      case "network":
-        return <HealthExpertConsultation />;
-      case "marketplace":
-        return <ProductRecommendations filter='personal' />;
-      case "orders":
-        return <p>Not yet implemented</p>;
-      case "notifications":
-        return <p>Not yet implemented</p>;
-      case "security":
-        return <p>Not yet implemented</p>;
 
-      case "documents":
-        return (
-          <Card>
-            <CardHeader>
-              <CardTitle>Uploaded Files</CardTitle>
-              <CardDescription>See your health files</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <UserDataFiles />
-            </CardContent>
-          </Card>
-        );
-      default:
-        return <> </>;
-    }
-  };
 
   return (
 
@@ -286,15 +209,7 @@ export default function Home() {
               </DialogContent>
             </Dialog>
 
-            {/* <Card>
-							<CardHeader>
-							<CardTitle>Health Data History</CardTitle>
-							<CardDescription>See your health history</CardDescription>
-							</CardHeader>
-							<CardContent>
-							<HealthDataChart />
-							</CardContent>
-							</Card> */}
+
 
             <Dialog
               open={showOnboardingDialog}
