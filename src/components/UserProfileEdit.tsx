@@ -38,9 +38,9 @@ const formSchema = z.object({
   }),
 })
 
-export function UserProfileEdit(props: { 
-  action: "edit" | "add"; 
-  onSuccess: (dateOfBirth: string, sex: string) => void; 
+export function UserProfileEdit(props: {
+  action: "edit" | "add";
+  onSuccess: (dateOfBirth: string, sex: string) => void;
 }) {
   //const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -50,7 +50,7 @@ export function UserProfileEdit(props: {
     resolver: zodResolver(formSchema),
     defaultValues: {
       action: props.action || "edit",
-      userId: localStorage.getItem('userEmail') || "",
+      userId: "",
       sex: "other",
       dateOfBirth: "",
     },
@@ -95,6 +95,7 @@ export function UserProfileEdit(props: {
     if (props.action === "edit") {
       fetchUserProfile()
     } else {
+
       setIsLoading(false)
     }
   }, [props.action, form])
@@ -102,6 +103,8 @@ export function UserProfileEdit(props: {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsSubmitting(true)
     try {
+      values.userId = localStorage.getItem('userEmail') || '';
+
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROOT}/edit-user`, {
         method: 'POST',
         headers: {

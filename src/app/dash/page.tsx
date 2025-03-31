@@ -15,7 +15,6 @@ import {
 import HealthJourneyCards from '@/components/HealthJourneyCards';
 import { CurrentStats } from "@/components/current-stats";
 import { ImportFile } from "@/components/import-file";
-import { UserDataFiles } from "@/components/user-data-files";
 
 
 import Clarity from '@microsoft/clarity';
@@ -23,11 +22,9 @@ import ProductRecommendations from '@/components/ProductRecommendations';
 
 import HealthExpertConsultation from "@/components/HealthExpertConsultation";
 import { OnboardingFormComponent } from "@/components/onboarding-form";
-import { UserProfileEdit } from "@/components/UserProfileEdit";
 
 import Layout from '@/components/app-layout';
 import { AuthProvider } from '@/components/AuthContext';
-import { useAuth } from "@/components/AuthContext";
 import { HealthDataForm } from '@/components/health-data-form';
 
 
