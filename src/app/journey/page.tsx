@@ -8,33 +8,14 @@ import HealthJourneyCards from '@/components/HealthJourneyCards';
 import {
   User,
   BarChart2,
-  FileUp,
-  Menu,
-  Medal,
-  Mail,
-  FileText,
-  Lock,
-  ChartLine,
-  HomeIcon,
-  ShoppingCartIcon,
-  HeartPulseIcon,
-  Code2Icon,
+
 } from "lucide-react";
 
 import Clarity from '@microsoft/clarity';
 import ProductRecommendations from '@/components/ProductRecommendations';
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarTrigger,
-  SidebarHeader,
-  SidebarFooter,
-  SidebarProvider,
-  SidebarMenu,
-  SidebarMenuItem,
-  SidebarMenuButton,
-} from "@/components/ui/sidebar";
+
 import Layout from '@/components/app-layout';
+import { AuthProvider } from '@/components/AuthContext';
 
 
 export default function Home() {
@@ -44,7 +25,7 @@ export default function Home() {
 
   return (
 
-    <SidebarProvider>
+    <AuthProvider>
 
       <Layout>
         <div className="grid grid-cols-12 gap-6 p-6">
@@ -59,11 +40,9 @@ export default function Home() {
               <CardContent className="flex justify-center p-6">
                 <div>
                   <div>
-                    <div className="grid grid-cols-3 items-center">
-                      <div className='col-span-1'><HealthScore /></div>
-                      <div className='col-span-2'><p>your results are much better than last month</p></div>
 
-                    </div>
+                    <div className='col-span-1'><HealthScore variant="extra" /></div>
+
 
                   </div>
 
@@ -113,7 +92,7 @@ export default function Home() {
         </div>
 
       </Layout>
-    </SidebarProvider >
+    </AuthProvider >
 
 
   );

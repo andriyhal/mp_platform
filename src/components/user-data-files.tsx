@@ -23,11 +23,9 @@ interface DataFile {
 
 
 
-interface UserDataFilesProps {
-  UserID: string
-}
 
-export function UserDataFiles({ UserID }: UserDataFilesProps) {
+
+export function UserDataFiles() {
   const [files, setFiles] = useState<DataFile[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -39,6 +37,8 @@ export function UserDataFiles({ UserID }: UserDataFilesProps) {
     setError(null)
     try {
       const token = localStorage.getItem('token');
+      const UserID = localStorage.getItem('userEmail') || 'test'
+
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROOT}/get-data-files`, {
         method: 'POST',
         headers: {
@@ -69,7 +69,7 @@ export function UserDataFiles({ UserID }: UserDataFilesProps) {
 
   useEffect(() => {
     fetchDataFiles()
-  }, [UserID])
+  }, [])
 
   if (isLoading) {
     return (

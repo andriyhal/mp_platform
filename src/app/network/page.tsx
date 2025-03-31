@@ -2,12 +2,7 @@
 
 
 import Clarity from '@microsoft/clarity';
-import ProductRecommendations from '@/components/ProductRecommendations';
-import {
 
-    SidebarProvider,
-
-} from "@/components/ui/sidebar";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import Layout from '@/components/app-layout';
 
@@ -30,7 +25,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { HealthScore } from '@/components/health-score';
-
+import { AuthProvider } from '@/components/AuthContext';
 
 export default function Home() {
     const projectId = "q64g9fnhvi"
@@ -39,7 +34,7 @@ export default function Home() {
 
     return (
 
-        <SidebarProvider>
+        <AuthProvider>
 
             <Layout>
                 <div className="grid grid-cols-12 gap-6 p-6">
@@ -146,7 +141,7 @@ export default function Home() {
 
 
             </Layout>
-        </SidebarProvider >
+        </AuthProvider >
 
 
     );

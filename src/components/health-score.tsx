@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { CircularProgressbar } from 'react-circular-progressbar'
+import "react-circular-progressbar/dist/styles.css";
 import { useToast } from "@/hooks/use-toast"
 import { Button } from "@/components/ui/button"
 
@@ -17,7 +18,7 @@ interface HealthScoreData {
   triglycerides: number;
 }
 
-export function HealthScore() {
+export function HealthScore({ variant = "default" }) {
 
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [bmi, setBMI] = useState(0)
@@ -88,54 +89,62 @@ export function HealthScore() {
 
   return (
     <div>
-      <div className="grid grid-cols-1 gap-6 items-center max-h-[400px]">
+      <div className={variant === "extra" ? "grid grid-cols-2 gap-6 items-center max-h-[400px]" : "grid grid-cols-1 gap-6 items-center max-h-[400px]"}>
+        <div>
+          {!isSubmitting && (
 
-        {!isSubmitting && (
-          <div className="w-3/4 p-6">
-            <CircularProgressbar
-              value={jsonObj.score || 0}
-              text={`${jsonObj.score}%`}
-              circleRatio={0.5}
-              styles={{
-                path: {
-                  stroke: `rgb(${255 - (jsonObj.score * 2.55)}, ${jsonObj.score * 2.55}, 0)`,
-                  transform: 'rotate(-0.25turn)',
-                  transformOrigin: 'center center',
-                },
-                trail: {
+            <div className="w-3/4 p-6">
+              <CircularProgressbar
+                value={jsonObj.score || 0}
+                text={`${jsonObj.score}%`}
+                circleRatio={0.5}
+                styles={{
+                  path: {
+                    stroke: `rgb(${255 - (jsonObj.score * 2.55)}, ${jsonObj.score * 2.55}, 0)`,
+                    transform: 'rotate(-0.25turn)',
+                    transformOrigin: 'center center',
+                  },
+                  trail: {
 
-                  // Rotate the trail
-                  transform: 'rotate(-0.25turn)',
-                  transformOrigin: 'center center',
-                },
-                text: {
-                  fill: `rgb(${255 - (jsonObj.score * 2.55)}, ${jsonObj.score * 2.55}, 0)`,
-                  fontSize: '16px'
-                }
-              }}
-            />
-          </div>
-        )}
+                    // Rotate the trail
+                    transform: 'rotate(-0.25turn)',
+                    transformOrigin: 'center center',
+                  },
+                  text: {
+                    fill: `rgb(${255 - (jsonObj.score * 2.55)}, ${jsonObj.score * 2.55}, 0)`,
+                    fontSize: '16px',
+
+                  }
+                }}
+              />
+            </div>
+          )}
 
 
 
-      </div>
 
-      <div style={{ top: '-100px', position: 'relative' }}>
 
-        {lastUpdateDate && (
-          <p className="text-sm text-muted-foreground mb-4">
-            Last updated: {lastUpdateDate}
-          </p>
-        )}
+          <div style={{ top: '-100px', position: 'relative' }}>
 
-        {/* {scoreDetails && (
+            {lastUpdateDate && (
+              <p className="text-sm text-muted-foreground mb-4">
+                Last updated: {lastUpdateDate}
+              </p>
+            )}
+
+            {/* {scoreDetails && (
             <p className="text-sm text-muted-foreground mb-4">
             {scoreDetails}
             </p>
         )} */}
+          </div>
+        </div>
 
-        {!isSubmitting && (
+        {!isSubmitting && variant === "extra" && (
+          <div className=''><p>Your results are much better than last month</p></div>
+        )}
+
+        {!isSubmitting && variant === "debug" && (
           <div className="p-6">
 
 
@@ -188,6 +197,7 @@ export function HealthScore() {
           </div>
 
         )}
+
       </div>
       {/* <Toaster /> */}
     </div>

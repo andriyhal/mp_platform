@@ -222,7 +222,7 @@ export function HealthDataForm(props: { group: "all" | "basic", fetchLast: 'true
         description: "Your health data has been submitted successfully.",
       })
       props.onSuccess() //trigger next step if onBoarding
-      router.push('/dashboard') // Redirect to dashboard after successful submission
+      //router.push('/dash') // Redirect to dashboard after successful submission
     } catch (error) {
       console.error('Error submitting health data:', error)
       toast({

@@ -170,7 +170,7 @@ export function DashboardPage() {
 							<CardDescription>See your health files</CardDescription>
 						</CardHeader>
 						<CardContent>
-							<UserDataFiles UserID={user ? user.id : "User"} />
+							<UserDataFiles />
 						</CardContent>
 					</Card>
 				);
@@ -360,7 +360,7 @@ export function DashboardPage() {
 											<CardDescription>See your health files</CardDescription>
 										</CardHeader>
 										<CardContent>
-											<UserDataFiles UserID={user ? user.id : "User"} />
+											<UserDataFiles />
 										</CardContent>
 									</Card>
 								)}

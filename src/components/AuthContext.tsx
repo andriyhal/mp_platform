@@ -92,7 +92,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setToken(token);
       setUser(user);
 
-      router.push('/dashboard');
+      //router.push('/dashboard');
+      router.push('/dash');
 
     } catch (err) {
       console.error('Login failed:', err);
@@ -112,27 +113,30 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   // Function to validate token and refresh if necessary
   const validateToken = async () => {
-    if (!token) return;
+    const storedToken = localStorage.getItem('token');
+    if (!storedToken) return;
 
     try {
-      // Optionally validate or refresh token by calling an API
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROOT}/auth/refresh`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ token }),
+        body: JSON.stringify({ token: storedToken }),
       });
       const data = await response.json();
-      const { newToken } = data;
+      const { newToken, user: refreshedUser } = data;
 
+      // Update both token and user data
       localStorage.setItem('token', newToken);
+      localStorage.setItem('user', JSON.stringify(refreshedUser));
+
       setToken(newToken);
+      setUser(refreshedUser);
     } catch (error) {
       console.error('Token validation failed:', error);
-
       logout();
-      throw error; // Re-throw error to be handled in the UI
+      throw error;
     }
   };
 

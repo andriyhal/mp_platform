@@ -49,6 +49,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         router.push("/");
       } else {
         try {
+
           await validateToken();
         } catch (error) {
           router.push("/");
@@ -65,17 +66,17 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
 
   const menuItems = [
-    { id: "dashboard", link: "dashboard", label: "Dashboard", icon: HomeIcon },
+    { id: "dashboard", link: "dash", label: "Dashboard", icon: HomeIcon },
     { id: "journey", link: "journey", label: "My Health Journey", icon: BarChart2 },
     { id: "network", link: "network", label: "Provider Network", icon: HeartPulseIcon },
     { id: "marketplace", link: "market", label: "Marketplace", icon: ShoppingCartIcon },
     { id: "orders", link: "todo", label: "My Orders", icon: FileText },
 
-    { id: "profile", link: "dashboard", label: "View Profile", icon: User },
+    { id: "profile", link: "profile", label: "View Profile", icon: User },
     { id: "notifications", link: "todo", label: "Notifications", icon: Mail },
     { id: "security", link: "todo", label: "Password and Security", icon: Lock },
-    { id: "documents", link: "dashboard", label: "My Documents", icon: FileText },
-    { id: "healthData", link: "dashboard", label: "Submit Health Data", icon: BarChart2 },
+    { id: "documents", link: "documents", label: "My Documents", icon: FileText },
+    // { id: "healthData", link: "dash", label: "Submit Health Data", icon: BarChart2 },
 
     // //Below is test links
     // { id: 'break', label: '-----------', icon: Code2Icon },
@@ -88,78 +89,78 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
 
   return (
-    <AuthProvider>
-      <SidebarProvider>
-        <div className="flex h-screen bg-gray-100">
-          <Sidebar>
-            <SidebarHeader>
-              <div className="p-4 flex items-center gap-2">
-                <Image
-                  src="/images/logo - white.svg"
-                  alt="Metabolic-Point Logo"
-                  width={24}
-                  height={24}
-                />
-                {/* <h2 className="text-md font-bold">METABOLIC-POINT</h2> */}
-              </div>
-            </SidebarHeader>
-            <SidebarContent>
-              <SidebarMenu>
-                {menuItems.map((item) => (
-                  <SidebarMenuItem key={item.id}>
-                    <SidebarMenuButton
-                      onClick={() => {
-                        setActiveView(item.id);
-                        window.location.href = `/${item.link}`
-                      }
-                      }
-                      isActive={activeView === item.id}
-                    >
-                      <item.icon className="mr-2 h-4 w-4" />
-                      <span>{item.label}</span>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarContent>
-            <SidebarFooter>
-              <div className="p-4">
-                <Button
-                  variant="outline"
-                  className="w-full text-blue-500"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    console.log('logout')
-                    logout();
-                  }}
-                >
-                  Log Out
+
+    <SidebarProvider>
+      <div className="flex h-screen bg-gray-100">
+        <Sidebar>
+          <SidebarHeader>
+            <div className="p-4 flex items-center gap-2">
+              <Image
+                src="/images/logo - white.svg"
+                alt="Metabolic-Point Logo"
+                width={24}
+                height={24}
+              />
+              {/* <h2 className="text-md font-bold">METABOLIC-POINT</h2> */}
+            </div>
+          </SidebarHeader>
+          <SidebarContent>
+            <SidebarMenu>
+              {menuItems.map((item) => (
+                <SidebarMenuItem key={item.id}>
+                  <SidebarMenuButton
+                    onClick={() => {
+                      setActiveView(item.id);
+                      window.location.href = `/${item.link}`
+                    }
+                    }
+                    isActive={activeView === item.id}
+                  >
+                    <item.icon className="mr-2 h-4 w-4" />
+                    <span>{item.label}</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarContent>
+          <SidebarFooter>
+            <div className="p-4">
+              <Button
+                variant="outline"
+                className="w-full text-blue-500"
+                onClick={(e) => {
+                  e.preventDefault();
+                  console.log('logout')
+                  logout();
+                }}
+              >
+                Log Out
+              </Button>
+            </div>
+          </SidebarFooter>
+        </Sidebar>
+        <div className="flex-1 overflow-auto">
+          <header className="bg-white shadow">
+            <div className="flex items-center justify-between px-4 py-6 sm:px-6 lg:px-8">
+              <h1 className="text-3xl font-bold text-gray-900">
+                {/* {user} */}
+              </h1>
+              <SidebarTrigger>
+                <Button variant="outline" size="icon" className="lg:hidden">
+                  <Menu className="h-6 w-6" />
+                  <span className="sr-only">Toggle Sidebar</span>
                 </Button>
-              </div>
-            </SidebarFooter>
-          </Sidebar>
-          <div className="flex-1 overflow-auto">
-            <header className="bg-white shadow">
-              <div className="flex items-center justify-between px-4 py-6 sm:px-6 lg:px-8">
-                <h1 className="text-3xl font-bold text-gray-900">
-                  {activeView}
-                </h1>
-                <SidebarTrigger>
-                  <Button variant="outline" size="icon" className="lg:hidden">
-                    <Menu className="h-6 w-6" />
-                    <span className="sr-only">Toggle Sidebar</span>
-                  </Button>
-                </SidebarTrigger>
-              </div>
-            </header>
-            <main className=" ">
-              {children}
-            </main>
-          </div>
+              </SidebarTrigger>
+            </div>
+          </header>
+          <main className=" ">
+            {children}
+          </main>
         </div>
-        <Toaster />
-      </SidebarProvider>
-    </AuthProvider>
+      </div>
+      <Toaster />
+    </SidebarProvider>
+
 
   );
 }
