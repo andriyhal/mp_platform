@@ -25,6 +25,7 @@ import {
   ShoppingCartIcon,
   HeartPulseIcon,
   Code2Icon,
+  Bell,
 } from "lucide-react";
 import { useAuth } from "@/components/AuthContext";
 import { AuthProvider } from '@/components/AuthContext';
@@ -145,12 +146,29 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <h1 className="text-3xl font-bold text-gray-900">
                 {/* {user} */}
               </h1>
-              <SidebarTrigger>
-                <Button variant="outline" size="icon" className="lg:hidden">
-                  <Menu className="h-6 w-6" />
-                  <span className="sr-only">Toggle Sidebar</span>
-                </Button>
-              </SidebarTrigger>
+
+              <div className="flex items-center gap-4">
+                <div className="relative group">
+                  <Bell className="w-5 h-5 text-gray-500 cursor-pointer hover:text-gray-700" />
+                  {/* <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
+                    2
+                  </span> */}
+                </div>
+
+                <div className="relative group">
+                  <User className="w-5 h-5 text-gray-500 cursor-pointer hover:text-gray-700" />
+                  <span className="absolute hidden group-hover:block right-0 -bottom-8 bg-gray-800 text-white text-xs px-2 py-1 rounded whitespace-nowrap z-50">
+                    {user?.name || 'User'}
+                  </span>
+                </div>
+
+                <SidebarTrigger>
+                  <Button variant="outline" size="icon" className="lg:hidden">
+                    <Menu className="h-6 w-6" />
+                    <span className="sr-only">Toggle Sidebar</span>
+                  </Button>
+                </SidebarTrigger>
+              </div>
             </div>
           </header>
           <main className=" ">

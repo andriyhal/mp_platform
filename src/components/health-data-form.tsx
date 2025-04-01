@@ -291,7 +291,7 @@ export function HealthDataForm(props: { group: "all" | "basic", fetchLast: 'true
           render={({ field }) => (
             <FormItem>
               <div className='grid grid-cols-2 items-center'>
-                <FormLabel>Waist Circumference (inches)</FormLabel>
+                <FormLabel>Waist Circumference (cm)</FormLabel>
                 <FormControl>
                   <Input type="number" {...field}
                     style={{ backgroundColor: fieldStyles.waistCircumference || 'white' }}
@@ -312,7 +312,7 @@ export function HealthDataForm(props: { group: "all" | "basic", fetchLast: 'true
             <FormItem>
               <div className='grid grid-cols-2 items-center'>
 
-                <FormLabel >Blood Pressure (Systolic) </FormLabel>
+                <FormLabel >Blood Pressure Systolic (mmHg) </FormLabel>
 
                 <FormControl>
                   <Input type="number" {...field}
@@ -333,7 +333,7 @@ export function HealthDataForm(props: { group: "all" | "basic", fetchLast: 'true
           render={({ field }) => (
             <FormItem>
               <div className='grid grid-cols-2 items-center'>
-                <FormLabel>Blood Pressure (Diastolic) </FormLabel>
+                <FormLabel>Blood Pressure Diastolic (mmHg) </FormLabel>
                 <FormControl>
                   <Input type="number" {...field}
                     style={{ backgroundColor: fieldStyles.bloodPressureDiastolic || 'white' }}

@@ -83,10 +83,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
 
       const { token, user } = data;
-      //console.log(data)
+      console.log(data)
       // Store token and user in localStorage
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(user));
+
 
       // Update state
       setToken(token);
@@ -125,14 +126,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         body: JSON.stringify({ token: storedToken }),
       });
       const data = await response.json();
-      const { newToken, user: refreshedUser } = data;
+      const { newToken } = data;
 
       // Update both token and user data
       localStorage.setItem('token', newToken);
-      localStorage.setItem('user', JSON.stringify(refreshedUser));
+      //localStorage.setItem('user', JSON.stringify(refreshedUser));
 
       setToken(newToken);
-      setUser(refreshedUser);
+      //setUser(refreshedUser);
     } catch (error) {
       console.error('Token validation failed:', error);
       logout();
