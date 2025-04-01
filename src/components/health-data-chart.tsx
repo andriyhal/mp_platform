@@ -116,7 +116,7 @@ const parameters = [
 ];
 
 
-export function HealthDataChart(props: { parameter: { name: string, value: number, max_range: number, min_range: number, inRange: boolean } }) {
+export function HealthDataChart(props: { parameter: { name: string, value: number, max_range: number, min_range: number, inRange: boolean, category: string, color: string } }) {
   const [selectedParameter, setSelectedParameter] = useState(props.parameter.name || 'weight')
   const [chartData, setChartData] = useState<{ dates: Date[], values: number[] }>({
     dates: [],
@@ -248,30 +248,44 @@ export function HealthDataChart(props: { parameter: { name: string, value: numbe
             </div>
            
           </div> */}
-            <div className={`flex items-center justify-between p-4 rounded-lg shadow-md ${props.parameter.inRange ? 'bg-green-50' : 'bg-red-50'}`}>
-
+            <div className={`flex items-center justify-between p-4 rounded-lg shadow-md ${props.parameter.color === 'green' ? 'ring-green-600/20 text-green-700 bg-green-50' :
+              props.parameter.color === 'yellow' ? 'ring-yellow-600/20 text-yellow-700 bg-yellow-50' :
+                props.parameter.color === 'orange' ? 'ring-orange-600/20 text-orange-700 bg-orange-50' :
+                  props.parameter.color === 'red' ? 'ring-red-600/20 text-red-700 bg-red-50' :
+                    props.parameter.color === 'purple' ? 'ring-purple-600/20 text-purple-700 bg-purple-50' :
+                      props.parameter.color === 'blue' ? 'ring-blue-600/20 text-blue-700 bg-blue-50' :
+                        'ring-gray-600/20 text-gray-700 bg-gray-50'
+              }`}>
               <div className="flex items-center">
-                <div className={`flex items-center justify-center w-32 h-16 text-2xl font-bold rounded-lg ${props.parameter.inRange ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-600'}`}>
+                <div className={`flex items-center justify-center w-32 h-16 text-2xl font-bold rounded-lg ${props.parameter.color}`}>
                   {props.parameter.value}
                   <span className='text-xs'>
                     {parameters.find(param => param.value === props.parameter.name)?.unit || ''}
                   </span>
                 </div>
                 <div className="ml-4">
-                  <h4 className="text-gray-800 font-semibold">{parameters.find(param => param.value === props.parameter.name)?.label || props.parameter.name} </h4>
-                  <p className="text-sm text-muted-foreground">Healthy range: {props.parameter.min_range} - {props.parameter.max_range}</p>
+                  <h4 className="text-gray-800 font-semibold">
+                    {parameters.find(param => param.value === props.parameter.name)?.label || props.parameter.name}
+                  </h4>
+
+                  <p className="text-sm text-muted-foreground">
+                    Healthy range: {props.parameter.min_range} - {props.parameter.max_range}
+                  </p>
                 </div>
               </div>
 
-
               <div className="flex items-center">
-
-                {props.parameter.inRange ? (
-                  <CheckCircle className="w-5 h-5 text-green-500" />
-                ) : (
-                  <TriangleAlert className="w-5 h-5 text-red-500" />
-                )}
-
+                <span className={`inline-block text-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset 
+                    ${props.parameter.color === 'green' ? 'ring-green-600/20 text-green-700 bg-green-50' :
+                    props.parameter.color === 'yellow' ? 'ring-yellow-600/20 text-yellow-700 bg-yellow-50' :
+                      props.parameter.color === 'orange' ? 'ring-orange-600/20 text-orange-700 bg-orange-50' :
+                        props.parameter.color === 'red' ? 'ring-red-600/20 text-red-700 bg-red-50' :
+                          props.parameter.color === 'purple' ? 'ring-purple-600/20 text-purple-700 bg-purple-50' :
+                            props.parameter.color === 'blue' ? 'ring-blue-600/20 text-blue-700 bg-blue-50' :
+                              'ring-gray-600/20 text-gray-700 bg-gray-50'
+                  }`}>
+                  {props.parameter.category}
+                </span>
               </div>
             </div>
 
