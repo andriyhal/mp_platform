@@ -67,7 +67,7 @@ export function HealthDataForm(props: { group: "all" | "basic", fetchLast: 'true
         try {
           const userId = localStorage.getItem('userEmail') || 'test'
           const token = localStorage.getItem('token')
-          const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROOT}/get-health-data?userId=${userId}`, {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROOT}/get-health-data?userId=${userId}&waistHeightRatio=0`, {
             headers: {
               'Authorization': `Bearer ${token}`
             }

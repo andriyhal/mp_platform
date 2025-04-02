@@ -51,11 +51,11 @@ const parameters = [
   },
   {
     value: 'waistCircumference',
-    label: 'Waist Circumference',
-    unit: 'cm',
-    about: 'The measurement of the waistline around the abdomen.',
-    why: 'Waist circumference is an indicator of abdominal fat, which is closely linked to cardiovascular risk and metabolic disorders.',
-    averageValue: 32 // Example average value
+    label: 'Waist Height Ratio',
+    unit: '',
+    about: 'The ratio of waist circumference to height, indicating abdominal fat distribution.',
+    why: 'Waist height ratio is a strong predictor of cardiovascular disease, type 2 diabetes, and certain types of cancer, as it reflects visceral fat accumulation.',
+    averageValue: 0.4 // Example average value
   },
   {
     value: 'bloodPressureSystolic',

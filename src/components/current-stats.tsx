@@ -23,9 +23,9 @@ interface HealthData {
 const healthyRanges = {
   height: { min: 150, max: 200, label: 'Height', unit: 'cm' },
   weight: { min: 45, max: 100, label: 'Weight', unit: 'kg' },
-  waistCircumference: { min: 20, max: 94, label: 'Waist Circumference', unit: 'cm' },
-  bloodPressureSystolic: { min: 90, max: 120, label: 'Systolic', unit: 'mmHg' },
-  bloodPressureDiastolic: { min: 60, max: 80, label: 'Diastolic', unit: 'mmHg' },
+  waistCircumference: { min: 0, max: 0.4, label: 'Waist Height Ratio', unit: '' },
+  bloodPressureSystolic: { min: 90, max: 120, label: 'Blood Pressure Systolic', unit: 'mmHg' },
+  bloodPressureDiastolic: { min: 60, max: 80, label: 'Blood Pressure Diastolic', unit: 'mmHg' },
   fastingBloodGlucose: { min: 0, max: 85, label: 'Fasting Blood Glucose', unit: 'mg/dL' },
   hdlCholesterol: { min: 60, max: 100, label: 'HDL Cholesterol', unit: 'mg/dL' },
   triglycerides: { min: 0, max: 80, label: 'Triglycerides', unit: 'mg/dL' },
@@ -35,22 +35,22 @@ const healthyRanges = {
 
 const scoreTables = {
 
-  waistHeightRatio: [  //Waist Height Ratio
-    { range: [0.4, 0.49], score: 90, category: 'Optimal', color: 'green' },
-    { range: [0.5, 0.54], score: 80, category: 'Borderline', color: 'yellow' },
-    { range: [0.55, 0.59], score: 50, category: 'Suboptimal', color: 'orange' },
-    { range: [0.6, 0.69], score: 20, category: 'High Risk', color: 'red' },
-    { range: '<0.4', score: 100, category: 'Excellent', color: 'blue' },
-    { range: '>0.7', score: 0, category: 'Extremely High Risk', color: 'purple' }
-  ],
   waistCircumference: [  //Waist Height Ratio
-    { range: [60, 94], score: 90, category: 'Optimal', color: 'green' },
-    { range: [50, 60], score: 80, category: 'Borderline', color: 'yellow' },
-    { range: [30, 40], score: 50, category: 'Suboptimal', color: 'orange' },
-    { range: [20, 30], score: 20, category: 'High Risk', color: 'red' },
-    { range: '<20', score: 100, category: 'Excellent', color: 'blue' },
-    { range: '>94', score: 0, category: 'Extremely High Risk', color: 'purple' }
+    { range: [0.4, 0.49], score: 90, category: 'Healthy', color: 'green' },
+    { range: [0.5, 0.54], score: 80, category: 'Moderate Risk', color: 'yellow' },
+    { range: [0.55, 0.59], score: 50, category: 'High Risk', color: 'orange' },
+    { range: [0.6, 0.69], score: 20, category: 'Very High Risk', color: 'red' },
+    { range: '<0.4', score: 100, category: 'Optimal', color: 'blue' },
+    { range: '>0.7', score: 0, category: 'Severe Risk', color: 'purple' }
   ],
+  // waistCircumference: [  //Waist Height Ratio
+  //   { range: [60, 94], score: 90, category: 'Optimal', color: 'green' },
+  //   { range: [50, 60], score: 80, category: 'Borderline', color: 'yellow' },
+  //   { range: [30, 40], score: 50, category: 'Suboptimal', color: 'orange' },
+  //   { range: [20, 30], score: 20, category: 'High Risk', color: 'red' },
+  //   { range: '<20', score: 100, category: 'Excellent', color: 'blue' },
+  //   { range: '>94', score: 0, category: 'Extremely High Risk', color: 'purple' }
+  // ],
 
 
   bloodPressureSystolic: [
@@ -70,10 +70,10 @@ const scoreTables = {
     { range: '<60', score: 70, category: 'Low BP', color: 'blue' }
   ],
   fastingBloodGlucose: [
-    { range: [85, 89], score: 90, category: 'Borderline', color: 'yellow' },
-    { range: [90, 99], score: 80, category: 'Suboptimal', color: 'orange' },
-    { range: [100, 109], score: 60, category: 'High Risk', color: 'red' },
-    { range: [110, 125], score: 40, category: 'Extremely High Risk', color: 'purple' },
+    { range: [85, 89], score: 90, category: 'Near Optimal', color: 'yellow' },
+    { range: [90, 99], score: 80, category: 'Borderline Elevated', color: 'orange' },
+    { range: [100, 109], score: 60, category: 'Pre-Diabetes Early Risk', color: 'red' },
+    { range: [110, 125], score: 40, category: 'Pre-Diabetes High Risk', color: 'purple' },
     { range: '>126', score: 20, category: 'Diabetic', color: 'purple' },
     { range: '<85', score: 100, category: 'Optimal', color: 'green' }
   ],
