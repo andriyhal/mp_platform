@@ -67,13 +67,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const currentPath = window.location.pathname;
     const viewMap = {
-      '/dash': 'dashboard',
-      '/journey': 'journey',
-      '/network': 'network',
-      '/market': 'marketplace',
-      '/todo': '',
-      '/profile': 'profile',
-      '/documents': 'documents',
+      '/dash/': 'dashboard',
+      '/journey/': 'journey',
+      '/network/': 'network',
+      '/market/': 'marketplace',
+      '/todo/': '',
+      '/profile/': 'profile',
+      '/documents/': 'documents',
     } as const;
 
     const activeView = viewMap[currentPath as keyof typeof viewMap];
