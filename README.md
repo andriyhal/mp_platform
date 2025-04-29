@@ -1,36 +1,109 @@
+# Metabolic Point Platform
+
+A comprehensive health tracking and management SaaS application that allows users to monitor their health metrics, upload health data files, and receive personalized insights.
+
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
+
+## Features
+
+- **User Authentication**: Sign up, log in, and password recovery functionality
+- **User Onboarding**: Multi-step onboarding process to collect initial health information
+- **Dashboard**: Central hub with collapsible sidebar for navigation
+- **Profile Management**: View and edit user profile information
+- **Health Data Submission**: Form to submit detailed health metrics
+- **File Management**: View uploaded data files with timestamps
+
+## Technologies Used
+
+- **Frontend**: Next.js 14 (App Router), React, TypeScript
+- **UI Components**: shadcn/ui, Tailwind CSS, Lucide React icons
+- **Form Handling**: React Hook Form, Zod validation
+
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
+- Node.js 22.x or later
+- npm 
+
+### Installation
+
+1. Clone the repository:
+
+2. Install dependencies:
+
+```shellscript
+npm install
+
+```
+
+
+3. Create a `.env.local` file in the root directory with the following variables:
+
+```plaintext
+NEXT_PUBLIC_API_ROOT=https://api.example.com
+NEXT_PUBLIC_LOGIN_AUTOCOMPLETE_USER=tester@example.com
+NEXT_PUBLIC_LOGIN_AUTOCOMPLETE_PASSWORD=password
+NEXT_PUBLIC_DISABLE_SIGNUP=false
+# Add any other environment variables here
+```
+
+
+4. Start the development server:
+
+```shellscript
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+5. Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+## Usage
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Authentication Flow
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. New users start at the landing page and click "Sign up"
+2. After signing up, they are directed to the onboarding process
+3. Existing users can log in from the landing page
+4. After authentication, users are directed to the dashboard
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Dashboard Navigation
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The dashboard includes a collapsible sidebar with the following options:
+
+- dashboard - Dashboard
+- journey - My Health Journey
+- network - Provider Network
+- marketplace - Marketplace
+- orders - My Orders
+- profile - View Profile
+- notifications - Notifications
+- security - Password and Security
+- documents - My Documents
+- healthData - Submit Health Data
+
+
+### Health Data Submission
+
+Users can submit detailed health metrics including:
+
+- Height and weight
+- Waist circumference
+- Blood pressure (systolic and diastolic)
+- Fasting blood glucose
+- HDL cholesterol and triglycerides
+
+
+
+
+
+
+
