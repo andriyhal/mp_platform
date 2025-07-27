@@ -109,7 +109,7 @@ const fetchEstimateHealthData = async () => {
     const age =  calculateAge(form.getValues().dateOfBirth);
     //console.log(props)
     const token = localStorage.getItem('token')
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROOT}/average-health-metrics?age=${age}&sex=${form.getValues().gender}&weight=${form.getValues().weight}` , {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROOT}/average-health-metrics?age=${age}&sex=${form.getValues().gender}` , {
       headers: {
         'Authorization': `Bearer ${token}`
       }
