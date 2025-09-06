@@ -49,7 +49,7 @@ import { HealthDataForm } from "./health-data-form";
 
 import { UserProfileEdit } from "./UserProfileEdit";
 import "react-circular-progressbar/dist/styles.css";
-import { HealthScore } from "./health-score";
+import { CentralHealthScore } from "./central-health-score";
 import Image from "next/image";
 import { CurrentStats } from "./current-stats";
 import { ImportFile } from "./import-file";
@@ -294,22 +294,10 @@ export function DashboardPage() {
 							{/* Top Left: Health Score Meter */}
 
 							<Card className="h-full">
-								<CardHeader>
-									<CardTitle>Central Health Score</CardTitle>
-									<CardDescription>
-										{/* Current health assessment for {user ? user.name : "User"} */}
-									</CardDescription>
-								</CardHeader>
-								<CardContent className="flex justify-center p-6">
-									<div>
-										<div>
-											{!showOnboardingDialog &&
-												!showDialog &&
-												!showSideDialog && <HealthScore />}
-										</div>
-
-
-									</div>
+								<CardContent className="p-0">
+									{!showOnboardingDialog &&
+										!showDialog &&
+										!showSideDialog && <CentralHealthScore />}
 								</CardContent>
 							</Card>
 
@@ -469,8 +457,8 @@ function HealthScoreView() {
 					Current health score for {user?.name || "User"}
 				</CardDescription>
 			</CardHeader>
-			<CardContent>
-				<HealthScore />
+			<CardContent className="p-0">
+				<CentralHealthScore />
 			</CardContent>
 			<CardFooter></CardFooter>
 		</Card>

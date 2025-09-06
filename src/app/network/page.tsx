@@ -24,7 +24,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { HealthScore } from '@/components/health-score';
+import { CentralHealthScore } from '@/components/central-health-score';
 import { AuthProvider } from '@/components/AuthContext';
 
 export default function Home() {
@@ -40,25 +40,8 @@ export default function Home() {
                 <div className="grid grid-cols-12 gap-6 p-6">
                     <div className='col-span-6'>
                         <Card>
-                            <CardHeader>
-                                <CardTitle>Central Health Score</CardTitle>
-                                <CardDescription>
-                                    {/* Current health assessment for {user ? user.name : "User"} */}
-                                </CardDescription>
-                            </CardHeader>
-                            <CardContent className="flex justify-center p-6">
-                                <div>
-                                    <div>
-                                        <div className="grid grid-cols-2 items-center">
-                                            <div className='col-span-1'><HealthScore /></div>
-                                            <div className='col-span-1'><p>your results are much better than last month</p></div>
-
-                                        </div>
-
-                                    </div>
-
-
-                                </div>
+                            <CardContent className="p-0">
+                                <CentralHealthScore />
                             </CardContent>
                         </Card>
                         <div className="pt-6">

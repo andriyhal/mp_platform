@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { HealthScore } from '@/components/health-score';
+import { CentralHealthScore } from '@/components/central-health-score';
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -135,22 +135,10 @@ export default function Home() {
             {/* Top Left: Health Score Meter */}
 
             <Card className="h-full">
-              <CardHeader>
-                <CardTitle>Central Health Score</CardTitle>
-                <CardDescription>
-                  {/* Current health assessment for {user ? user.name : "User"} */}
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="flex justify-center p-6">
-                <div>
-                  <div>
-                    {!showOnboardingDialog &&
-                      !showDialog &&
-                      !showSideDialog && <HealthScore />}
-                  </div>
-
-
-                </div>
+              <CardContent className="p-0">
+                {!showOnboardingDialog &&
+                  !showDialog &&
+                  !showSideDialog && <CentralHealthScore />}
               </CardContent>
             </Card>
 

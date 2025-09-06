@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 import { Button } from "@/components/ui/button"
+import { formatToUSDateTime } from "@/lib/dateUtils"
 import {
   Form,
   FormControl,
@@ -241,7 +242,7 @@ export function HealthDataForm(props: { group: "all" | "basic", fetchLast: 'true
       {isLoading && <p>Loading...</p>}
       {lastUpdateDate && (
         <p className="text-sm text-muted-foreground mb-4">
-          Last updated: {lastUpdateDate}
+          Last updated: {formatToUSDateTime(lastUpdateDate)}
         </p>
       )}
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
