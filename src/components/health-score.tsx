@@ -5,6 +5,7 @@ import { CircularProgressbar } from 'react-circular-progressbar'
 import "react-circular-progressbar/dist/styles.css";
 import { useToast } from "@/hooks/use-toast"
 import { Button } from "@/components/ui/button"
+import { formatToUSDateTime } from "@/lib/dateUtils"
 
 interface HealthScoreData {
   score: number;
@@ -16,6 +17,7 @@ interface HealthScoreData {
   fastingBloodGlucose: number;
   hdlCholesterol: number;
   triglycerides: number;
+  general_health_score?: number; // Add this for the new API response
 }
 
 export function HealthScore({ variant = "default" }) {
@@ -68,7 +70,13 @@ export function HealthScore({ variant = "default" }) {
         setBMI(data.bmi || null)
         setLastUpdateDate(data.lastUpdate || null)
         setScoreDetails(data.description || null)
-        setJsonObj(data)
+        
+        // Use general_health_score if available, otherwise use the calculated score
+        const healthScore = data.general_health_score || data.score || 0
+        setJsonObj({
+          ...data,
+          score: healthScore
+        })
 
       } catch (error) {
         console.error('Error fetching health score:', error)
@@ -128,7 +136,7 @@ export function HealthScore({ variant = "default" }) {
 
             {lastUpdateDate && (
               <p className="text-sm text-muted-foreground mb-4">
-                Last updated: {lastUpdateDate}
+                Last updated: {formatToUSDateTime(lastUpdateDate)}
               </p>
             )}
 

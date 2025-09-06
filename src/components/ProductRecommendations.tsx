@@ -70,7 +70,7 @@ export default function ProductRecommendations(props: { filter: string }) {
         }
 
         const token = localStorage.getItem('token')
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROOT}/get-reco-products?userId=${userId}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROOT}/recommendation`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -80,14 +80,25 @@ export default function ProductRecommendations(props: { filter: string }) {
         }
 
         const jsonObj = await response.json()
-        // console.log('recommendations Data:', jsonObj)
-        // if (typeof jsonObj !== 'string') {
-        //   throw new Error('Data is not in the correct format');
-        // }
-        // const parsedData = JSON.parse(jsonObj);
-        // console.log('recommendations Data:', parsedData)
+        console.log('New recommendations Data:', jsonObj)
 
-        setData(jsonObj)
+        // Transform the new API response format to match component expectations
+        const transformedData: ProductItem[] = []
+        if (jsonObj.grouped) {
+          Object.keys(jsonObj.grouped).forEach(category => {
+            jsonObj.grouped[category].forEach((product: any) => {
+              transformedData.push({
+                title: product.name,
+                description: product.description,
+                price: `$${product.price}`,
+                image: product.image_url,
+                buttonText: "Buy",
+              })
+            })
+          })
+        }
+
+        setData(transformedData)
         setIsLoading(false)
 
       } catch (error) {
@@ -108,7 +119,7 @@ export default function ProductRecommendations(props: { filter: string }) {
 
   return (
     <>
-      {isLoading ? <p>Loading...</p> : (
+      {isLoading ? <p>Loading...</p> : data.length === 0 ? (
         <Card>
           <CardHeader>
             <CardTitle>
@@ -119,25 +130,44 @@ export default function ProductRecommendations(props: { filter: string }) {
                 </a>
               </div>
             </CardTitle>
-            <CardDescription>See our recommendations</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="text-center py-8">
+              <p className="text-gray-500 text-lg">
+                Your recommendations will be here once your health score will be calculated
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+      ) : (
+        <Card>
+          <CardHeader>
+            <CardTitle>
+              <div className="flex items-center justify-between ">
+                Recommended Products for You
+                <a href="#" onClick={() => setShowAll(!showAll)} className="text-primary font-semibold hover:underline">
+                  {showAll ? 'Show Less' : 'View All'}
+                </a>
+              </div>
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 ">
               {showAll ? data.map((item, index) => (
                 <div
                   key={index}
-                  className="p-4 bg-gray-100 rounded-lg shadow hover:shadow-md hover:bg-gray-200"
+                  className="p-4 bg-gray-150 border border-gray-300 rounded-lg shadow hover:shadow-md hover:bg-gray-200"
                 >
                   <Image
                     src={item.image}
                     alt={item.title}
-
-                    width={300} height={24}
+                    width={350} height={24}
+                    className="mx-auto"
                   />
-                  <h2 className="text-sm font-semibold text-gray-800 mb-2">
+                  <h2 className="text-sm font-semibold text-black mt-[5px] mb-2 truncate">
                     {item.title}
                   </h2>
-                  <p className="text-sm text-gray-600 mb-4 h-[150px]">{item.description}</p>
+                  <p className="text-xs text-gray-600 mb-4 h-[32px] leading-tight line-clamp-2 overflow-hidden">{item.description}</p>
                   <div className="flex justify-between items-center ">
                     <span className="text-lg font-bold text-gray-800">{item.price}</span>
                     <button className="px-4 py-2 bg-primary text-white text-sm font-semibold rounded-lg hover:bg-primary-500">
@@ -147,21 +177,20 @@ export default function ProductRecommendations(props: { filter: string }) {
                 </div>
 
               )) : data.slice(0, 3).map((item, index) => (
-
                 <div
                   key={index}
-                  className="p-4 bg-gray-100 rounded-lg shadow hover:shadow-md hover:bg-gray-200"
+                  className="p-4 bg-gray-150 border border-gray-300 rounded-lg shadow hover:shadow-md hover:bg-gray-200"
                 >
                   <Image
                     src={item.image}
                     alt={item.title}
-
-                    width={300} height={24}
+                    width={350} height={24}
+                    className="mx-auto"
                   />
-                  <h2 className="text-sm font-semibold text-gray-800 mb-2">
+                  <h2 className="text-sm font-semibold text-black mt-[5px] mb-2 truncate">
                     {item.title}
                   </h2>
-                  <p className="text-sm text-gray-600 mb-4 h-[150px]">{item.description}</p>
+                  <p className="text-xs text-gray-600 mb-4 h-[32px] leading-tight line-clamp-2 overflow-hidden">{item.description}</p>
                   <div className="flex justify-between items-center ">
                     <span className="text-lg font-bold text-gray-800">{item.price}</span>
                     <button className="px-4 py-2 bg-primary text-white text-sm font-semibold rounded-lg hover:bg-primary-500">

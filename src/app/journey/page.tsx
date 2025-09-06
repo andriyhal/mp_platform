@@ -2,7 +2,7 @@
 
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { HealthScore } from '@/components/health-score';
+import { CentralHealthScore } from '@/components/central-health-score';
 
 import HealthJourneyCards from '@/components/HealthJourneyCards';
 import {
@@ -31,23 +31,8 @@ export default function Home() {
         <div className="grid grid-cols-12 gap-6 p-6">
           <div className='col-span-8'>
             <Card>
-              <CardHeader>
-                <CardTitle>Central Health Score</CardTitle>
-                <CardDescription>
-                  {/* Current health assessment for {user ? user.name : "User"} */}
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="flex justify-center p-6">
-                <div>
-                  <div>
-
-                    <div className='col-span-1'><HealthScore variant="extra" /></div>
-
-
-                  </div>
-
-
-                </div>
+              <CardContent className="p-0">
+                <CentralHealthScore variant="extra" />
               </CardContent>
             </Card>
             <div className="pt-6"> <ProductRecommendations filter='all' /> </div>

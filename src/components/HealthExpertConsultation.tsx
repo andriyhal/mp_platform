@@ -10,85 +10,163 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Image from 'next/image';
+import { useToast } from "@/hooks/use-toast"
 
-const defaultData = [
+interface ExpertItem {
+  name: string;
+  specialization: string;
+  availability: string;
+  price: string;
+  image: string;
+  buttonText: string;
+  booking_url?: string;
+}
+
+const defaultData: ExpertItem[] = [
   {
     name: "Dr. Emily Johnson",
     specialization: "Cardiologist",
     availability: "Available",
     price: "$100",
     image: "/images/demo_doctor.png",
-    buttonText: "Book",
-  },
-  {
-    name: "Dr. Emily Johnson",
-    specialization: "Cardiologist",
-    availability: "Unavailable",
-    price: "$100",
-    image: "",
-    buttonText: "Book",
-  },
-  {
-    name: "Dr. Emily Johnson",
-    specialization: "Cardiologist",
-    availability: "Available",
-    price: "$100",
-    image: "/images/demo_doctor.png",
-    buttonText: "Book",
-  },
-  {
-    name: "Dr. Emily Johnson",
-    specialization: "Cardiologist",
-    availability: "Available",
-    price: "$100",
-    image: "/images/demo_doctor.png",
-    buttonText: "Book",
+    buttonText: "Consultation",
+    booking_url: "#",
   },
 ];
 
 export default function HealthExpertConsultation({ variant = "default", experts = defaultData }) {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [showAll, setShowAll] = useState(false);
+  const [data, setData] = useState<ExpertItem[]>(defaultData);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    const fetchProviderNetwork = async () => {
+      try {
+        const token = localStorage.getItem('token')
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROOT}/provider-network`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+        if (!response.ok) {
+          throw new Error('Failed to fetch provider network')
+        }
+
+        const jsonObj = await response.json()
+        console.log('Provider network Data:', jsonObj)
+
+        // Transform the new API response format to match component expectations
+        const transformedData: ExpertItem[] = []
+        if (jsonObj.providers) {
+          jsonObj.providers.forEach((provider: any) => {
+            transformedData.push({
+              name: provider.name,
+              specialization: provider.expertise_type,
+              availability: "Available for Consultation", // Updated text
+              price: provider.price ? `$${provider.price}` : "$100",
+              image: provider.image_url || "",
+              buttonText: "Consultation",
+              booking_url: provider.booking_url || "#",
+            })
+          })
+        }
+
+        setData(transformedData)
+        setIsLoading(false)
+
+      } catch (error) {
+        console.error('Error fetching provider network:', error)
+        toast({
+          title: "Error",
+          description: "Failed to fetch provider network",
+          variant: "destructive",
+        })
+        setIsLoading(false)
+      }
+    }
+
+    fetchProviderNetwork()
+  }, [toast])
 
   return (
     <>
-      {isLoading ? <p>Loading...</p> : (
-        <Card className={variant === "compact" ? "p-4" : "p-6"}>
+      {isLoading ? <p>Loading...</p> : data.length === 0 ? (
+        <Card className={variant === "compact" ? "p-2" : "p-4"}>
           <CardHeader>
             <CardTitle>
               <div className="flex items-center justify-between">
                 Consult with a Health Expert
-                <a href="#" className="text-primary font-semibold hover:underline">
-                  View All
+                <a href="#" onClick={() => setShowAll(!showAll)} className="text-primary font-semibold hover:underline">
+                  {showAll ? 'Show Less' : 'View All'}
                 </a>
               </div>
             </CardTitle>
-            <CardDescription>Find the right expert for your needs</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className={
-              variant === "row"
-                ? "flex flex-col space-y-4"
-                : `grid ${variant === "compact" ? "grid-cols-2" : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"} gap-6`
-            }>
-              {experts.map((item, index) => (
-                <div key={index} className={variant === "row" ? "flex items-center p-4 bg-gray-100 rounded-lg shadow hover:shadow-md hover:bg-gray-200" : "p-4 bg-gray-100 rounded-lg shadow hover:shadow-md hover:bg-gray-200 max-w-[250px]"}>
-                  {item.image !== '' ? (
-                    <Image src={item.image} alt={item.name} className="w-20 h-20 rounded-full" width={80} height={80} />
-                  ) : (
-                    <div className="w-20 h-20 flex items-center justify-center rounded-full bg-gray-300">
-                      <User className="h-12 w-12 text-gray-500" />
-                    </div>
-                  )}
-                  <div className={variant === "row" ? "flex space-x-4"  : "flex-1 pb-2"   }>
-                    <h2 className="text-sm font-semibold text-gray-800">{item.name}</h2>
-                    <p className="text-sm text-gray-600">{item.specialization}</p>
-                    <span className={`inline-block mt-2 px-1 py-1 text-xs font-small rounded-full ${item.availability === 'Available' ? 'text-green-700 bg-green-100' : 'text-red-700 bg-red-100'}`}>
-                      {item.availability}
-                    </span>
+            <div className="text-center py-8">
+              <p className="text-gray-500 text-lg">
+                Your recommendations will be here once your health score will be calculated
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+      ) : (
+        <Card className={variant === "compact" ? "p-2" : "p-4"}>
+          <CardHeader>
+            <CardTitle>
+              <div className="flex items-center justify-between">
+                Consult with a Health Expert
+                <a href="#" onClick={() => setShowAll(!showAll)} className="text-primary font-semibold hover:underline">
+                  {showAll ? 'Show Less' : 'View All'}
+                </a>
+              </div>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {(showAll ? data : data.slice(0, 3)).map((item, index) => (
+                <div key={index} className="flex flex-col items-center p-4 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow min-w-[195px]">
+                  <div className="mb-4">
+                    {item.image !== '' ? (
+                      <Image 
+                        src={item.image} 
+                        alt={item.name} 
+                        className="w-16 h-16 rounded-full object-cover mx-auto" 
+                        width={64} 
+                        height={64} 
+                      />
+                    ) : (
+                      <div className="w-16 h-16 flex items-center justify-center rounded-full bg-gray-200 mx-auto">
+                        <User className="h-8 w-8 text-gray-500" />
+                      </div>
+                    )}
                   </div>
-                  <button className={`ml-auto px-4 py-2 text-white text-xs bg-primary font-semibold rounded-lg hover:bg-primary-500 ${item.availability === 'Available' ? '' : 'opacity-50'}`}>
-                    {item.buttonText}
-                  </button>
+                  
+                  <div className="text-center mb-4">
+                    <span className="inline-block px-2 py-0.5 text-xs font-medium text-green-700 bg-green-100 rounded-full mb-2 whitespace-nowrap">
+                      Available for Consultation
+                    </span>
+                    <h3 className="text-base font-semibold text-gray-900 mb-0">{item.name}</h3>
+                    <p className="text-sm text-gray-600 mb-3">{item.specialization}</p>
+                  </div>
+                  
+                  <div className="flex items-center justify-between w-full">
+                    <div className="flex-shrink-0">
+                      <span className="text-base font-bold text-gray-900">{item.price}</span>
+                    </div>
+                    <div className="flex-shrink-0">
+                      <a
+                        href={item.booking_url || '#'}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-4 py-2 text-white text-sm font-medium rounded-lg hover:opacity-90 transition-opacity"
+                        style={{ backgroundColor: 'rgb(0, 168, 224)' }}
+                      >
+                        Consultation
+                      </a>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>

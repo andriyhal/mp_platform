@@ -21,6 +21,8 @@ interface JourneyItem {
   linkText: string;
   icon: 'PlayIcon' | 'TargetIcon' | 'PillIcon' | 'MeatIcon' | 'LeafIcon';
   iconColor: string;
+  image_url?: string;
+  content_url?: string;
 }
 
 export default function HealthJourneyCards(props: { filter: string }) {
@@ -47,7 +49,7 @@ export default function HealthJourneyCards(props: { filter: string }) {
         }
 
         const token = localStorage.getItem('token')
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROOT}/get-reco-actions?userId=${userId}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROOT}/digital-journey`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -57,21 +59,32 @@ export default function HealthJourneyCards(props: { filter: string }) {
         }
 
         const jsonObj = await response.json()
-        // console.log('recommendations Data:', jsonObj)
-        // if (typeof jsonObj !== 'string') {
-        //   throw new Error('Data is not in the correct format');
-        // }
-        // const parsedData = JSON.parse(jsonObj);
-        // console.log('recommendations Data:', parsedData)
+        console.log('New digital journey Data:', jsonObj)
 
-        setData(jsonObj)
+        // Transform the new API response format to match component expectations
+        const transformedData: JourneyItem[] = []
+        if (jsonObj.items) {
+          jsonObj.items.forEach((item: any) => {
+            transformedData.push({
+              title: item.name,
+              description: item.description,
+              linkText: "Go",
+              icon: item.type === 'exercise' ? 'TargetIcon' : item.type === 'article' ? 'PlayIcon' : 'LeafIcon',
+              iconColor: "purple",
+              image_url: item.image_url,
+              content_url: item.content_url
+            })
+          })
+        }
+
+        setData(transformedData)
         setIsLoading(false)
 
       } catch (error) {
-        console.error('Error fetching recommendation:', error)
+        console.error('Error fetching digital journey:', error)
         toast({
           title: "Error",
-          description: "Failed to fetch recommendations",
+          description: "Failed to fetch digital journey",
           variant: "destructive",
         })
       } finally {
@@ -85,8 +98,8 @@ export default function HealthJourneyCards(props: { filter: string }) {
 
   return (
     <>
-      {isLoading ? <p>Loading...</p> : (
-        <Card className="h-full">
+      {isLoading ? <p>Loading...</p> : data.length === 0 ? (
+        <Card className="h-full px-0">
           <CardHeader>
             <CardTitle>
               <div className="flex items-center justify-between ">
@@ -99,49 +112,79 @@ export default function HealthJourneyCards(props: { filter: string }) {
             <CardDescription>See our recommendations</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
+            <div className="text-center py-8">
+              <p className="text-gray-500 text-lg">
+                Your recommendations will be here once your health score will be calculated
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+      ) : (
+        <Card className="h-full px-0">
+          <CardHeader>
+            <CardTitle>
+              <div className="flex items-center justify-between ">
+                Your Personalized Health Journey
+                <a href="#" onClick={() => setShowAll(!showAll)} className="text-primary font-semibold hover:underline">
+                  {showAll ? 'Show Less' : 'View All'}
+                </a>
+              </div>
+            </CardTitle>
+            <CardDescription>See our recommendations</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-1">
               {showAll ? data.map((item, index) => (
                 <div
                   key={index}
-                  className="flex items-center justify-between p-4 bg-gray-100 rounded-lg hover:bg-gray-200"
+                  className="flex items-center justify-between pt-4 pr-4 rounded-lg"
                 >
-                  <div className="flex items-start space-x-4">
-                    <div className={`flex items-center justify-center pl-2 w-10 h-10 bg-${item.iconColor}-100 text-${item.iconColor}-500 rounded-lg`}>
-                      {item.icon === 'PlayIcon' && <PlayIcon className="mr-2 h-4 w-4" />}
-                      {item.icon === 'TargetIcon' && <TargetIcon className="mr-2 h-4 w-4" />}
-                      {item.icon === 'PillIcon' && <PillBottle className="mr-2 h-4 w-4" />}
-                      {item.icon === 'MeatIcon' && <UtensilsCrossed className="mr-2 h-4 w-4" />}
-                      {item.icon === 'LeafIcon' && <Sprout className="mr-2 h-4 w-4" />}
-
-                    </div>
+                  <div className="flex items-center space-x-4">
+                    {item.image_url && (
+                      <img
+                        src={item.image_url}
+                        alt={item.title}
+                        className="w-10 h-10 rounded-full object-cover border border-gray-300"
+                      />
+                    )}
                     <div>
                       <h2 className="text-sm font-semibold text-gray-800">{item.title}</h2>
                       <p className="text-sm text-gray-600">{item.description}</p>
                     </div>
                   </div>
-                  <a href="#" className="text-primary font-semibold hover:underline">
+                  <a
+                    href={item.content_url || '#'}
+                    className="text-primary font-semibold hover:underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     {item.linkText}
                   </a>
                 </div>
               )) : data.slice(0, 5).map((item, index) => (
                 <div
                   key={index}
-                  className="flex items-center justify-between p-4 bg-gray-100 rounded-lg hover:bg-gray-200"
+                  className="flex items-center justify-between pt-4 pr-4 rounded-lg"
                 >
-                  <div className="flex items-start space-x-4">
-                    <div className={`flex items-center justify-center pl-2 w-10 h-10 bg-${item.iconColor}-100 text-${item.iconColor}-500 rounded-lg`}>
-                      {item.icon === 'PlayIcon' && <PlayIcon className="mr-2 h-4 w-4" />}
-                      {item.icon === 'TargetIcon' && <TargetIcon className="mr-2 h-4 w-4" />}
-                      {item.icon === 'PillIcon' && <PillBottle className="mr-2 h-4 w-4" />}
-                      {item.icon === 'MeatIcon' && <UtensilsCrossed className="mr-2 h-4 w-4" />}
-                      {item.icon === 'LeafIcon' && <Sprout className="mr-2 h-4 w-4" />}
-                    </div>
+                  <div className="flex items-center space-x-4">
+                    {item.image_url && (
+                      <img
+                        src={item.image_url}
+                        alt={item.title}
+                        className="w-10 h-10 rounded-full object-cover border border-gray-300"
+                      />
+                    )}
                     <div>
                       <h2 className="text-sm font-semibold text-gray-800">{item.title}</h2>
                       <p className="text-sm text-gray-600">{item.description}</p>
                     </div>
                   </div>
-                  <a href="#" className="text-primary font-semibold hover:underline">
+                  <a
+                    href={item.content_url || '#'}
+                    className="text-primary font-semibold hover:underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     {item.linkText}
                   </a>
                 </div>
