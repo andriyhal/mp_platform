@@ -19,13 +19,6 @@ interface HealthData {
   vitaminD2: number
   vitaminD3: number
   lastUpdate?: string
-  scores?: {
-    [key: string]: {
-      score: number
-      category: string
-      color: string
-    }
-  }
 }
 
 const healthyRanges = {
@@ -39,6 +32,81 @@ const healthyRanges = {
   triglycerides: { min: 0, max: 80, label: 'Triglycerides', unit: 'mg/dL' },
   vitaminD2: { min: 20, max: 50, label: 'Vitamin D2', unit: 'ng/mL' },
   vitaminD3: { min: 20, max: 50, label: 'Vitamin D3', unit: 'ng/mL' }
+}
+
+const biomarkerIds: { [key: string]: number } = {
+  bloodPressureSystolic: 4,
+  bloodPressureDiastolic: 5,
+  hdlCholesterol: 7,
+  triglycerides: 8,
+  fastingBloodGlucose: 6,
+  waistCircumference: 3
+}
+
+const biomarkerCategories: { [key: number]: { [key: number]: string } } = {
+  4: { // systolic BP
+    100: 'Normal',
+    90: 'Elevated',
+    80: 'Hypertension Stage 1',
+    70: 'Low BP',
+    60: 'Hypertension Stage 2',
+    40: 'Hypertensive Crisis'
+  },
+  5: { // diastolic BP
+    100: 'Normal',
+    90: 'Elevated',
+    80: 'Hypertension Stage 1',
+    70: 'Low BP',
+    60: 'Hypertension Stage 2',
+    40: 'Hypertensive Crisis'
+  },
+  7: { // HDL
+    100: 'Optimal',
+    90: 'Near Optimal',
+    80: 'Borderline Low',
+    60: 'Low (Increased Risk)',
+    40: 'Very Low (High Risk)'
+  },
+  8: { // triglycerides
+    100: 'Optimal',
+    90: 'Near Optimal',
+    80: 'Slightly Elevated',
+    60: 'Moderately Elevated',
+    40: 'High',
+    20: 'Very High'
+  },
+  6: { // fasting glucose
+    100: 'Optimal',
+    90: 'Near Optimal',
+    80: 'Borderline Elevated',
+    60: 'Pre-Diabetes (Early Risk)',
+    40: 'Pre-Diabetes (High Risk)',
+    20: 'Diabetes (Very High Risk)'
+  },
+  3: { // waist height ratio
+    100: 'Optimal',
+    90: 'Healthy',
+    80: 'Healthy',
+    70: 'Moderate Risk',
+    60: 'Moderate Risk',
+    50: 'High Risk',
+    40: 'High Risk',
+    30: 'Very High Risk',
+    20: 'Very High Risk',
+    10: 'Very High Risk',
+    0: 'Severe Risk'
+  }
+}
+
+const colorClasses: { [key: string]: string } = {
+  green: 'ring-green-600/20 text-green-700 bg-green-50',
+  lightgreen: 'ring-green-400/20 text-green-600 bg-green-100',
+  yellow: 'ring-yellow-600/20 text-yellow-700 bg-yellow-50',
+  orange: 'ring-orange-600/20 text-orange-700 bg-orange-50',
+  red: 'ring-red-600/20 text-red-700 bg-red-50',
+  darkred: 'ring-red-800/20 text-red-800 bg-red-100',
+  purple: 'ring-purple-600/20 text-purple-700 bg-purple-50',
+  blue: 'ring-blue-600/20 text-blue-700 bg-blue-50'
 }
 
 
@@ -74,7 +142,7 @@ export function CurrentStats() {
         }
 
         const data = await response.json()
-        console.log('Health data with scores:', data)
+        console.log('Health data:', data)
         setHealthData(data)
 
 
@@ -96,17 +164,40 @@ export function CurrentStats() {
   }
 
   const isInRange = (value: number, parameter: keyof typeof healthyRanges) => {
-    // Check if the API already provided scores and categories
-    if (healthData && healthData.scores && healthData.scores[parameter]) {
-      const scoreData = healthData.scores[parameter]
+    // Use the biomarker value as the score for categorization
+    const score = value
+    const biomarkerId = biomarkerIds[parameter]
+    if (biomarkerId && biomarkerCategories[biomarkerId]) {
+      const thresholds = Object.keys(biomarkerCategories[biomarkerId]).map(Number).sort((a, b) => a - b) // ascending
+      let category = 'Unknown'
+      let color = 'red'
+      // Find the smallest threshold greater than the score
+      for (const thresh of thresholds) {
+        if (score < thresh) {
+          category = biomarkerCategories[biomarkerId][thresh]
+          if (thresh === 100) color = 'green'
+          else if (thresh === 90) color = 'lightgreen'
+          else if (thresh === 80) color = 'yellow'
+          else if (thresh === 70) color = 'orange'
+          else if (thresh === 60) color = 'red'
+          else if (thresh === 40 || thresh === 20 || thresh === 10 || thresh === 0) color = 'darkred'
+          break
+        }
+      }
+      // If score is >= highest threshold, use the highest threshold's category
+      if (score >= thresholds[thresholds.length - 1]) {
+        const highestThresh = thresholds[thresholds.length - 1]
+        category = biomarkerCategories[biomarkerId][highestThresh]
+        color = highestThresh === 100 ? 'green' : 'lightgreen'
+      }
       return {
-        inRange: scoreData.score >= 80, // Assuming 80+ is good
-        category: scoreData.category,
-        color: scoreData.color || getColorFromScore(scoreData.score)
+        inRange: score >= 80,
+        category,
+        color
       }
     }
 
-    // Fallback to original range check if no score data from API
+    // Fallback to original range check if no biomarker mapping
     const range = healthyRanges[parameter];
     return {
       inRange: value >= range.min && value <= range.max,
@@ -115,23 +206,8 @@ export function CurrentStats() {
     };
   }
 
-  const getColorFromScore = (score: number) => {
-    if (score >= 90) return 'green'
-    if (score >= 80) return 'yellow'
-    if (score >= 60) return 'orange'
-    return 'red'
-  }
-
   const getColorClasses = (color: string) => {
-    const colorMap = {
-      green: 'ring-green-600/20 text-green-700 bg-green-50',
-      yellow: 'ring-yellow-600/20 text-yellow-700 bg-yellow-50',
-      orange: 'ring-orange-600/20 text-orange-700 bg-orange-50',
-      red: 'ring-red-600/20 text-red-700 bg-red-50',
-      purple: 'ring-purple-600/20 text-purple-700 bg-purple-50',
-      blue: 'ring-blue-600/20 text-blue-700 bg-blue-50'
-    };
-    return colorMap[color as keyof typeof colorMap] || colorMap.red;
+    return colorClasses[color as keyof typeof colorClasses] || colorClasses.red;
   };
 
   return (
