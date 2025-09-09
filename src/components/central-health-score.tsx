@@ -45,7 +45,7 @@ export function CentralHealthScore({ variant = "default" }: CentralHealthScorePr
         const userId = localStorage.getItem('userEmail') || 'test'
         const token = localStorage.getItem('token')
         
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROOT}/calc-health-score?userId=${userId}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROOT}/user-scores`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -57,8 +57,8 @@ export function CentralHealthScore({ variant = "default" }: CentralHealthScorePr
 
         const data = await response.json()
         
-        // Use general_health_score if available, otherwise use the calculated score
-        const healthScore = data.general_health_score || data.score || 66
+        // Use centralHealthScore from the new API
+        const healthScore = data.centralHealthScore || 66
         
         // Determine status based on score
         let status: 'Need to improve' | 'Good' | 'Excellent' = 'Good'
