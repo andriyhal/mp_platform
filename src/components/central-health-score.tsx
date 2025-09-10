@@ -58,7 +58,7 @@ export function CentralHealthScore({ variant = "default" }: CentralHealthScorePr
         const data = await response.json()
         
         // Use centralHealthScore from the new API
-        const healthScore = data.centralHealthScore || 66
+        const healthScore = data.centralHealthScore !== null && data.centralHealthScore !== undefined ? data.centralHealthScore : 66
         
         // Determine status based on score
         let status: 'Need to improve' | 'Good' | 'Excellent' = 'Good'

@@ -39,12 +39,12 @@ const healthyRanges = {
 }
 
 const biomarkerIds: { [key: string]: number } = {
+  waistCircumference: 3,
   bloodPressureSystolic: 4,
   bloodPressureDiastolic: 5,
-  hdlCholesterol: 7,
-  triglycerides: 8,
   fastingBloodGlucose: 6,
-  waistCircumference: 3
+  hdlCholesterol: 7,
+  triglycerides: 8
 }
 
 // Create reverse mapping from ID to parameter name
@@ -55,12 +55,12 @@ Object.entries(biomarkerIds).forEach(([param, id]) => {
 
 // Define the display order for biomarkers
 const biomarkerDisplayOrder = [
-  'waistCircumference',    // WHR
-  'fastingBloodGlucose',   // FBC
+  'waistCircumference',   // WHR
+  'fastingBloodGlucose',  // FBC
   'bloodPressureSystolic', // BPS
   'bloodPressureDiastolic', // BPD
-  'hdlCholesterol',        // HDL
-  'triglycerides'          // Triglycerides
+  'hdlCholesterol',       // HDL
+  'triglycerides'         // Triglycerides
 ]
 
 const biomarkerCategories: { [key: number]: { [key: number]: string } } = {

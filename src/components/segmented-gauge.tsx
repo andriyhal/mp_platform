@@ -229,6 +229,7 @@ export function SegmentedGauge({
                 d={segmentPath}
                 fill={isActive ? activeColor : inactiveColor}
                 className="transition-colors duration-150"
+                suppressHydrationWarning
               />
             )
           })}
