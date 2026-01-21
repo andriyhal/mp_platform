@@ -6,8 +6,8 @@ React/Next.js implementation details for MP Platform dashboard components.
 
 - [UI Components](./UI_COMPONENTS.md) - Component-specific details
 - [Styling Guide](./STYLING_GUIDE.md) - CSS and styling patterns
-- [API Contracts](/docs/dashboards/API_CONTRACTS.md) - API endpoints and schemas
-- [Enum Mapping](/docs/dashboards/ENUM_MAPPING.md) - Value mappings and colors
+- [API Contracts](/docs/API_CONTRACTS.md) - API endpoints and schemas
+- [Enum Mapping](/docs/ENUM_MAPPING.md) - Value mappings and colors
 
 ---
 
@@ -635,5 +635,5 @@ const endpoint = `${apiUrl}/user-scores`;
 
 - **[UI Components](./UI_COMPONENTS.md)** - Detailed component implementations
 - **[Styling Guide](./STYLING_GUIDE.md)** - CSS and Tailwind patterns
-- **[API Contracts](/docs/dashboards/API_CONTRACTS.md)** - API schemas
-- **[Enum Mapping](/docs/dashboards/ENUM_MAPPING.md)** - Value mappings
+- **[API Contracts](/docs/API_CONTRACTS.md)** - API schemas
+- **[Enum Mapping](/docs/ENUM_MAPPING.md)** - Value mappings

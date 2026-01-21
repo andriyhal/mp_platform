@@ -6,7 +6,7 @@ CSS, Tailwind CSS, and design patterns for MP Platform dashboard.
 
 - [UI Components](./UI_COMPONENTS.md) - Component implementations
 - [Frontend Implementation](./FRONTEND_IMPLEMENTATION.md) - React patterns
-- [Enum Mapping](/docs/dashboards/ENUM_MAPPING.md) - Color mappings
+- [Enum Mapping](/docs/ENUM_MAPPING.md) - Color mappings
 
 ---
 
@@ -209,7 +209,7 @@ const getTextColor = (status: string): string => {
 
 ### Category Colors
 
-**See:** [ENUM_MAPPING.md](/docs/dashboards/ENUM_MAPPING.md) for complete mappings
+**See:** [ENUM_MAPPING.md](/docs/ENUM_MAPPING.md) for complete mappings
 
 ```typescript
 // Category-based colors
@@ -885,4 +885,4 @@ const StatCard = ({ title, value, icon, color }) => (
 
 - **[UI Components](./UI_COMPONENTS.md)** - Component implementations
 - **[Frontend Implementation](./FRONTEND_IMPLEMENTATION.md)** - React patterns
-- **[Enum Mapping](/docs/dashboards/ENUM_MAPPING.md)** - Color and category mappings
+- **[Enum Mapping](/docs/ENUM_MAPPING.md)** - Color and category mappings

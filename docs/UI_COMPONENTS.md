@@ -6,8 +6,8 @@ Detailed documentation for all dashboard UI components.
 
 - [Frontend Implementation](./FRONTEND_IMPLEMENTATION.md) - React patterns and hooks
 - [Styling Guide](./STYLING_GUIDE.md) - CSS and styling patterns
-- [API Contracts](/docs/dashboards/API_CONTRACTS.md) - API endpoints
-- [Enum Mapping](/docs/dashboards/ENUM_MAPPING.md) - Color mappings
+- [API Contracts](/docs/API_CONTRACTS.md) - API endpoints
+- [Enum Mapping](/docs/ENUM_MAPPING.md) - Color mappings
 
 ---
 
@@ -145,7 +145,7 @@ const getGaugeColor = (score: number): string => {
 
 - **SegmentedGauge:** Custom circular progress component
 - **API Endpoint:** `GET /user-scores`
-- **Data Shape:** See [API_CONTRACTS.md](/docs/dashboards/API_CONTRACTS.md#get-user-scores)
+- **Data Shape:** See [API_CONTRACTS.md](/docs/API_CONTRACTS.md#get-user-scores)
 
 ---
 
@@ -202,7 +202,7 @@ useEffect(() => {
 
 ### Category Mapping
 
-**See:** [ENUM_MAPPING.md](/docs/dashboards/ENUM_MAPPING.md) for complete mappings
+**See:** [ENUM_MAPPING.md](/docs/ENUM_MAPPING.md) for complete mappings
 
 ```typescript
 const biomarkerCategories: Record<string, Record<number, string>> = {
@@ -1011,5 +1011,5 @@ export function OnboardingForm() {
 
 - **[Frontend Implementation](./FRONTEND_IMPLEMENTATION.md)** - React patterns and data fetching
 - **[Styling Guide](./STYLING_GUIDE.md)** - CSS and Tailwind patterns
-- **[API Contracts](/docs/dashboards/API_CONTRACTS.md)** - Complete API schemas
-- **[Enum Mapping](/docs/dashboards/ENUM_MAPPING.md)** - Color and category mappings
+- **[API Contracts](/docs/API_CONTRACTS.md)** - Complete API schemas
+- **[Enum Mapping](/docs/ENUM_MAPPING.md)** - Color and category mappings
